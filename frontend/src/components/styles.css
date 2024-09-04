@@ -1,0 +1,497 @@
+/* General Styles */
+body {
+    font-family: 'Tahoma', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 60px; /* 给导航栏留出空间 */
+}
+
+/* Home Container */
+.home-container {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    max-width: 500px;
+    margin: 20px auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+h2 {
+    font-size: 20px;
+    color: #555;
+}
+
+/* Navigation Bar */
+.navigation {
+    display: flex;
+    justify-content: space-around;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 123, 255, 0.8); /* 半透明效果 */
+    padding: 10px 0;
+    border-radius: 10px 10px 0 0;
+    backdrop-filter: blur(10px); /* 添加背景模糊效果 */
+}
+
+.navigation a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.navigation a.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.navigation a:hover {
+    color: #ffdd57;
+}
+
+/* Record Section */
+.record-section {
+    margin-bottom: 20px;
+}
+
+.record-control {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.days-count {
+    font-size: 36px;
+    color: #ff9900;
+    margin: 10px 0;
+}
+
+.record-control button {
+    margin: 10px 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.record-control button:hover {
+    background-color: #0056b3;
+}
+
+/* Goal Section */
+.goal-section {
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    width: 100%;
+    background-color: #ddd;
+    border-radius: 5px;
+    margin: 10px 0;
+    height: 25px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background-color: #ff9900; /* Default color for progress */
+}
+
+.warning-text {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* Alternative Section */
+.alternative-section {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.alternative-section p {
+    margin: 0;
+    color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .home-container {
+        padding: 15px;
+        margin: 10px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    .days-count {
+        font-size: 28px;
+    }
+
+    .navigation a {
+        font-size: 16px;
+    }
+}
+
+/* Login Container */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffffff;
+}
+
+.login-box {
+    background-color: #f4f4f4;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+.login-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.login-box input[type="text"],
+.login-box input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.login-box input[type="text"]:focus,
+.login-box input[type="password"]:focus {
+    border-color: #0366d6;
+    outline: none;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-box button:hover {
+    background-color: #218838;
+}
+
+.login-box .forgot-password {
+    text-align: right;
+    display: block;
+    margin-top: 10px;
+    color: #0366d6;
+    text-decoration: none;
+}
+
+.login-box .forgot-password:hover {
+    text-decoration: underline;
+}
+
+.login-box .signup-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #0366d6;
+    text-decoration: none;
+}
+
+.login-box .signup-link:hover {
+    text-decoration: underline;
+}
+
+/* Registration Container */
+.registration-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffffff;
+}
+
+.registration-box {
+    background-color: #f4f4f4;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+.registration-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.registration-box input[type="text"],
+.registration-box input[type="email"],
+.registration-box input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.registration-box input[type="text"]:focus,
+.registration-box input[type="email"]:focus,
+.registration-box input[type="password"]:focus {
+    border-color: #0366d6;
+    outline: none;
+}
+
+.registration-box button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.registration-box button:hover {
+    background-color: #218838;
+}
+
+.registration-box .login-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #0366d6;
+    text-decoration: none;
+}
+
+.registration-box .login-link:hover {
+    text-decoration: underline;
+}
+
+/* OOBE Container */
+.oobe-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffffff;
+}
+
+.oobe-box {
+    background-color: #f4f4f4;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+}
+
+.oobe-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.oobe-box input[type="text"],
+.oobe-box input[type="number"],
+.oobe-box select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.oobe-box input[type="text"]:focus,
+.oobe-box input[type="number"]:focus,
+.oobe-box select:focus {
+    border-color: #0366d6;
+    outline: none;
+}
+
+.oobe-box button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.oobe-box button:hover {
+    background-color: #218838;
+}
+
+/* Record Drinks Container */
+.record-drinks-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffffff;
+}
+
+.record-drinks-box {
+    background-color: #f4f4f4;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+}
+
+.record-drinks-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.progress-bar {
+    width: 100%;
+    background-color: #ddd;
+    border-radius: 5px;
+    margin: 10px 0;
+    height: 25px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background-color: orange;
+}
+
+.drink-type-selector {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.drink-type-selector button {
+    flex: 1;
+    margin: 0 5px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f4f4f4;
+    cursor: pointer;
+}
+
+.drink-type-selector button.selected {
+    background-color: #28a745;
+    color: white;
+}
+
+.amount-input {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.amount-input input {
+    flex: 1;
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.amount-input button {
+    padding: 10px;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.amount-input button:hover {
+    background-color: #218838;
+}
+
+.submit-message {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.submit-message.success {
+    color: #28a745;
+}
+
+.submit-message.error {
+    color: #dc3545;
+}
+
+/* Emergency Call */
+.emergency-call {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.emergency-call a {
+    color: #dc3545;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.emergency-call a:hover {
+    text-decoration: underline;
+}
+
+/* Header Row for Home Page */
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
