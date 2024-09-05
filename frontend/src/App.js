@@ -8,19 +8,19 @@ import Navigation from './components/Navigation';
 import RecordDrinks from './components/RecordDrinks';
 import Registration from './components/Registration';
 import OOBE from './components/OOBE';
-import Login from './components/Login';
+// import Login from './components/Login';
 
 const App = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
 
-    useEffect(() => {
-        const checkLogin = () => {
-            const loggedIn = localStorage.getItem('isLoggedIn');
-            setIsLoggedIn(loggedIn === 'true');
-        };
+    // useEffect(() => {
+    //     const checkLogin = () => {
+    //         const loggedIn = localStorage.getItem('isLoggedIn');
+    //         setIsLoggedIn(loggedIn === 'true');
+    //     };
 
-        checkLogin();
-    }, []);
+    //     checkLogin();
+    // }, []);
 
     return (
         <Router>
@@ -33,19 +33,19 @@ const App = () => {
 const AppContent = ({ isLoggedIn, setIsLoggedIn }) => {
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (!isLoggedIn) {
-            const currentPath = window.location.pathname;
-            // 如果路径不是 /register 和 /oobe，则跳转到登录页面
-            if (currentPath !== '/register' && currentPath !== '/oobe') {
-                navigate('/login');
-            }
-        }
-    }, [isLoggedIn, navigate]);
+    // useEffect(() => {
+    //     if (!isLoggedIn) {
+    //         const currentPath = window.location.pathname;
+    //         // 如果路径不是 /register 和 /oobe，则跳转到登录页面
+    //         if (currentPath !== '/register' && currentPath !== '/oobe') {
+    //             navigate('/login');
+    //         }
+    //     }
+    // }, [isLoggedIn, navigate]);
 
     return (
         <Routes>
-            <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+            {/* <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} /> */}
             <Route path="/register" element={<Registration />} />
             <Route path="/oobe" element={<OOBE />} />
             <Route path="/home" element={<Home />} />
@@ -53,7 +53,7 @@ const AppContent = ({ isLoggedIn, setIsLoggedIn }) => {
             <Route path="/events" element={<EventList />} />
             <Route path="/events/:eventId" element={<EventDetails />} />
             <Route path="/record-drinks" element={<RecordDrinks />} />
-            <Route path="/" element={isLoggedIn ? <Home /> : <Login setIsLoggedIn={setIsLoggedIn} />} />
+            {/* <Route path="/" element={isLoggedIn ? <Home /> : <Login setIsLoggedIn={setIsLoggedIn} />} /> */}
         </Routes>
     );
 };
