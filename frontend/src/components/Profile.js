@@ -10,6 +10,7 @@ const Profile = () => {
         weekly_limit: ''
     });
 
+
     const [isOpen, setIsOpen] = useState(false);
     const handleOpen = () => setIsOpen(true);
     const handleClose = () => setIsOpen(false);
@@ -42,18 +43,9 @@ const Profile = () => {
             <div>
                 <button onClick={handleOpen}>Open Modal</button>
                 <Modal isOpen={isOpen} onClose={handleClose}>
+                    {/*  */}
                     <h2>Modal Title</h2>
                     <p>This is a modal window. You can do whatever you like here.</p>
-                    {/* 下拉菜单 */}
-                    <select>
-                    <option value="">Select an option</option>
-                    <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
-                    </select>
-
-                    {/* 按钮 */}
-                    <button>Submit Choice</button>
                 </Modal>
                 
             </div>

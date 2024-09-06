@@ -1,45 +1,72 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+
+// this is the pop up window
+// how to use:
+// 1. import Modal from './PopWindow';
+// 2. const [isOpen, setIsOpen] = useState(false);
+// 3. const handleOpen = () => setIsOpen(true);
+// 4. const handleClose = () => setIsOpen(false);
+// 5. add this part in the return part
+//    <Modal isOpen={isOpen} onClose={handleClose}>
+//    {/* children content here */}
+//      </Modal>
+
+
+
 const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
 
-  // 定义覆盖屏幕上半部分的阴影样式
+  // the upper up background shadow
   const overlayStyle = {
     position: 'fixed',
     top: 0,
     left: 0,
     right: 0,
-    bottom: '50%',  // 覆盖从顶部到屏幕中间
-    backgroundColor: 'rgba(0,0,0,0.5)'  // 半透明黑色背景
+    bottom: '50%',
+    backgroundColor: 'rgba(0,0,0,0.5)'
   };
 
-  // 定义弹窗样式，占据屏幕下半部分
+  // update the downside part for the modal
   const modalStyle = {
     position: 'fixed',
-    top: '50%',   // 从屏幕中间到底部
-    // set width to 80%
-    // width: '80%',
+    top: '50%',
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'white',  // 白色背景
+    top: 'calc(50% - 10px)',
+    backgroundColor: 'white',
     padding: 20,
-    borderRadius: '16px 16px 0 0', // 仅顶部圆角
+    borderRadius: '16px 16px 0 0',
     display: 'flex',
-    flexDirection: 'column', // 子元素垂直布局
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center'
   };
 
+  // close button style
+  const closeButtonStyle = {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    padding: '6px 12px',
+    // transparent background
+    background: 'transparent',
+    color: '#007bff',// blue color
+    border: 'none',
+    borderRadius: '5px',  // slightly rounded corners
+    cursor: 'pointer'
+  };
+
   return ReactDOM.createPortal(
     <>
-      {/* 点击阴影部分关闭弹窗 */}
+      {/* click shadow part to close */}
       <div style={overlayStyle} onClick={onClose}></div>
-      {/* 弹窗内容区 */}
+      {/* the content */}
       <div style={modalStyle} onClick={e => e.stopPropagation()}>
         {children}
-        <button onClick={onClose} style={{ position: 'absolute', top: 10, right: 10 }}>Close</button>
+        <button onClick={onClose} style={closeButtonStyle}>Close</button>
       </div>
     </>,
     document.body
