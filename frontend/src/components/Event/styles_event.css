@@ -90,6 +90,7 @@ p {
     display: flex;
     justify-content: flex-end; /* Align content to the right */
     padding-left: 10px;
+    max-width: 40%;
     
   }
   
