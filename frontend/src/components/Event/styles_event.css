@@ -1,3 +1,53 @@
+:root {
+  --purpleColorLighter: #a42de8;
+  --blueColorLighter: #318aff;
+  --blueColorDarker: #2d3de8;
+  --bgColor: #ffffff;
+  --fgColor: #800080;
+  --fgColorLighter: rgba(128, 0, 128, 0.5);
+  --headerTextColor: #ffffff;
+  --blue: #6e33cc;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bgColor: #422142;
+    --fgColor: #f0c4f0;
+    --fgColorLighter: rgba(210, 169, 210, 0.5);
+    --headerTextColor: var(--fgColor);
+  }
+}
+
+h4,
+button,
+span,
+p,
+a:not(.header-icon-link) {
+  font-family: "Ubuntu";
+}
+
+h2,
+h3,
+input {
+  font-family: "DynaPuff";
+}
+
+h4 {
+  color: var(--fgColor);
+  height: 100%;
+}
+
+p {
+  padding-top: 0.5rem;
+  color: var(--fgColorLighter);
+  font-size: smaller;
+}
+.responsive-image {
+  width: 100%; /* Make the image width responsive to container width */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Optional: Cover the container while maintaining aspect ratio */
+}
+
 .event-card {
     background-color: rgb(220, 202, 221); /* Set the background to pink */
     border-radius: 20px;    /* Rounded corners */
@@ -5,4 +55,45 @@
         /* Optional: Set a max width for the card */
     margin: 20px auto;      /* Optional: Center the card horizontally */
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+  }
+
+  .container {
+    display: flex; /* Use flexbox for horizontal alignment */
+    align-items: center; /* Align items vertically centered */
+    border: 1px solid #ddd; /* Optional: add border for visual clarity */
+    padding: 10px; /* Optional: add padding for spacing */
+  }
+  .container2 {
+    display: flex; /* Use flexbox for horizontal alignment */
+    align-items: center; /* Align items vertically centered */
+    /* border: 1px solid #ddd; Optional: add border for visual clarity */
+    padding: 10px; /* Optional: add padding for spacing */
+  }
+  
+  .icon {
+    margin-right: 10px; /* Space between the icon and details */
+  }
+  
+  .details {
+    display: flex;
+    flex-direction: column; /* Stack date and location vertically */
+  }
+
+  .tittle-detail{
+    align-content: top;
+    display: flex;
+    flex-direction: column; /* Stack date and location vertically */
+    max-width: 70%;
+  }
+
+  .align-right {
+    display: flex;
+    justify-content: flex-end; /* Align content to the right */
+    padding-left: 10px;
+    
+  }
+  
+  .aligned-image {
+    max-width: 100%; /* Ensure the image does not overflow */
+    height: auto; /* Maintain aspect ratio */
   }
