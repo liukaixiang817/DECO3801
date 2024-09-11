@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import EventCard from "./EventCard";
 import "./styles_event.css";
 import { getAllPosts } from "./api.js";
+import GoogleMap from "./GoogleMap.js";
 
 const EventComponent = () => {
   const [posts, setPosts] = useState([]);
@@ -28,12 +29,14 @@ const EventComponent = () => {
 
     fetchData();
   }, []);
-  console.log(posts);
+ 
 
   const result = selectedEventType
   ? posts.filter(event => event.event_type === selectedEventType)
   : posts;
-  
+  const addresses = result.map(event  => event.venueaddress)
+  console.log("Addresses are");
+  console.log(addresses);
   const handleChange = (event) => {
     setSelectedEventType(event.target.value);
     // Currently doing nothing with the selection
@@ -43,12 +46,8 @@ const EventComponent = () => {
      return (
     <div className="home-container">
       <div>
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/f496a7f9dfc19cbf69462b093c2c06e7467fb1e8d76c01d4052031f8df597e99?placeholderIfAbsent=true&apiKey=76f8b71ab3b7474aba4b6ca190f84a77"
-          alt="Event banner"
-          className="responsive-image"
-        />
+       <GoogleMap addresses={addresses}></GoogleMap>
+        
         <h1 className="self-start mt-7 ml-3 text-2xl font-bold tracking-tight">
           Recommended events
         </h1>
