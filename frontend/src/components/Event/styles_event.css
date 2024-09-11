@@ -1,0 +1,8 @@
+.event-card {
+    background-color: rgb(220, 202, 221); /* Set the background to pink */
+    border-radius: 20px;    /* Rounded corners */
+    padding: 20px;          /* Add some padding inside the box */
+        /* Optional: Set a max width for the card */
+    margin: 20px auto;      /* Optional: Center the card horizontally */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+  }
