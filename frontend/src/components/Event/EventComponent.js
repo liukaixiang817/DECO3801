@@ -46,7 +46,7 @@ const EventComponent = () => {
      return (
     <div className="home-container">
       <div>
-       <GoogleMap addresses={addresses}></GoogleMap>
+       {/* <GoogleMap addresses={addresses}></GoogleMap> */}
         
         <h1 className="self-start mt-7 ml-3 text-2xl font-bold tracking-tight">
           Recommended events
