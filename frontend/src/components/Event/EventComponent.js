@@ -7,6 +7,8 @@ const EventComponent = () => {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [eventTypes, setEventTypes] = useState([]);
+  const [selectedEventType, setSelectedEventType] = useState("");
   
 
   useEffect(() => {
@@ -14,6 +16,8 @@ const EventComponent = () => {
       try {
         const data = await getAllPosts();
         setPosts(data.results); // Adjust if needed based on actual response structure
+        const types = [...new Set(data.results.map(event => event.event_type))];
+        setEventTypes(types);
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -25,6 +29,11 @@ const EventComponent = () => {
     fetchData();
   }, []);
   console.log(posts);
+  const handleChange = (event) => {
+    setSelectedEventType(event.target.value);
+    // Currently doing nothing with the selection
+    // Y
+  }
 
      return (
     <div className="home-container">
@@ -38,6 +47,17 @@ const EventComponent = () => {
         <h1 className="self-start mt-7 ml-3 text-2xl font-bold tracking-tight">
           Recommended events
         </h1>
+
+        <select value={selectedEventType} onChange={handleChange}>
+          <option value="">Select event type</option>
+          {eventTypes.map((type, index) => (
+            <option key={index} value={type}>
+              {type}
+            </option>
+          ))}
+        </select>
+
+
         {isLoading ? (
         <p>Loading...</p>
       ) : error ? (

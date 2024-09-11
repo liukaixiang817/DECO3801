@@ -98,3 +98,16 @@ p {
     max-width: 100%; /* Ensure the image does not overflow */
     height: auto; /* Maintain aspect ratio */
   }
+
+  select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin: 1rem 0;
+    max-width: 100%;
+  }
+  
+  option {
+    padding: 0.5rem;
+  }
