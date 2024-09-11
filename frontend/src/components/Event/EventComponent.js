@@ -29,6 +29,11 @@ const EventComponent = () => {
     fetchData();
   }, []);
   console.log(posts);
+
+  const result = selectedEventType
+  ? posts.filter(event => event.event_type === selectedEventType)
+  : posts;
+  
   const handleChange = (event) => {
     setSelectedEventType(event.target.value);
     // Currently doing nothing with the selection
@@ -63,7 +68,7 @@ const EventComponent = () => {
       ) : error ? (
         <p>{error}</p>
       ) : Array.isArray(posts) && posts.length > 0 ? (
-        posts.map((event) => (
+        result.map((event) => (
           <EventCard key={event.id} {...event} />
         ))
       ) : (
