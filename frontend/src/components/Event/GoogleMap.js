@@ -27,6 +27,7 @@ const GoogleMap = ({ events }) => {
     }
   }, [events]); 
 
+
   // Geocode an event's venue address and add marker
   const geocodeAddress = (geocoder, map, event) => {
     geocoder.geocode({ address: event.venueaddress }, (results, status) => {
@@ -55,10 +56,13 @@ const GoogleMap = ({ events }) => {
     });
   };
 
+ 
+
+ 
+
   return (
     <div>
-      <h1>Google Map with Event Markers</h1>
-      <div ref={mapRef} style={{ height: '300px', width: '100%' ,borderRadius: "10px"}}></div>
+      <div ref={mapRef} style={{marginTop:'10px' ,height: '300px', width: '100%' ,borderRadius: "10px"}}></div>
     </div>
   );
 };

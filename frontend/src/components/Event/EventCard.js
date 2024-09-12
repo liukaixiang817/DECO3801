@@ -41,7 +41,7 @@ const EventCard = ({
         className="event-image"
       />
       <div className="card-info">
-        <h1>{subject}</h1>
+        <h6>{subject}</h6>
         <div className="card-icon-details">
           <img
             loading="lazy"

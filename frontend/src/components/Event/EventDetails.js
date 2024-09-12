@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams ,useNavigate} from "react-router-dom";
 import { getEventDetails } from "../../api/apiClient";
 import { useLocation } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -10,6 +10,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 library.add(fas);
 
 const EventDetails = () => {
+
+  const navigate = useNavigate();
+
+  const handleGoBack = () => {
+    navigate(-1); // Go back to the previous page
+  };
   const { state } = useLocation();
   const {
     id,
@@ -29,19 +35,20 @@ const EventDetails = () => {
 
   const [date, time] = formatteddatetime.split(", ").slice(1, 3);
 
+
   return (
     <div className="home-container">
+      <FontAwesomeIcon shake  icon="fa-solid fa-angle-left" size="2x" onClick={handleGoBack}/>
       <img
         loading="lazy"
         src={eventimage}
         alt={`${subject} event`}
         className="aligned-image"
-        style={{ borderRadius: "10px" }}
+        style={{ borderRadius: "10px" ,marginTop: '10px'}}
       />
-      
+      <div className="container2">
       <h1>{subject}</h1>
-      
-
+      </div>
       <id>{id}</id>
       <div>{description}</div>
       <div className="container2">

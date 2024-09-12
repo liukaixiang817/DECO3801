@@ -3,6 +3,9 @@ import EventCard from "./EventCard";
 import "./styles_event.css";
 import { getAllPosts } from "./api.js";
 import GoogleMap from "./GoogleMap.js";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons"; // Import all solid icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const EventComponent = () => {
   const [posts, setPosts] = useState([]);
@@ -45,6 +48,7 @@ const EventComponent = () => {
 
   return (
     <div className="home-container">
+      <FontAwesomeIcon icon="fa-solid fa-angle-left " size="2x" shake/>
       <div>
         <GoogleMap events={result}></GoogleMap>
         <div className="container2">
