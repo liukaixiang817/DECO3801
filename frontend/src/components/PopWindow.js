@@ -1,24 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-
-// this is the pop up window
-// how to use:
-// 1. import Modal from './PopWindow';
-// 2. const [isOpen, setIsOpen] = useState(false);
-// 3. const handleOpen = () => setIsOpen(true);
-// 4. const handleClose = () => setIsOpen(false);
-// 5. add this part in the return part
-//    <Modal isOpen={isOpen} onClose={handleClose}>
-//    {/* children content here */}
-//      </Modal>
-
-
-
 const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
 
-  // the upper up background shadow
+  // Background overlay for the modal
   const overlayStyle = {
     position: 'fixed',
     top: 0,
@@ -28,7 +14,7 @@ const Modal = ({ isOpen, onClose, children }) => {
     backgroundColor: 'rgba(0,0,0,0.5)'
   };
 
-  // update the downside part for the modal
+  // Modal styling
   const modalStyle = {
     position: 'fixed',
     top: '50%',
@@ -42,34 +28,18 @@ const Modal = ({ isOpen, onClose, children }) => {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center'
-  };
-
-  // close button style
-  const closeButtonStyle = {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    padding: '6px 12px',
-    // transparent background
-    background: 'transparent',
-    color: '#007bff',// blue color
-    border: 'none',
-    borderRadius: '5px',  // slightly rounded corners
-    cursor: 'pointer'
+    justifyContent: 'center',
   };
 
   return ReactDOM.createPortal(
-    <>
-      {/* click shadow part to close */}
-      <div style={overlayStyle} onClick={onClose}></div>
-      {/* the content */}
-      <div style={modalStyle} onClick={e => e.stopPropagation()}>
-        {children}
-        <button onClick={onClose} style={closeButtonStyle}>Close</button>
-      </div>
-    </>,
-    document.body
+      <div>
+        <div style={overlayStyle} onClick={onClose}></div>
+        <div style={modalStyle}>
+          {children}
+          <button onClick={onClose}>Close</button>
+        </div>
+      </div>,
+      document.getElementById('modal-root')
   );
 };
 

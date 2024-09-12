@@ -1,1 +1,7 @@
 node_modules/
+*.iml
+/backend/.idea
+/frontend/.idea
+backend/.DS_Store
+.DS_Store
+backend/.env
