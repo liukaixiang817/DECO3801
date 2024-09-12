@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-route
 import Home from './components/Home';
 import Profile from './components/Profile';
 import EventComponent from './components/Event/EventComponent';
-import EventDetails from './components/EventDetails';
+import EventDetails from './components/Event/EventDetails';
 import Navigation from './components/Navigation';
 import RecordDrinks from './components/RecordDrinks';
 import Registration from './components/Registration';
@@ -26,7 +26,7 @@ const App = () => {
 
     return (
         <Router>
-            {/* {isLoggedIn && <Navigation />} */}
+            {isLoggedIn && <Navigation />}
             <AppContent isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
         </Router>
     );
@@ -52,7 +52,7 @@ const AppContent = ({ isLoggedIn, setIsLoggedIn }) => {
             <Route path="/home" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/events" element={<EventComponent />} />
-            <Route path="/events/:eventId" element={<EventDetails />} />
+            <Route path="/events/:subject" element={<EventDetails />} />
             <Route path="/record-drinks" element={<RecordDrinks />} />
             <Route path="/body-info" element={<BodyInfo />} />
             <Route path="/my-info" element={<MyInfo />} />  {/* 新增 My Information 路由 */}
