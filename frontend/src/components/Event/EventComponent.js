@@ -10,7 +10,7 @@ const EventComponent = () => {
   const [error, setError] = useState(null);
   const [eventTypes, setEventTypes] = useState([]);
   const [selectedEventType, setSelectedEventType] = useState("");
-  
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,12 +29,12 @@ const EventComponent = () => {
 
     fetchData();
   }, []);
- 
+
 
   const result = selectedEventType
-  ? posts.filter(event => event.event_type === selectedEventType)
-  : posts;
-  const addresses = result.map(event  => event.venueaddress)
+    ? posts.filter(event => event.event_type === selectedEventType)
+    : posts;
+  const addresses = result.map(event => event.venueaddress)
   console.log("events are");
   console.log(result);
   const handleChange = (event) => {
@@ -43,40 +43,45 @@ const EventComponent = () => {
     // Y
   }
 
-     return (
+  return (
     <div className="home-container">
       <div>
-       <GoogleMap events = {result}></GoogleMap>
+        <GoogleMap events={result}></GoogleMap>
+        <div className="container2">
+          <h1 style={{ marginRight: '10px' }}>
+            Recommended events
+          </h1>
+          <select
+            className="select-box"
+            value={selectedEventType}
+            onChange={handleChange}
+          >
+            <option value="">Select event type</option>
+            {eventTypes.map((type, index) => (
+              <option key={index} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
+        </div>
         
-        <h1 className="self-start mt-7 ml-3 text-2xl font-bold tracking-tight">
-          Recommended events
-        </h1>
-
-        <select value={selectedEventType} onChange={handleChange}>
-          <option value="">Select event type</option>
-          {eventTypes.map((type, index) => (
-            <option key={index} value={type}>
-              {type}
-            </option>
-          ))}
-        </select>
-
-
+        <div className="event-card-container"></div>
         {isLoading ? (
-        <p>Loading...</p>
-      ) : error ? (
-        <p>{error}</p>
-      ) : Array.isArray(posts) && posts.length > 0 ? (
-        result.map((event) => (
-          <EventCard key={event.subject} {...event} />
-        ))
-      ) : (
-        <p>No events available.</p>
-      )}
+          <p>Loading...</p>
+        ) : error ? (
+          <p>{error}</p>
+        ) : Array.isArray(posts) && posts.length > 0 ? (
+          result.map((event) => (
+            <EventCard key={event.subject} {...event} />
+          ))
+        ) : (
+          <p>No events available.</p>
+        )}
+        
       </div>
     </div>
   );
-  }
+}
 
 
 

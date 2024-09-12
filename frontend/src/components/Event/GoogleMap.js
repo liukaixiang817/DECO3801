@@ -35,6 +35,7 @@ const GoogleMap = ({ events }) => {
         const marker = new window.google.maps.Marker({
           map: map,
           position: results[0].geometry.location,
+          title: event.subject  // Correct property name
         });
         console.log(event);
 
@@ -57,7 +58,7 @@ const GoogleMap = ({ events }) => {
   return (
     <div>
       <h1>Google Map with Event Markers</h1>
-      <div ref={mapRef} style={{ height: '400px', width: '100%' }}></div>
+      <div ref={mapRef} style={{ height: '300px', width: '100%' ,borderRadius: "10px"}}></div>
     </div>
   );
 };

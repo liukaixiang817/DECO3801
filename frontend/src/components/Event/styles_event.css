@@ -31,6 +31,10 @@ h3,
 input {
   font-family: "DynaPuff";
 }
+h3_0 {
+  font-family: "DynaPuff";
+  margin: 0px;
+}
 
 h4 {
   color: var(--fgColor);
@@ -64,10 +68,19 @@ p {
     padding: 10px; /* Optional: add padding for spacing */
   }
   .container2 {
-    display: flex; /* Use flexbox for horizontal alignment */
-    align-items: center; /* Align items vertically centered */
-    /* border: 1px solid #ddd; Optional: add border for visual clarity */
-    padding: 10px; /* Optional: add padding for spacing */
+    margin-top: 10px;
+    display: flex;
+    align-items: center; /* Align items vertically */
+    margin-bottom: 10px; /* Space below the container */
+  }
+  
+  .container2 h1 {
+    margin-right: 10px; 
+    margin-bottom: 0; /* Remove bottom margin from the heading */
+  }
+  
+  .container2 select {
+    margin: 0; /* Remove margin from select box */
   }
   
   .icon {
@@ -111,3 +124,99 @@ p {
   option {
     padding: 0.5rem;
   }
+  .event-cards-container {
+    display: flex;
+    flex-direction: column; /* Stack cards vertically */
+    gap: 10px; /* Space between event cards */
+  }
+
+  .event-card {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    padding: 4px; /* Reduced padding around the card */
+  }
+  
+  .event-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .event-image {
+    width: 120px; /* Adjust based on your design */
+    height: 120px;
+    object-fit: cover;
+    margin-right: 8px; /* Reduced margin between image and text */
+  }
+  
+  .card-info {
+    flex: 1;
+    padding: 4px; /* Reduced padding inside the info section */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  h1 {
+    font-size: 20
+    px; /* Adjust as needed */
+    margin: 0;
+  }
+  
+  .card-icon-details {
+    display: flex;
+    align-items: center;
+    margin-top: 2px; /* Reduced margin between icon and details */
+  }
+  
+  .icon {
+    width: 20px; /* Adjust as needed */
+    height: 20px;
+    margin-right: 6px; /* Reduced margin between icon and text */
+  }
+  
+  .details {
+    font-size: 12px; /* Adjust as needed */
+    color: #666;
+  }
+  
+  p {
+    margin: 2px 0; /* Reduced margin for paragraph text */
+    font-size: 14px;
+    color: #333;
+  }
+
+
+  /*select*/
+  .select-box {
+    width: 200px; /* Adjust width as needed */
+    padding: 8px 12px; /* Padding inside the select box */
+    font-size: 14px; /* Font size */
+    color: #333; /* Font color */
+    background-color: #fff; /* Background color */
+    border: 1px solid #ccc; /* Border color and width */
+    border-radius: 4px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for a subtle 3D effect */
+    outline: none; /* Remove default outline */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: border-color 0.2s, box-shadow 0.2s; /* Smooth transition */
+  }
+  
+  /* Style for the select box on focus */
+  .select-box:focus {
+    border-color: #007bff; /* Border color on focus */
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5); /* Shadow on focus */
+  }
+  
+  /* Style for the option elements */
+  .select-box option {
+    padding: 8px; /* Padding for options */
+  }
+
+  
+  

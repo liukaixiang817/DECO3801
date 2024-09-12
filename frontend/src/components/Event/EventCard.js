@@ -34,39 +34,31 @@ const EventCard = ({
  
   return (
     <div className="event-card" onClick={handleCardClick}>
-      <div className="container2">
-        
-        <div className="tittle-detail">
-          <h1>{subject}</h1>
-          <div class="container">
-            <img
-              loading="lazy"
-              src={iconSrc}
-              alt={`${subject} icon`}
-              class="icon"
-            />
-            <div class="details">
-              <div>{formatteddatetime}</div>
-              <div>{location}</div>
-            </div>
-          </div>
-          <div>{firstSentence}</div> 
-        </div>
-
-        <div className="align-right">
+      <img
+        loading="lazy"
+        src={eventimage}
+        alt={`${subject} event`}
+        className="event-image"
+      />
+      <div className="card-info">
+        <h1>{subject}</h1>
+        <div className="card-icon-details">
           <img
-            loading="lazy" src={eventimage
-            }
-            alt={`${subject} event`}
-            className="aligned-image"
+            loading="lazy"
+            src={iconSrc}
+            alt={`${subject} icon`}
+            className="icon"
           />
-         
+          <div className="details">
+            <div>{formatteddatetime}</div>
+            <div>{location}</div>
+          </div>
         </div>
-        
+        <p>{firstSentence}</p>
       </div>
-      
     </div>
   );
+  
 };
 
 export default EventCard;

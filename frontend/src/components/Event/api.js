@@ -8,7 +8,7 @@ export const getAllPosts = async () => {
         headers: {
           'Authorization': `Apikey ${apiKey}`,
         },
-      });
+      }); 
   
       if (!response.ok) {
         throw new Error('Network response was not ok');
