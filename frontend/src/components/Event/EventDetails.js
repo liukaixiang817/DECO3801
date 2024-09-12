@@ -38,7 +38,10 @@ const EventDetails = () => {
 
   return (
     <div className="home-container">
+      <div className="back-button">
       <FontAwesomeIcon shake  icon="fa-solid fa-angle-left" size="2x" onClick={handleGoBack}/>
+      </div>
+      
       <img
         loading="lazy"
         src={eventimage}
@@ -53,42 +56,40 @@ const EventDetails = () => {
       <div>{description}</div>
       <div className="container2">
         <FontAwesomeIcon
-          style={{ color: "green", width: "10%" }}
+          
           icon="fa-solid fa-map-pin"
+          style={{ color: "#569970", width: "10%" }}
           size="3x"
-          bounce
+          bounce 
         />
-        <h2 style={{ marginLeft: "15px" }}>{location}</h2>
+        <h2 style={{ marginLeft: "20px" }}>{location}</h2>
       </div>
 
       <div className="container2">
-        <img
-          loading="lazy"
-          src={iconSrc}
-          alt={`${subject} icon`}
-          class="icon"
-        />
-        <div>
-          <h5 style={{ marginBottom: "0px" }}>Date: {date}</h5>
-          <h5 style={{ marginTop: "0px" }}>Time: {time}</h5>
+      <FontAwesomeIcon icon="fa-solid fa-calendar-days" style={{ color: "#569970", width: "10%",marginRight: "20px" }}
+          size="3x"
+          flip  />
+        <div >
+          <h2 style={{ marginBottom: "0px" }}>Date: {date}</h2>
+          <h2 style={{ marginTop: "0px" }}>Time: {time}</h2>
         </div>
       </div>
       <div className="container2">
         <FontAwesomeIcon
-          style={{ color: "green", width: "10%" }}
+          style={{ color: "#569970", width: "10%" }}
           icon="fa-solid fa-map-location-dot"
           size="3x"
-          beat
+          beat 
         />
         <a
           href={result}
           target="_blank"
           rel="noopener noreferrer"
           style={{
-            color: "green",
+            color: "#68919c",
             fontSize: "18px",
             textDecoration: "underline",
-            marginLeft: "15px",
+            marginLeft: "20px",
           }}
         >
           {venueaddress}

@@ -14,7 +14,7 @@ const GoogleMap = ({ events }) => {
       // Initialize the map
       mapInstance.current = new window.google.maps.Map(mapRef.current, {
         center: { lat: -27.4698, lng: 153.0251 }, // Default center
-        zoom: 12,
+        zoom: 12, mapId:"155d95a08a611d7b"
       });
 
       // Initialize the Geocoder service

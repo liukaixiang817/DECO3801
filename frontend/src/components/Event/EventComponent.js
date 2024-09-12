@@ -48,7 +48,11 @@ const EventComponent = () => {
 
   return (
     <div className="home-container">
-      <FontAwesomeIcon icon="fa-solid fa-angle-left " size="2x" shake/>
+      <div className="back-button">
+        <FontAwesomeIcon icon="fa-solid fa-angle-left " size="2x" shake/>
+      </div>
+
+    
       <div>
         <GoogleMap events={result}></GoogleMap>
         <div className="container2">

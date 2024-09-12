@@ -7,6 +7,9 @@
   --fgColorLighter: rgba(128, 0, 128, 0.5);
   --headerTextColor: #ffffff;
   --blue: #6e33cc;
+  --green: #68919c;
+  --greenfaded: #abb0b1;
+  --greendarker: #569970;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,6 +25,7 @@
   overflow-y: auto; /* Enable vertical scrolling */
   padding: 20px; /* Optional: add padding if needed */
   box-sizing: border-box; /* Ensure padding and border are included in the height */
+  border: 4px solid var(--green); /* Add a border: thickness, style, and color */
 }
 
 h4,
@@ -59,7 +63,7 @@ p {
 }
 
 .event-card {
-    background-color: rgb(220, 202, 221); /* Set the background to pink */
+    background-color: rgb(184, 231, 221); /* Set the background to pink */
     border-radius: 20px;    /* Rounded corners */
     padding: 20px;          /* Add some padding inside the box */
         /* Optional: Set a max width for the card */
@@ -227,6 +231,15 @@ p {
   .select-box option {
     padding: 8px; /* Padding for options */
   }
+  .back-button {
+    max-width: 10%;
+  }
+
+  .back-button:hover {
+    transform: scale(1.55);
+    
+  }
+  
 
   
   
