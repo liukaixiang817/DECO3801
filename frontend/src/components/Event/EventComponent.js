@@ -35,8 +35,8 @@ const EventComponent = () => {
   ? posts.filter(event => event.event_type === selectedEventType)
   : posts;
   const addresses = result.map(event  => event.venueaddress)
-  console.log("Addresses are");
-  console.log(addresses);
+  console.log("events are");
+  console.log(result);
   const handleChange = (event) => {
     setSelectedEventType(event.target.value);
     // Currently doing nothing with the selection
@@ -46,7 +46,7 @@ const EventComponent = () => {
      return (
     <div className="home-container">
       <div>
-       {/* <GoogleMap addresses={addresses}></GoogleMap> */}
+       <GoogleMap events = {result}></GoogleMap>
         
         <h1 className="self-start mt-7 ml-3 text-2xl font-bold tracking-tight">
           Recommended events
@@ -68,7 +68,7 @@ const EventComponent = () => {
         <p>{error}</p>
       ) : Array.isArray(posts) && posts.length > 0 ? (
         result.map((event) => (
-          <EventCard key={event.id} {...event} />
+          <EventCard key={event.subject} {...event} />
         ))
       ) : (
         <p>No events available.</p>
