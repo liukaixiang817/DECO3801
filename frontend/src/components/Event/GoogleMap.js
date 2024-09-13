@@ -38,7 +38,7 @@ const GoogleMap = ({ events }) => {
           position: results[0].geometry.location,
           title: event.subject  // Correct property name
         });
-        console.log(event);
+       
 
         // Add click listener to the marker to redirect to the event's page
         const { subject, formatteddatetime, location, description, eventimage, venueaddress } = event;

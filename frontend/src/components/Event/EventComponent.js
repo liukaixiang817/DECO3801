@@ -13,6 +13,7 @@ const EventComponent = () => {
   const [error, setError] = useState(null);
   const [eventTypes, setEventTypes] = useState([]);
   const [selectedEventType, setSelectedEventType] = useState("");
+  const [visibleCount, setVisibleCount] = useState(10);
 
 
   useEffect(() => {
@@ -32,18 +33,56 @@ const EventComponent = () => {
 
     fetchData();
   }, []);
+  if (isLoading == false){
+    
+  }
 
+  const types = posts.map(event => event.event_type);
+
+  console.log("This is all the unique types");
+  console.log(types.length);
+  console.log(Array.isArray(types));
+  console.log(types);
+
+  const uniqueTypes = Array.from(new Set(
+    types
+      .filter(item => item !== null && item !== undefined) // Filter out null/undefined values
+      .flatMap(item => item
+        // Convert to lowercase for consistent comparison
+        .split(/[,]+/) // Split by commas, "and", "&", and spaces
+      )
+      .filter(word => word.trim() !== '') // Remove any empty strings from the split
+  ));
+
+  console.log(uniqueTypes);
+
+  // const result = selectedEventType
+  //   ? posts.filter(event => event.event_type.contains(selectedEventType))
+  //   : posts;
 
   const result = selectedEventType
-    ? posts.filter(event => event.event_type === selectedEventType)
-    : posts;
+  ? posts.filter(event => {
+      // Check if event.event_type is not null, undefined, or an empty string
+      if (!event.event_type) return false;
+
+      return event.event_type
+         // Convert to lowercase for consistent comparison
+        .split(/[,]+/) // Split the event_type into individual words
+        .includes(selectedEventType); // Check if selectedEventType is included
+    })
+  : posts;
   const addresses = result.map(event => event.venueaddress)
-  console.log("events are");
-  console.log(result);
+  
+  // console.log("events are");
+  // console.log(result);
   const handleChange = (event) => {
     setSelectedEventType(event.target.value);
     // Currently doing nothing with the selection
     // Y
+  }
+
+  const loadMoreEvents = () => {
+    setVisibleCount(prevCount => prevCount + 10); // Increase the visible count by 10
   }
 
   return (
@@ -65,7 +104,7 @@ const EventComponent = () => {
             onChange={handleChange}
           >
             <option value="">Select event type</option>
-            {eventTypes.map((type, index) => (
+            {uniqueTypes.map((type, index) => (
               <option key={index} value={type}>
                 {type}
               </option>
@@ -80,7 +119,7 @@ const EventComponent = () => {
           <p>{error}</p>
         ) : Array.isArray(posts) && posts.length > 0 ? (
           result.map((event) => (
-            <EventCard key={event.subject} {...event} />
+            <EventCard key={event} {...event} />
           ))
         ) : (
           <p>No events available.</p>
