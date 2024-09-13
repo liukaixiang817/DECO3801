@@ -1,30 +1,53 @@
 // this is the privacy statement page
 // enable to go back choosing back on the top left corner
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import './styles.css';
+// import BackArrowIcon from '../assets/icons/angle-small-left.png'
 
 const PrivacyStatement = ({}) => {
 
     const navigate = useNavigate();
 
     const navigateBack = () => {
-        navigate('/home');
+        navigate('/Profile');
     };
+
+    const [privacyPolicy, setPrivacyPolicy] = useState('');
+
+    // fetch the privacy statement html file
+    useEffect(() => { 
+        fetch('assets/privacy_doc/privacy_statement.html')
+        .then(response => {
+            if (response.ok) {
+                console.log('fetch success')
+                return response.text();
+            }
+            throw new Error('Failed to fetch the privacy policy');
+        })
+        .then(text => {
+            console.log(text)
+            setPrivacyPolicy(text);
+        })
+        .catch(error => {
+            console.error('Error fetching privacy policy:', error);
+        });
+    }, []);
+
+    
+
 return (
-    <div className="privacy-container">
-        <div className="header-row">
-            <h1>Privacy Statement</h1>
-            <p className="back-button" onClick={navigateBack}>Back</p>
-        </div>
-        <p>Our app is designed to help you reduce your dependence on alcohol</p>
-        <section className="record-section">
-            <h2>Record</h2>
-            <div className="record-control">
-                
+    <div className='flex-container'>
+        
+        <p className="back-button-apple" onClick={navigateBack}>Back</p>
+        <div>
+        <div className='statement-section'>
+                {/* Using dangerouslySetInnerHTML to insert HTML content */}
+                <div dangerouslySetInnerHTML={{ __html: privacyPolicy }} />
             </div>
-        </section>
+            </div>
+        
 
     </div>
 );

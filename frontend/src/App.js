@@ -10,10 +10,11 @@ import Registration from './components/Registration';
 import OOBE from './components/OOBE';
 import Login from './components/Login';
 import BodyInfo from './components/BodyInfo';
-import MyInfo from './components/MyInfo';  // 导入 My Information 页面
+import MyInfo from './components/MyInfo';  // import My Information page
+import PrivacyStatement from './components/PrivacyStatement';  // import Privacy Statement page
 
 const App = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
 
     // useEffect(() => {
     //     const checkLogin = () => {
@@ -55,7 +56,8 @@ const AppContent = ({ isLoggedIn, setIsLoggedIn }) => {
             <Route path="/events/:subject" element={<EventDetails />} />
             <Route path="/record-drinks" element={<RecordDrinks />} />
             <Route path="/body-info" element={<BodyInfo />} />
-            <Route path="/my-info" element={<MyInfo />} />  {/* 新增 My Information 路由 */}
+            <Route path="/my-info" element={<MyInfo />} />  {/* Add My Information Router */}
+            <Route path="/privacy-statement" element={<PrivacyStatement />} />  {/* Add Privacy Statement Router */}
             <Route path="/" element={isLoggedIn ? <Home /> : <Login setIsLoggedIn={setIsLoggedIn} />} />
         </Routes>
     );
