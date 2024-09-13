@@ -3,6 +3,8 @@ import { fetchHomeData } from '../api/apiClient';
 import { useNavigate } from 'react-router-dom';
 import './styles.css';
 
+
+
 const Home = () => {
     const [username, setUsername] = useState('');
     const [daysUnderControl, setDaysUnderControl] = useState(0);
@@ -65,6 +67,13 @@ const Home = () => {
 
             <section className="alternative-section">
                 <p>Find alternative drinks like non-alcoholic beverages or healthy juices.</p>
+            </section>
+
+
+            <section className="event-section">
+                <h2>Events</h2>
+                
+                <div></div>
             </section>
         </div>
     );

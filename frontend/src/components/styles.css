@@ -495,3 +495,37 @@ h2 {
     justify-content: space-between;
     align-items: center;
 }
+
+/* container for display children vertically */
+.flex-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.back-button-apple {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 6px 12px;
+    color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.back-button-apple::before {
+    content: '\2190'; /* Unicode for left-pointing arrow */
+    position: absolute;
+    left: 0px; /* Adjust based on padding to align the arrow inside the button */
+    top: 50%;
+    transform: translateY(-50%); /* Center the arrow vertically */
+    color: #007bff; /* Same as the button text color */
+}
+
+/* make it like an A4 doc  */
+.statement-section {
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    text-align: center;
+}

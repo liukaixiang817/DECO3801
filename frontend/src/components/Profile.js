@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';  // 导入 useNavigate 以便实现跳转
+import { useNavigate } from 'react-router-dom';  // import useNavigate to do the navigation
 import { fetchProfileWithEmail, updateWeeklyLimit } from '../api/apiClient';  // API for fetching and updating
 import Modal from './PopWindow';
-import './Profile.css';  // 引入CSS文件，确保样式应用于Profile页面
+import './Profile.css';  // import css file to use in this page
 
 const Profile = () => {
     const [profile, setProfile] = useState({
         username: '',
         email: '',
-        weekly_limit: '750',  // 去掉 ml，因为我们会在前端添加
-        drinkType: 'beer',  // 设置默认的饮料类型为 beer，且小写以匹配 multipliers 中的 key
+        weekly_limit: '750',  // get rid of  "ml"，as we wll add it on the frontend
+        drinkType: 'beer',  // set the default drink type to beer，decapitalize to match the multipliers key
     });
     const [isOpen, setIsOpen] = useState(false);
-    const [newWeeklyLimit, setNewWeeklyLimit] = useState(profile.weekly_limit);  // 存储新的每周限制
-    const navigate = useNavigate();  // 用于跳转页面
+    const [newWeeklyLimit, setNewWeeklyLimit] = useState(profile.weekly_limit);  // storing weekly limit
+    const navigate = useNavigate();  // use this to jump to other pages
 
-    // 定义倍率
+    // set up ratios
     const multipliers = {
         beer: 1,
         wine: 3,
@@ -29,7 +29,7 @@ const Profile = () => {
         console.log("Stored username from localStorage:", storedUsername);
 
         if (storedUsername) {
-            fetchProfileWithEmail(storedUsername)  // 调用新的 API
+            fetchProfileWithEmail(storedUsername)  // use new API
                 .then(data => {
                     console.log("Fetched profile with email from backend:", data);
 
@@ -37,10 +37,10 @@ const Profile = () => {
                         setProfile({
                             username: data.username || 'Unknown',
                             email: data.email || '',
-                            weekly_limit: data.weeklyLimit || '750',  // 确保只传递数值部分
-                            drinkType: profile.drinkType,  // 默认保持饮料类型
+                            weekly_limit: data.weeklyLimit || '750',  // make sure to pass the data part
+                            drinkType: profile.drinkType,  // set up drink type
                         });
-                        setNewWeeklyLimit(data.weeklyLimit);  // 初始化新的每周限制
+                        setNewWeeklyLimit(data.weeklyLimit);  // initialize the weekly limit
 
                         console.log("Updated profile state:", {
                             username: data.username || 'Unknown',
@@ -61,10 +61,10 @@ const Profile = () => {
         }
     }, []);
 
-    // 打开弹窗的函数
+    // the function to open the modal
     const handleOpen = () => setIsOpen(true);
 
-    // 关闭弹窗的函数
+    // the function to close the modal
     const handleClose = () => setIsOpen(false);
 
     // 保存新的每周限制
@@ -101,6 +101,11 @@ const Profile = () => {
     // 点击 "My Information" 的跳转逻辑
     const handleMyInfoClick = () => {
         navigate('/my-info');  // 跳转到 /my-info 页面
+    };
+
+    // the logic when click privacy statement
+    const handlePrivacyStatementClick = () => {
+        navigate('/privacy-statement');  // 跳转到 /privacy-statement 页面
     };
 
     const avatarLetter = profile.username ? profile.username.charAt(0).toUpperCase() : '?';
@@ -159,7 +164,7 @@ const Profile = () => {
                     </div>
 
                     {/* Privacy Statement */}
-                    <div className="menu-item">
+                    <div className="menu-item" onClick={handlePrivacyStatementClick}>
                         <span>Privacy Statement</span>
                         <span className="menu-arrow">{'>'}</span>
                     </div>
