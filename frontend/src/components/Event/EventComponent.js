@@ -13,8 +13,7 @@ const EventComponent = () => {
   const [error, setError] = useState(null);
   const [eventTypes, setEventTypes] = useState([]);
   const [selectedEventType, setSelectedEventType] = useState("");
-  const [visibleCount, setVisibleCount] = useState(10);
-
+  const [visibleCount, setVisibleCount] = useState(10); // Track number of visible events
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,52 +32,29 @@ const EventComponent = () => {
 
     fetchData();
   }, []);
-  if (isLoading == false){
-    
-  }
 
   const types = posts.map(event => event.event_type);
-
-  console.log("This is all the unique types");
-  console.log(types.length);
-  console.log(Array.isArray(types));
-  console.log(types);
 
   const uniqueTypes = Array.from(new Set(
     types
       .filter(item => item !== null && item !== undefined) // Filter out null/undefined values
       .flatMap(item => item
-        // Convert to lowercase for consistent comparison
         .split(/[,]+/) // Split by commas, "and", "&", and spaces
       )
       .filter(word => word.trim() !== '') // Remove any empty strings from the split
   ));
 
-  console.log(uniqueTypes);
-
-  // const result = selectedEventType
-  //   ? posts.filter(event => event.event_type.contains(selectedEventType))
-  //   : posts;
-
   const result = selectedEventType
-  ? posts.filter(event => {
-      // Check if event.event_type is not null, undefined, or an empty string
-      if (!event.event_type) return false;
+    ? posts.filter(event => {
+        if (!event.event_type) return false;
+        return event.event_type
+          .split(/[,]+/) // Split the event_type into individual words
+          .includes(selectedEventType); // Check if selectedEventType is included
+      })
+    : posts;
 
-      return event.event_type
-         // Convert to lowercase for consistent comparison
-        .split(/[,]+/) // Split the event_type into individual words
-        .includes(selectedEventType); // Check if selectedEventType is included
-    })
-  : posts;
-  const addresses = result.map(event => event.venueaddress)
-  
-  // console.log("events are");
-  // console.log(result);
   const handleChange = (event) => {
     setSelectedEventType(event.target.value);
-    // Currently doing nothing with the selection
-    // Y
   }
 
   const loadMoreEvents = () => {
@@ -91,9 +67,8 @@ const EventComponent = () => {
         <FontAwesomeIcon icon="fa-solid fa-angle-left " size="2x" shake/>
       </div>
 
-    
       <div>
-        <GoogleMap events={result}></GoogleMap>
+        <GoogleMap events={result.slice(0, visibleCount)}></GoogleMap>
         <div className="container2">
           <h1 style={{ marginRight: '10px' }}>
             Recommended events
@@ -112,24 +87,28 @@ const EventComponent = () => {
           </select>
         </div>
         
-        <div className="event-card-container"></div>
-        {isLoading ? (
-          <p>Loading...</p>
-        ) : error ? (
-          <p>{error}</p>
-        ) : Array.isArray(posts) && posts.length > 0 ? (
-          result.map((event) => (
-            <EventCard key={event} {...event} />
-          ))
-        ) : (
-          <p>No events available.</p>
-        )}
+        <div className="event-card-container">
+          {isLoading ? (
+            <p>Loading...</p>
+          ) : error ? (
+            <p>{error}</p>
+          ) : Array.isArray(result) && result.length > 0 ? (
+            result.slice(0, visibleCount).map((event) => (
+              <EventCard key={event.id} {...event} />
+            ))
+          ) : (
+            <p>No events available.</p>
+          )}
+        </div>
         
+        {result.length > visibleCount && (
+          <button onClick={loadMoreEvents} className="see-more-button">
+            See More
+          </button>
+        )}
       </div>
     </div>
   );
 }
-
-
 
 export default EventComponent;
