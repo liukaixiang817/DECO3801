@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchBodyInfo, updateBodyInfo } from '../api/apiClient';
 import Modal from './PopWindow';
 import './BodyInfo.css';  // 为该页面添加样式
+import { useNavigate } from 'react-router-dom';
 
 const BodyInfo = () => {
     const [bodyInfo, setBodyInfo] = useState({
@@ -14,6 +15,7 @@ const BodyInfo = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentField, setCurrentField] = useState(null);
     const [newValue, setNewValue] = useState('');
+    const navigate = useNavigate();
 
     // 定义性别和饮酒偏好的选项
     const genderOptions = ['Male', 'Female', 'Other'];
@@ -47,6 +49,11 @@ const BodyInfo = () => {
         setIsModalOpen(true);
     };
 
+    // handle user click on back button
+    const navigateBack = () => {
+        navigate('/Profile');
+    };
+
     // 保存更新
     const handleSave = () => {
         const username = localStorage.getItem('username');  // 获取用户名
@@ -74,28 +81,31 @@ const BodyInfo = () => {
 
     return (
         <div className="body-info-page">
-            <h2>Edit Body Information</h2>
+            <p className='blue-on-white-button-top-left' onClick={navigateBack} >Back</p>
+
+
+            <h1 className='heading-center'>Edit Body Information</h1>
 
             {/* 性别 */}
-            <div className="info-item" onClick={() => handleFieldClick('gender')}>
+            <div className="info-item" onClick={() => handleFieldClick('Gender')}>
                 <span>Gender</span>
                 <span>{bodyInfo.gender}</span>
             </div>
 
             {/* 年龄 */}
-            <div className="info-item" onClick={() => handleFieldClick('age')}>
+            <div className="info-item" onClick={() => handleFieldClick('Age')}>
                 <span>Age</span>
                 <span>{bodyInfo.age}</span>
             </div>
 
             {/* 身高 */}
-            <div className="info-item" onClick={() => handleFieldClick('height')}>
+            <div className="info-item" onClick={() => handleFieldClick('Height')}>
                 <span>Height</span>
                 <span>{bodyInfo.height || 'Enter here...'}</span>
             </div>
 
             {/* 体重 */}
-            <div className="info-item" onClick={() => handleFieldClick('weight')}>
+            <div className="info-item" onClick={() => handleFieldClick('Weight')}>
                 <span>Weight</span>
                 <span>{bodyInfo.weight || 'Enter here...'}</span>
             </div>
@@ -108,10 +118,11 @@ const BodyInfo = () => {
 
             {/* 弹窗 */}
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                <h2>Edit {currentField}</h2>
+                <p className="white-on-blue-button-top-right"  >Save</p>
+                <h2 className='Modal-heading-top-center'> Edit {currentField}</h2>
 
                 {/* 使用下拉框选择性别 */}
-                {currentField === 'gender' && (
+                {currentField === 'Gender' && (
                     <select value={newValue} onChange={(e) => setNewValue(e.target.value)}>
                         {genderOptions.map(option => (
                             <option key={option} value={option}>{option}</option>
@@ -129,7 +140,7 @@ const BodyInfo = () => {
                 )}
 
                 {/* 对于其他字段保持原有输入框 */}
-                {currentField !== 'gender' && currentField !== 'drinkPreference' && (
+                {currentField !== 'Gender' && currentField !== 'drinkPreference' && (
                     <input
                         type="text"
                         value={newValue}
@@ -138,7 +149,7 @@ const BodyInfo = () => {
                 )}
 
                 <button onClick={handleSave}>Save</button>
-                <button onClick={() => setIsModalOpen(false)}>Cancel</button>
+                {/* <button onClick={() => setIsModalOpen(false)}>Cancel</button> */}
             </Modal>
         </div>
     );

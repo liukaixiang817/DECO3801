@@ -46,8 +46,8 @@ const Modal = ({ isOpen, onClose, children }) => {
   return ReactDOM.createPortal(
       <div>
         <div style={overlayStyle} onClick={onClose}></div>
-        <div>
-          <p className="back-button-apple" onClick={onClose} >Back</p>
+        <div className='flex-container'>
+          <p className="blue-on-white-button-middle-left" onClick={onClose} >Cancel</p>
           <div style={modalStyle}>
             {children}
             {/* <button onClick={onClose}>Close</button> */}

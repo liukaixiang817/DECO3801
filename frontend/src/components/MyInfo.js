@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchUserInfo, updateUserInfo } from '../api/apiClient';  // 确保 updateUserInfo 被导入
 import Modal from './PopWindow';
 import './MyInfo.css';  // 引入 CSS 样式
+import { useNavigate } from 'react-router-dom';
 
 const MyInfo = () => {
     const [userInfo, setUserInfo] = useState({
@@ -12,6 +13,7 @@ const MyInfo = () => {
     const [currentField, setCurrentField] = useState(null);
     const [newValue, setNewValue] = useState('');
     const [isUsernameChange, setIsUsernameChange] = useState(false);  // 标记是否是更改用户名
+    const navigate = useNavigate();
 
     useEffect(() => {
         const username = localStorage.getItem('username');  // 从 localStorage 获取用户名
@@ -106,9 +108,18 @@ const MyInfo = () => {
         }
     };
 
+    // handle user click on back button
+    const navigateBack = () => {
+        navigate('/Profile');
+    };
+
     return (
         <div className="my-info-page">
-            <h2>Edit My Information</h2>
+
+            <p className='blue-on-white-button-top-left' onClick={navigateBack} >Back</p>
+
+
+            <h1 className='heading-center'>Edit My Information</h1>
 
             {/* 用户名 */}
             <div className="info-item" onClick={() => handleFieldClick('username')}>
@@ -124,14 +135,14 @@ const MyInfo = () => {
 
             {/* 弹窗 */}
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                <h2>Edit {currentField}</h2>
+                <p className='white-on-blue-button-top-right' onClick={navigateBack} >Save</p>
+
+                <h2 className='Modal-heading-top-center'>Edit {currentField}</h2>
                 <input
                     type="text"
                     value={newValue}
                     onChange={(e) => setNewValue(e.target.value)}
                 />
-                <button onClick={handleSave}>Save</button>
-                <button onClick={() => setIsModalOpen(false)}>Cancel</button>
             </Modal>
         </div>
     );

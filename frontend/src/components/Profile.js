@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';  // import useNavigate to do the
 import { fetchProfileWithEmail, updateWeeklyLimit } from '../api/apiClient';  // API for fetching and updating
 import Modal from './PopWindow';
 import './Profile.css';  // import css file to use in this page
+import './styles.css'
 
 const Profile = () => {
     const [profile, setProfile] = useState({
@@ -140,6 +141,7 @@ const Profile = () => {
                 </div>
 
                 <Modal isOpen={isOpen} onClose={handleClose}>
+                    <p className='white-on-blue-button-top-right' >Save</p>
                     <h2>Change Weekly Limit</h2>
                     <input
                         type="number"

@@ -502,22 +502,61 @@ h2 {
     flex-direction: column;
 }
 
-.back-button-apple {
+.blue-on-white-button-middle-left {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: calc(50% + 20px);
+    left: 20px;
     padding: 6px 12px;
     color: #007bff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    z-index: 1002;
 }
 
+
+.blue-on-white-button-top-left {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 6px 12px;
+    color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1002;
+}
+
+.white-on-blue-button-top-right {
+    position: absolute;
+    top: 30px;
+    right: 20px;
+    padding: 6px 12px;
+    color: #ffffff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1002;
+}
 
 /* make it like an A4 doc  */
 .statement-section {
     padding: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    margin-top: 10%;
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); */
     border-radius: 5px;
     text-align: center;
+}
+
+.heading-center {
+    text-align: center;
+    margin-top: 10%;
+}
+
+.Modal-heading-top-center {
+    position: absolute;
+    text-align: center;
+    top: -18px;
+    margin-top: 10%;
 }
