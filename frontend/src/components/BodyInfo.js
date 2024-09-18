@@ -118,7 +118,7 @@ const BodyInfo = () => {
 
             {/* 弹窗 */}
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                <p className="white-on-blue-button-top-right"  >Save</p>
+                <p className="white-on-blue-button-top-right"  onClick={handleSave}>Save</p>
                 <h2 className='Modal-heading-top-center'> Edit {currentField}</h2>
 
                 {/* 使用下拉框选择性别 */}
@@ -148,7 +148,6 @@ const BodyInfo = () => {
                     />
                 )}
 
-                <button onClick={handleSave}>Save</button>
                 {/* <button onClick={() => setIsModalOpen(false)}>Cancel</button> */}
             </Modal>
         </div>
