@@ -146,8 +146,8 @@ const Profile = () => {
                         value={newWeeklyLimit}
                         onChange={(e) => setNewWeeklyLimit(e.target.value)}
                     />
-                    <button onClick={handleUpdateLimit}>Save</button>
-                    <button onClick={handleClose}>Cancel</button>
+                    {/* <button onClick={handleUpdateLimit}>Save</button>
+                    <button onClick={handleClose}>Cancel</button> */}
                 </Modal>
 
                 <div className="profile-menu">

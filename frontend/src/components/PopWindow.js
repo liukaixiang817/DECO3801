@@ -31,13 +31,29 @@ const Modal = ({ isOpen, onClose, children }) => {
     justifyContent: 'center',
   };
 
+  
+  const backButtonStyle = {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    padding: '6px 12px',
+    color: '#007bff',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+  };
+
   return ReactDOM.createPortal(
       <div>
         <div style={overlayStyle} onClick={onClose}></div>
-        <div style={modalStyle}>
-          {children}
-          <button onClick={onClose}>Close</button>
+        <div>
+          <p className="back-button-apple" onClick={onClose} >Back</p>
+          <div style={modalStyle}>
+            {children}
+            {/* <button onClick={onClose}>Close</button> */}
+          </div>
         </div>
+        
       </div>,
       document.getElementById('modal-root')
   );

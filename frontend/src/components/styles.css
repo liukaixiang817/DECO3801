@@ -513,14 +513,6 @@ h2 {
     cursor: pointer;
 }
 
-.back-button-apple::before {
-    content: '\2190'; /* Unicode for left-pointing arrow */
-    position: absolute;
-    left: 0px; /* Adjust based on padding to align the arrow inside the button */
-    top: 50%;
-    transform: translateY(-50%); /* Center the arrow vertically */
-    color: #007bff; /* Same as the button text color */
-}
 
 /* make it like an A4 doc  */
 .statement-section {
