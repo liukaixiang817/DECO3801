@@ -10,7 +10,14 @@ const Home = () => {
     const [daysUnderControl, setDaysUnderControl] = useState(0);
     const [weeklyLimitUsed, setWeeklyLimitUsed] = useState(0);
     const [weeklyLimit, setWeeklyLimit] = useState(750);
+    const [currentIndex, setCurrentIndex] = useState(0); // 管理当前轮播的索引
     const navigate = useNavigate();
+
+    const events = [
+        { title: '老师给学生跳舞', imageUrl: 'path/to/image1.jpg' },
+        { title: '学校运动会', imageUrl: 'path/to/image2.jpg' },
+        { title: '艺术节活动', imageUrl: 'path/to/image3.jpg' },
+    ];
 
     useEffect(() => {
         const storedUsername = localStorage.getItem('username');
@@ -28,10 +35,28 @@ const Home = () => {
         } else {
             console.error('No username found in localStorage.');
         }
-    }, []);
+
+        const interval = setInterval(() => {
+            setCurrentIndex((prevIndex) => (prevIndex === events.length - 1 ? 0 : prevIndex + 1));
+        }, 3000); // 每3秒自动切换一次图片
+
+        return () => clearInterval(interval);
+    }, [events.length]);
 
     const handleRecordDrinksClick = () => {
         navigate('/record-drinks');
+    };
+
+    const goToNext = () => {
+        setCurrentIndex((prevIndex) => (prevIndex === events.length - 1 ? 0 : prevIndex + 1));
+    };
+
+    const goToPrevious = () => {
+        setCurrentIndex((prevIndex) => (prevIndex === 0 ? events.length - 1 : prevIndex - 1));
+    };
+
+    const goToSlide = (index) => {
+        setCurrentIndex(index);
     };
 
     return (
@@ -48,32 +73,55 @@ const Home = () => {
                 <div className="record-control">
                     <p>Alcohol take under control for</p>
                     <span className="days-count">{daysUnderControl} Days</span>
-                    <button onClick={handleRecordDrinksClick}>Record Drinks</button>
-                    <button onClick={() => alert('Fast Record action')}>Fast Record</button>
+                    <div className="button-container">
+                        <button onClick={handleRecordDrinksClick}>Record Drinks</button>
+                        <button onClick={() => alert('Fast Record action')}>Fast Record</button>
+                    </div>
                 </div>
             </section>
 
+            <h2>Goal</h2>
+
             <section className="goal-section">
-                <h2>Goal</h2>
-                <p>{(weeklyLimitUsed / weeklyLimit * 100).toFixed(1)}% of your weekly limit used</p>
+                <p>
+                    <span className="gold-text">{(weeklyLimitUsed / weeklyLimit * 100).toFixed(1)}%</span>
+                    of your weekly limit used
+                </p>
                 <div className="progress-bar">
                     <div className="progress" style={{
                         width: `${weeklyLimitUsed / weeklyLimit * 100}%`,
                         backgroundColor: weeklyLimitUsed > weeklyLimit ? 'red' : 'orange'
                     }}></div>
                 </div>
-                <p>Your weekly limit is {weeklyLimit}ml (Converted to beer)</p>
+                <p>
+                    Your weekly limit is
+                    <span className="gold-text"> {weeklyLimit}ml</span>
+                    <p>(Converted to beer)</p>
+                </p>
             </section>
 
             <section className="alternative-section">
+                <i className="fas fa-lightbulb icon"></i>
                 <p>Find alternative drinks like non-alcoholic beverages or healthy juices.</p>
             </section>
 
 
             <section className="event-section">
                 <h2>Events</h2>
-                
-                <div></div>
+                <div className="slider">
+                    <img src={events[currentIndex].imageUrl} alt={events[currentIndex].title} className="slider-image"/>
+                    <div className="slider-title">{events[currentIndex].title}</div>
+                    <div className="slider-controls">
+                        <button onClick={goToPrevious}>&lt;</button>
+                        <button onClick={goToNext}>&gt;</button>
+                    </div>
+                    <div className="dots">
+                        {events.map((_, index) => (
+                            <span key={index} className={`dot ${index === currentIndex ? 'active' : ''}`}
+                                  onClick={() => goToSlide(index)}></span>
+                        ))}
+                    </div>
+                </div>
             </section>
         </div>
     );
