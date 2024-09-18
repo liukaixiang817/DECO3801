@@ -20,6 +20,7 @@
     --headerTextColor: var(--fgColor);
   }
 }
+
 .home-container {
   height: 1024px; /* Set the fixed height you want */
   overflow-y: auto; /* Enable vertical scrolling */
