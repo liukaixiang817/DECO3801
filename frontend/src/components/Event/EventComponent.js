@@ -102,9 +102,9 @@ const EventComponent = () => {
         </div>
         
         {result.length > visibleCount && (
-          <button onClick={loadMoreEvents} className="see-more-button">
-            See More
-          </button>
+          <h3_0 onClick={loadMoreEvents} >
+            See More Events...
+          </h3_0>
         )}
       </div>
     </div>

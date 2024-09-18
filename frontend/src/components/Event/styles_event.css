@@ -43,7 +43,12 @@ input {
 }
 h3_0 {
   font-family: "DynaPuff";
-  margin: 0px;
+  font-size: medium;
+}
+
+h3_0:hover {
+  text-decoration: underline; /* Underline text on hover */
+  transform: scale(1.5); /* Enlarge text on hover */
 }
 
 h4 {
