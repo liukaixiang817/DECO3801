@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchHomeData, recordDrink } from '../api/apiClient';
+import { fetchHomeData, recordDrink, getDrinkHistory } from '../api/apiClient';
 import { useNavigate } from 'react-router-dom';
 import './styles.css';
 
@@ -10,6 +10,7 @@ const RecordDrinks = () => {
     const [drinkType, setDrinkType] = useState('beer');
     const [amount, setAmount] = useState(0);
     const [submitSuccess, setSubmitSuccess] = useState(null);
+    const [history, setHistory] = useState([]);  // 新增用于存储历史记录
     const navigate = useNavigate();
 
     const multipliers = {
@@ -22,15 +23,49 @@ const RecordDrinks = () => {
 
     useEffect(() => {
         const storedUsername = localStorage.getItem('username');
+        console.log('Stored username:', storedUsername);  // 调试
         if (storedUsername) {
             fetchHomeData(storedUsername)
                 .then(data => {
+                    console.log('Fetched home data:', data);  // 调试
                     setUsername(data.username);
                     setWeeklyLimitUsed(data.weeklyLimitUsed);
                     setWeeklyLimit(data.weeklyLimit);
+
+                    // 获取历史记录
+                    return getDrinkHistory(storedUsername);
+                })
+                .then(historyData => {
+                    console.log('Fetched drink history:', historyData);  // 调试
+
+                    // 重新构造历史记录，调整 value 根据比例，手动+10小时
+                    const combinedHistory = historyData.recordTime.map((time, index) => {
+                        let localTime = new Date(time);
+                        localTime.setHours(localTime.getHours() + 10);  // 手动增加 10 小时
+
+                        localTime = localTime.toLocaleString('en-AU', {
+                            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,  // 使用本地时区
+                            year: 'numeric',
+                            month: 'numeric',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit',
+                            timeZoneName: 'short',
+                            hour12: false  // 关闭12小时制，启用24小时制
+                        });
+
+                        return {
+                            time: localTime,
+                            value: (historyData.recordValue[index] / multipliers[historyData.recordType[index]]).toFixed(2),  // 按比例调整
+                            type: historyData.recordType[index],
+                        };
+                    });
+
+                    setHistory(combinedHistory);
                 })
                 .catch(error => {
-                    console.error('Error fetching home data:', error);
+                    console.error('Error fetching data:', error);
                 });
         } else {
             console.error('No username found in localStorage.');
@@ -39,13 +74,47 @@ const RecordDrinks = () => {
 
     const handleDrinkRecord = () => {
         const calculatedAmount = amount * multipliers[drinkType];
+        console.log('Recording drink for:', { username, amount: calculatedAmount, drinkType });  // 调试
 
-        recordDrink(username, calculatedAmount)
+        recordDrink(username, calculatedAmount, drinkType)
             .then(updatedData => {
+                console.log('Drink recorded successfully:', updatedData);  // 调试
                 setWeeklyLimitUsed(updatedData.weeklyLimitUsed);
-                setAmount(0);
                 setSubmitSuccess(true);
-                setTimeout(() => navigate('/home'), 2000);
+
+                // 更新历史记录
+                return getDrinkHistory(username);
+            })
+            .then(updatedHistory => {
+                console.log('Updated drink history:', updatedHistory);  // 调试
+
+                // 按比例和本地时间调整历史记录，并手动增加 10 小时
+                const combinedHistory = updatedHistory.recordTime.map((time, index) => {
+                    let localTime = new Date(time);
+                    localTime.setHours(localTime.getHours() + 10);  // 手动增加 10 小时
+
+                    localTime = localTime.toLocaleString('en-AU', {
+                        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,  // 使用本地时区
+                        year: 'numeric',
+                        month: 'numeric',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        timeZoneName: 'short',
+                        hour12: false  // 关闭12小时制，启用24小时制
+                    });
+
+                    return {
+                        time: localTime,
+                        value: (updatedHistory.recordValue[index] / multipliers[updatedHistory.recordType[index]]).toFixed(2),  // 按比例调整
+                        type: updatedHistory.recordType[index],
+                    };
+                });
+
+                setHistory(combinedHistory);  // 更新历史记录
+                setAmount(0);  // 重置 amount
+                setSubmitSuccess(true);  // 成功后设置状态
             })
             .catch(error => {
                 console.error('Error recording drink:', error);
@@ -93,6 +162,22 @@ const RecordDrinks = () => {
                     <div className={`submit-message ${submitSuccess ? 'success' : 'error'}`}>
                         {submitSuccess ? 'Drink recorded successfully!' : 'Failed to record drink.'}
                     </div>
+                )}
+
+                {/* 新增历史记录部分 */}
+                <h2>Drink History</h2>
+                {history.length > 0 ? (
+                    <div className="history-list">
+                        {history.map((record, index) => (
+                            <div key={index} className="history-item">
+                                <span>{record.type} - </span>
+                                <span>{record.value}ml - </span>
+                                <span>{record.time}</span>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <p>No drink history available.</p>
                 )}
             </div>
         </div>

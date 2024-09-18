@@ -36,6 +36,19 @@ class UserController {
     public function login($data) {
         $user = $this->userModel->findUserByUsername($data['username']);
         if ($user && password_verify($data['password'], $user['password'])) {
+            // 获取当前时间和上次重置时间
+            $currentDateTime = new DateTime();
+            $lastResetTime = $user['lastReset']->toDateTime();
+            $resetHour = 14; // 14:00
+
+            // 如果当前时间晚于 lastReset 当天的 14:00 或者是次日，则重置 weeklyLimitUsed
+            if ($currentDateTime > $lastResetTime->setTime($resetHour, 0)) {
+                $this->userModel->updateUserInfoById($user['_id'], [
+                    'weeklyLimitUsed' => 0,
+                    'lastReset' => new MongoDB\BSON\UTCDateTime(time() * 1000) // 更新为当前时间
+                ]);
+            }
+
             return json_encode(['success' => true, 'message' => 'Login successful']);
         } else {
             http_response_code(401);
@@ -61,18 +74,31 @@ class UserController {
         }
     }
 
-    // 记录饮酒量
-    public function recordDrink($username, $amount) {
+    // 记录饮酒量并更新历史
+    public function recordDrink($username, $amount, $type) {
         try {
             $user = $this->userModel->findUserByUsername($username);
             if ($user) {
                 $newWeeklyLimitUsed = $user['weeklyLimitUsed'] + $amount;
                 $this->userModel->updateWeeklyLimitUsed($username, $newWeeklyLimitUsed);
 
+                // 检查 recordTime, recordValue, recordType 是否存在，不存在则初始化为空数组
+                $recordTime = isset($user['recordTime']) ? $user['recordTime']->getArrayCopy() : [];
+                $recordValue = isset($user['recordValue']) ? $user['recordValue']->getArrayCopy() : [];
+                $recordType = isset($user['recordType']) ? $user['recordType']->getArrayCopy() : [];
+
+                // 更新历史记录
+                array_push($recordTime, date('Y-m-d H:i:s'));  // 当前时间
+                array_push($recordValue, $amount);  // 饮酒量
+                array_push($recordType, $type);  // 饮品类型
+
+                // 更新数据库中的历史记录
+                $this->userModel->updateUserHistory($username, $recordTime, $recordValue, $recordType);
+
                 return json_encode([
                     'success' => true,
                     'weeklyLimitUsed' => $newWeeklyLimitUsed,
-                    'message' => 'Drink recorded successfully'
+                    'message' => 'Drink recorded and history updated successfully'
                 ]);
             } else {
                 http_response_code(404);
@@ -81,6 +107,27 @@ class UserController {
         } catch (Exception $e) {
             http_response_code(500);
             return json_encode(['success' => false, 'message' => 'Error recording drink: ' . $e->getMessage()]);
+        }
+    }
+
+    // 获取用户历史记录
+    public function getDrinkHistory($username) {
+        $user = $this->userModel->findUserByUsername($username);
+        if ($user) {
+            // 检查历史记录是否存在
+            if (isset($user['recordTime'], $user['recordValue'], $user['recordType'])) {
+                $history = [
+                    'recordTime' => $user['recordTime'],
+                    'recordValue' => $user['recordValue'],
+                    'recordType' => $user['recordType']
+                ];
+                return json_encode($history);
+            } else {
+                return json_encode(['error' => 'No history found for this user']);
+            }
+        } else {
+            http_response_code(404);
+            return json_encode(['error' => 'User not found']);
         }
     }
 

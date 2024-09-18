@@ -118,12 +118,23 @@ export const getEventDetails = async (eventId) => {
 };
 
 // 记录饮酒量的 API
-export const recordDrink = async (username, amount) => {
+export const recordDrink = async (username, amount, type) => {
     try {
-        const response = await apiClient.post('/recordDrink', { username, amount });
+        const response = await apiClient.post('/recordDrink', { username, amount, type });
         return response.data;
     } catch (error) {
         console.error('Error recording drink:', error);
+        throw error;
+    }
+};
+
+// 新增：获取饮酒历史记录的 API
+export const getDrinkHistory = async (username) => {
+    try {
+        const response = await apiClient.get(`/getDrinkHistory/${username}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching drink history:', error);
         throw error;
     }
 };
@@ -149,6 +160,7 @@ export const updateBodyInfo = async (username, data) => {
         throw error;
     }
 };
+
 // 删除用户的 API
 export const deleteUser = async (username) => {
     try {
@@ -159,6 +171,7 @@ export const deleteUser = async (username) => {
         throw error;
     }
 };
+
 // 克隆用户的 API
 export const cloneUser = async (username, newUsername) => {
     try {
@@ -169,6 +182,7 @@ export const cloneUser = async (username, newUsername) => {
         throw error;
     }
 };
+
 // 更新用户名的 API
 export const updateUsername = async (oldUsername, newUsername) => {
     try {
@@ -179,6 +193,7 @@ export const updateUsername = async (oldUsername, newUsername) => {
         throw error;
     }
 };
+
 // 新增：获取用户信息的 API
 export const fetchUserInfo = async (username) => {
     try {

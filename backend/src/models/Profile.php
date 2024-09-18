@@ -16,6 +16,7 @@ class Profile {
         // 如果找到了 profile 数据，返回相关信息
         if ($profile) {
             return [
+                'id' => $profile['_id'],
                 'username' => $profile['username'],
                 'email' => $profile['email'],
                 'weeklyLimit' => $profile['weeklyLimit'],

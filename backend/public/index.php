@@ -66,9 +66,17 @@ if ($pathFragments[0] == 'profiles') {
 elseif ($pathFragments[0] == 'recordDrink') {
     if ($requestMethod == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
-        echo $controller->recordDrink($data['username'], $data['amount']);
+        echo $controller->recordDrink($data['username'], $data['amount'], $data['type']);
     }
 }
+
+// 新添加的 getDrinkHistory 路由处理逻辑
+elseif ($pathFragments[0] == 'getDrinkHistory' && isset($pathFragments[1])) {
+    if ($requestMethod == 'GET') {
+        echo $controller->getDrinkHistory($pathFragments[1]);
+    }
+}
+
 // 添加新的 /profileWithEmail 路由来获取包含 email 的用户数据
 elseif ($pathFragments[0] == 'profileWithEmail') {
     $controller = new ProfileController($db);
@@ -109,6 +117,7 @@ elseif ($pathFragments[0] == 'delete-user') {
         echo json_encode(['error' => 'Method not allowed']);
     }
 }
+
 // 新添加的 update-limit 路由处理逻辑
 elseif ($pathFragments[0] == 'update-limit') {
     $controller = new ProfileController($db);
@@ -169,6 +178,7 @@ elseif ($pathFragments[0] == 'update-body-info') {
         echo json_encode(['error' => 'Method not allowed']);
     }
 }
+
 // 新增的 /user-info 路由，用于获取用户信息
 elseif ($pathFragments[0] == 'user-info') {
     if ($requestMethod == 'POST') {
