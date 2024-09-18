@@ -16,7 +16,7 @@ body {
     background-color: #ffffff;
     border-radius: 10px;
     height: 1024px;
-    
+
     margin: 20px auto;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     max-width: 500px;
@@ -26,6 +26,10 @@ body {
     border: 4px solid var(--green); /* Add a border: thickness, style, and color */
 
 
+}
+
+.home-container p{
+    font-size: 15px;
 }
 
 /* .home-container {
@@ -52,18 +56,18 @@ h2 {
     justify-content: space-around;
     position: fixed;
     bottom: 0;
-    left: 50%; /* Move the left side of the element to the center */
-    transform: translateX(-50%); /* Move the element back by half its width to center it */
+    left: 50%;
+    transform: translateX(-50%);
     width: 100%;
-    max-width: 500px; /* Keep the max width */
-    background-color: rgba(0, 123, 255, 0.8); /* 半透明效果 */
+    max-width: 500px;
+    background-color: #28a745; /* 绿色背景 */
     padding: 10px 0;
     border-radius: 10px 10px 0 0;
-    backdrop-filter: blur(10px); /* 添加背景模糊效果 */
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* 轻微阴影 */
 }
 
 .navigation a {
-    color: #ffffff;
+    color: #ffffff; /* 白色文字 */
     text-decoration: none;
     font-size: 18px;
 }
@@ -74,7 +78,7 @@ h2 {
 }
 
 .navigation a:hover {
-    color: #ffdd57;
+    color: #f1f1f1; /* 悬停时变为更浅的颜色 */
 }
 
 /* Record Section */
@@ -83,71 +87,203 @@ h2 {
 }
 
 .record-control {
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 8px;
+    background-color: #4a7c66; /* 使用图片中的绿色背景色 */
+    padding: 20px; /* 增加填充使布局更紧凑 */
+    border-radius: 15px; /* 圆角和图片一致 */
     text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 添加轻微阴影 */
+}
+
+.record-control p{
+    font-size:22px;
+    color: #fff;
 }
 
 .days-count {
     font-size: 36px;
-    color: #ff9900;
+    color: #e8b44b; /* 改为黄色字体，匹配图片中的天数样式 */
+    font-weight: bold;
     margin: 10px 0;
 }
 
+/* 按钮容器，使按钮水平排列 */
+.record-control {
+    background-color: #4a7c66; /* 使用图片中的绿色背景色 */
+    padding: 20px; /* 增加填充使布局更紧凑 */
+    border-radius: 15px; /* 圆角和图片一致 */
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 添加轻微阴影 */
+}
+
+.days-count {
+    font-size: 36px;
+    color: #e8b44b; /* 改为黄色字体，匹配图片中的天数样式 */
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* 按钮容器，确保按钮水平排列 */
+.button-container {
+    display: flex;
+    justify-content: center; /* 居中对齐按钮 */
+    gap: 15px; /* 按钮之间的间距 */
+}
+
 .record-control button {
-    margin: 10px 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
+    padding: 10px 25px; /* 调整按钮填充使其更大 */
+    font-size: 18px; /* 增大按钮文字 */
+    color: #4a7c66; /* 按钮文字颜色改为绿色 */
+    background-color: #ffffff; /* 白色背景 */
+    border: 2px solid #4a7c66; /* 添加与背景色一致的边框 */
+    border-radius: 20px; /* 圆角使按钮外观更加柔和 */
     cursor: pointer;
+    flex: 1; /* 使按钮均匀分布 */
 }
 
 .record-control button:hover {
-    background-color: #0056b3;
+    background-color: #387a58; /* 悬停时按钮背景变为深绿色 */
+    color: #ffffff;
 }
 
 /* Goal Section */
 .goal-section {
+    padding: 20px;
+    background-color: #ffffff; /* 白色背景 */
+    border-radius: 10px; /* 圆角 */
+    border: 1px solid #b8c2b2; /* 轻微的绿色边框 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 轻微的阴影 */
+    text-align: center; /* 居中对齐 */
     margin-bottom: 20px;
+}
+
+.goal-section p {
+    font-size: 20px;
+    color: #333; /* 黑色文字 */
+    margin-bottom: 15px;
+}
+
+.gold-text {
+    font-size: 22px; /* 调整数字字体大小 */
+    font-weight: bold;
+    color: #e8b44b; /* 金黄色数字 */
 }
 
 .progress-bar {
     width: 100%;
     background-color: #ddd;
-    border-radius: 5px;
-    margin: 10px 0;
+    border-radius: 20px; /* 圆角进度条 */
+    margin: 15px 0;
     height: 25px;
     overflow: hidden;
 }
 
 .progress {
     height: 100%;
-    background-color: #ff9900; /* Default color for progress */
-}
-
-.warning-text {
-    color: red;
-    font-size: 14px;
-    margin-top: 10px;
+    background-color: orange; /* 默认橙色 */
+    border-radius: 20px 0 0 20px; /* 左边圆角，右边直角 */
+    text-align: right;
+    line-height: 25px; /* 让进度条内的文字垂直居中 */
+    padding-right: 10px;
+    color: white; /* 进度条文字颜色 */
+    font-weight: bold;
 }
 
 /* Alternative Section */
 .alternative-section {
     margin-top: 20px;
-    padding: 10px;
-    background-color: #e9ecef;
-    border-radius: 5px;
-    text-align: center;
+    padding: 10px 20px; /* 增加左右填充 */
+    background-color: #4a7c66; /* 绿色背景 */
+    border-radius: 25px; /* 圆角 */
+    display: flex; /* 使用flexbox排列图标和文本 */
+    align-items: center; /* 垂直居中 */
 }
 
 .alternative-section p {
     margin: 0;
-    color: #666;
+    color: #ffffff; /* 白色文字 */
+    font-size: 20px;
+    flex-grow: 1; /* 让文本占据剩余空间 */
+    text-align: left; /* 让文字靠左对齐 */
 }
+
+.icon {
+    color: #ffffff; /* 白色图标 */
+    font-size: 24px; /* 调整图标大小 */
+    margin-right: 10px; /* 图标和文本的间距 */
+}
+
+/* Events Section*/
+.event-section {
+    margin-top: 20px;
+}
+
+.slider {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    max-width: 100%;
+    height: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.slider-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.slider-title {
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    color: white;
+    font-size: 18px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.slider-controls {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.slider-controls button {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.dots {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+}
+
+.dot.active {
+    width: 15px;
+    height: 15px;
+    background-color: white;
+}
+
 
 /* Responsive Design */
 @media (max-width: 600px) {
