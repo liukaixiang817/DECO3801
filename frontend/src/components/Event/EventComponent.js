@@ -6,6 +6,7 @@ import GoogleMap from "./GoogleMap.js";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons"; // Import all solid icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useParams ,useNavigate} from "react-router-dom";
 
 const EventComponent = () => {
   const [posts, setPosts] = useState([]);
@@ -44,6 +45,12 @@ const EventComponent = () => {
       .filter(word => word.trim() !== '') // Remove any empty strings from the split
   ));
 
+  const navigate = useNavigate();
+
+  const handleGoBack = () => {
+    navigate(-1); // Go back to the previous page
+  };
+
   const result = selectedEventType
     ? posts.filter(event => {
         if (!event.event_type) return false;
@@ -64,7 +71,7 @@ const EventComponent = () => {
   return (
     <div className="home-container">
       <div className="back-button">
-        <FontAwesomeIcon icon="fa-solid fa-angle-left " size="2x" shake/>
+      <FontAwesomeIcon shake  icon="fa-solid fa-angle-left" size="2x" onClick={handleGoBack}/>
       </div>
 
       <div>
