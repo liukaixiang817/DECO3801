@@ -42,7 +42,7 @@ const Login = ({ setIsLoggedIn }) => {
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('username', username);
                 setIsLoggedIn(true);
-                navigate('/home');  // 登录成功后跳转到主页
+                navigate('/home');  // Redirect to home page when login is successful
             } else {
                 alert('Login failed: ' + response.message);
             }

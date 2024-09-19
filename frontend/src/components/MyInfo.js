@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { fetchUserInfo, updateUserInfo } from '../api/apiClient';  // 确保 updateUserInfo 被导入
+import { fetchUserInfo, updateUserInfo } from '../api/apiClient';  // make updateUserInfo has been imported
 import Modal from './PopWindow';
-import './MyInfo.css';  // 引入 CSS 样式
+import './MyInfo.css';  // import CSS style sheet
 import { useNavigate } from 'react-router-dom';
 
 const MyInfo = () => {
@@ -12,20 +12,20 @@ const MyInfo = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentField, setCurrentField] = useState(null);
     const [newValue, setNewValue] = useState('');
-    const [isUsernameChange, setIsUsernameChange] = useState(false);  // 标记是否是更改用户名
+    const [isUsernameChange, setIsUsernameChange] = useState(false);  // mark if the username is changed
     const navigate = useNavigate();
 
     useEffect(() => {
-        const username = localStorage.getItem('username');  // 从 localStorage 获取用户名
+        const username = localStorage.getItem('username');  // fetch user name from localStorage
         if (username) {
-            console.log("Fetching user info for username:", username);  // 调试信息
+            console.log("Fetching user info for username:", username);  // Navigation information
             fetchUserInfo(username)
                 .then(data => {
-                    console.log("User info fetched:", data);  // 打印从后端获取的用户信息
+                    console.log("User info fetched:", data);  // print out user info from backend
                     if (data && !data.error) {
-                        setUserInfo(data);  // 如果数据库中已有信息，更新 state
+                        setUserInfo(data);  // if in the database update state
                     } else {
-                        console.error("Error in user info response:", data.error);  // 打印错误信息
+                        console.error("Error in user info response:", data.error);  // print out the error message
                     }
                 })
                 .catch(error => {
@@ -36,44 +36,44 @@ const MyInfo = () => {
         }
     }, []);
 
-    // 打开弹窗并设置要修改的字段
+    // open the Modal and set the field to be modified
     const handleFieldClick = (field) => {
-        console.log("Field clicked:", field);  // 打印用户点击了哪个字段
+        console.log("Field clicked:", field);  // print out the field clicked
         setCurrentField(field);
-        setNewValue(userInfo[field] || '');  // 初始化弹窗中的值
+        setNewValue(userInfo[field] || '');  // initialize the value in the pop window
         setIsModalOpen(true);
 
         if (field === 'username') {
             console.log("Username change detected, enabling username change flow");
-            setIsUsernameChange(true);  // 标记为更改用户名
+            setIsUsernameChange(true);  // mark as username change
         } else {
-            setIsUsernameChange(false);  // 标记为更改其他字段
+            setIsUsernameChange(false);  // mark as not username change
         }
     };
 
-    // 保存更新或者更新用户名
+    // save the updated info or username
     const handleSave = () => {
-        const originalUsername = localStorage.getItem('username');  // 获取当前的原始用户名
-        console.log("Original username from localStorage:", originalUsername);  // 调试信息
-        console.log("New value for field:", currentField, newValue);  // 打印用户输入的新值
+        const originalUsername = localStorage.getItem('username');  // get current username from localStorage
+        console.log("Original username from localStorage:", originalUsername);  // Navigation information
+        console.log("New value for field:", currentField, newValue);  // print out the new value user input
 
         if (originalUsername) {
             if (isUsernameChange) {
-                // 更新用户名时，将新旧用户名一起传递
+                // pass the old and new username to the backend
                 const updatedData = { oldUsername: originalUsername, newUsername: newValue };
-                console.log("Attempting to update username from", originalUsername, "to", newValue);  // 调试信息
+                console.log("Attempting to update username from", originalUsername, "to", newValue);  // Navigation information
 
-                updateUserInfo(originalUsername, updatedData)  // 发起更新用户名的请求
+                updateUserInfo(originalUsername, updatedData)  // send the update request
                     .then(response => {
-                        console.log("Username update response:", response);  // 打印更新结果
+                        console.log("Username update response:", response);  // print out the updated outcome
                         if (response.success) {
                             console.log("Username updated successfully");
-                            setUserInfo(prev => ({ ...prev, username: newValue }));  // 更新前端显示的用户名
-                            localStorage.setItem('username', newValue);  // 更新 localStorage 中的用户名
-                            setIsModalOpen(false);  // 关闭弹窗
-                            alert('Username updated successfully!');  // 成功提示
+                            setUserInfo(prev => ({ ...prev, username: newValue }));  // update the username in the frontend
+                            localStorage.setItem('username', newValue);  // update the username in localStorage
+                            setIsModalOpen(false);  // close the pop window
+                            alert('Username updated successfully!');  // alert the user when success
                         } else {
-                            console.error("Error updating username:", response.error);  // 打印错误信息
+                            console.error("Error updating username:", response.error);  // print out the error message
                             alert(`Error updating username: ${response.error}`);
                         }
                     })
@@ -82,19 +82,19 @@ const MyInfo = () => {
                         alert('An error occurred while updating username.');
                     });
             } else {
-                // 如果是修改其他字段
+                // if change other fields
                 const updatedData = { [currentField]: newValue };
-                console.log("Updating user info for username:", originalUsername, "with data:", updatedData);  // 调试信息
+                console.log("Updating user info for username:", originalUsername, "with data:", updatedData);  // Navigation information
 
-                updateUserInfo(originalUsername, updatedData)  // 发起更新请求
+                updateUserInfo(originalUsername, updatedData)  // send the update request
                     .then(response => {
-                        console.log("User info update response:", response);  // 打印更新结果
+                        console.log("User info update response:", response);  // print out the updated outcome
                         if (response.success) {
                             console.log("User info updated successfully for field:", currentField);
-                            setUserInfo(prev => ({ ...prev, [currentField]: newValue }));  // 更新前端显示
-                            setIsModalOpen(false);  // 关闭弹窗
+                            setUserInfo(prev => ({ ...prev, [currentField]: newValue }));  // update the field in the frontend
+                            setIsModalOpen(false);  // close the pop window
                         } else {
-                            console.error("Error updating user info:", response.error);  // 打印错误信息
+                            console.error("Error updating user info:", response.error);  // print out the error message
                             alert(`Error updating user info: ${response.error}`);
                         }
                     })
@@ -121,24 +121,24 @@ const MyInfo = () => {
 
             <h1 className='heading-center'>Edit My Information</h1>
 
-            {/* 用户名 */}
+            {/* User name */}
             <div className="info-item" onClick={() => handleFieldClick('username')}>
                 <span>Username</span>
                 <span>{userInfo.username}</span>
             </div>
 
-            {/* 邮箱 */}
+            {/* Email */}
             <div className="info-item" onClick={() => handleFieldClick('email')}>
                 <span>Email</span>
                 <span>{userInfo.email}</span>
             </div>
 
-            {/* 弹窗 */}
+            {/* Pop window */}
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
                 <p className='white-on-blue-button-top-right' onClick={navigateBack} >Save</p>
 
                 <h2 className='Modal-heading-top-center'>Edit {currentField}</h2>
-                <input
+                <input 
                     type="text"
                     value={newValue}
                     onChange={(e) => setNewValue(e.target.value)}

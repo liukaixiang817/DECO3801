@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchBodyInfo, updateBodyInfo } from '../api/apiClient';
 import Modal from './PopWindow';
-import './BodyInfo.css';  // 为该页面添加样式
+import './BodyInfo.css';  // Add CSS style
 import { useNavigate } from 'react-router-dom';
 
 const BodyInfo = () => {
@@ -17,21 +17,21 @@ const BodyInfo = () => {
     const [newValue, setNewValue] = useState('');
     const navigate = useNavigate();
 
-    // 定义性别和饮酒偏好的选项
+    // indentify the options
     const genderOptions = ['Male', 'Female', 'Other'];
     const drinkPreferenceOptions = ['beer', 'wine', 'spirits', 'cocktail', 'sake'];
 
     useEffect(() => {
-        const username = localStorage.getItem('username');  // 从 localStorage 获取用户名
+        const username = localStorage.getItem('username');  // get the user name from localStorage
         if (username) {
-            console.log("Fetching body info for username:", username);  // 调试信息
+            console.log("Fetching body info for username:", username);  // navigation info
             fetchBodyInfo(username)
                 .then(data => {
-                    console.log("Body info fetched:", data);  // 调试信息
+                    console.log("Body info fetched:", data);  // navigation info
                     if (data && !data.error) {
-                        setBodyInfo(data);  // 如果数据库中已有信息，更新state
+                        setBodyInfo(data);  // if the info is in database，update state
                     } else {
-                        console.error("Error in body info response:", data.error);  // 打印错误信息
+                        console.error("Error in body info response:", data.error);  // print out the error message
                     }
                 })
                 .catch(error => {
@@ -45,7 +45,7 @@ const BodyInfo = () => {
     // 打开弹窗并设置要修改的字段
     const handleFieldClick = (field) => {
         setCurrentField(field);
-        setNewValue(bodyInfo[field] || '');  // 初始化弹窗中的值
+        setNewValue(bodyInfo[field] || '');  // initialize the value in the pop window
         setIsModalOpen(true);
     };
 
@@ -54,19 +54,19 @@ const BodyInfo = () => {
         navigate('/Profile');
     };
 
-    // 保存更新
+    // save the updated info
     const handleSave = () => {
-        const username = localStorage.getItem('username');  // 获取用户名
+        const username = localStorage.getItem('username');  // get the user name from localStorage
         if (username) {
             const updatedData = { [currentField]: newValue };
             console.log("Sending update request for username:", username, "with data:", updatedData);  // 打印调试信息
 
-            updateBodyInfo(username, updatedData)  // 发起更新请求
+            updateBodyInfo(username, updatedData)  // send the update request
                 .then(response => {
-                    console.log("Body info update response:", response);  // 打印更新结果
+                    console.log("Body info update response:", response);  // print out the updated outcome
                     if (response.success) {
                         setBodyInfo(prev => ({ ...prev, [currentField]: newValue }));  // 更新前端显示
-                        setIsModalOpen(false);  // 关闭弹窗
+                        setIsModalOpen(false);  // Close the pop window
                     } else {
                         console.error("Error updating body info:", response.error);
                     }
@@ -86,42 +86,42 @@ const BodyInfo = () => {
 
             <h1 className='heading-center'>Edit Body Information</h1>
 
-            {/* 性别 */}
+            {/* Gender */}
             <div className="info-item" onClick={() => handleFieldClick('Gender')}>
                 <span>Gender</span>
                 <span>{bodyInfo.gender}</span>
             </div>
 
-            {/* 年龄 */}
+            {/* Age */}
             <div className="info-item" onClick={() => handleFieldClick('Age')}>
                 <span>Age</span>
                 <span>{bodyInfo.age}</span>
             </div>
 
-            {/* 身高 */}
+            {/* Height 10-300 */}
             <div className="info-item" onClick={() => handleFieldClick('Height')}>
                 <span>Height</span>
                 <span>{bodyInfo.height || 'Enter here...'}</span>
             </div>
 
-            {/* 体重 */}
+            {/* Weight 50-300 */}
             <div className="info-item" onClick={() => handleFieldClick('Weight')}>
                 <span>Weight</span>
                 <span>{bodyInfo.weight || 'Enter here...'}</span>
             </div>
 
-            {/* 饮酒偏好 */}
+            {/* Alcohol Perference */}
             <div className="info-item" onClick={() => handleFieldClick('drinkPreference')}>
                 <span>Drinking Preference</span>
                 <span>{bodyInfo.drinkPreference}</span>
             </div>
 
-            {/* 弹窗 */}
+            {/* Pop window */}
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
                 <p className="white-on-blue-button-top-right"  onClick={handleSave}>Save</p>
                 <h2 className='Modal-heading-top-center'> Edit {currentField}</h2>
 
-                {/* 使用下拉框选择性别 */}
+                {/* Use the dropdown to choose gender */}
                 {currentField === 'Gender' && (
                     <select value={newValue} onChange={(e) => setNewValue(e.target.value)}>
                         {genderOptions.map(option => (
@@ -130,7 +130,8 @@ const BodyInfo = () => {
                     </select>
                 )}
 
-                {/* 使用下拉框选择饮酒偏好 */}
+                
+                {/* Use dropdown to choose alcohol perference */}
                 {currentField === 'drinkPreference' && (
                     <select value={newValue} onChange={(e) => setNewValue(e.target.value)}>
                         {drinkPreferenceOptions.map(option => (
@@ -139,7 +140,8 @@ const BodyInfo = () => {
                     </select>
                 )}
 
-                {/* 对于其他字段保持原有输入框 */}
+                {/*  */}
+                {/* For other input keep the input textarea */}
                 {currentField !== 'Gender' && currentField !== 'drinkPreference' && (
                     <input
                         type="text"
