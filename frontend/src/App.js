@@ -12,6 +12,7 @@ import Login from './components/Login';
 import BodyInfo from './components/BodyInfo';
 import MyInfo from './components/MyInfo';  // import My Information page
 import PrivacyStatement from './components/PrivacyStatement';  // import Privacy Statement page
+import RewardPage from './components/Reward';
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -50,6 +51,7 @@ const AppContent = ({ isLoggedIn, setIsLoggedIn }) => {
             <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
             <Route path="/register" element={<Registration />} />
             <Route path="/oobe" element={<OOBE />} />
+            <Route path="/rewards" element={<RewardPage />} />
             <Route path="/home" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/events" element={<EventComponent />} />
