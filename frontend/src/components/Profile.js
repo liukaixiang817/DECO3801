@@ -12,6 +12,7 @@ const Profile = () => {
         weekly_limit: '750',  // get rid of  "ml"，as we wll add it on the frontend
         drinkType: 'beer',  // set the default drink type to beer，decapitalize to match the multipliers key
     });
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [newWeeklyLimit, setNewWeeklyLimit] = useState(profile.weekly_limit);  // storing weekly limit
     const navigate = useNavigate();  // use this to jump to other pages
@@ -109,6 +110,10 @@ const Profile = () => {
         navigate('/privacy-statement');  // 跳转到 /privacy-statement 页面
     };
 
+    const handleModalClose = () => {
+        setIsModalOpen(false);
+    };
+
     const avatarLetter = profile.username ? profile.username.charAt(0).toUpperCase() : '?';
 
     return (
@@ -141,8 +146,11 @@ const Profile = () => {
                 </div>
 
                 <Modal isOpen={isOpen} onClose={handleClose}>
-                    <p className='white-on-blue-button-top-right' >Save</p>
-                    <h2>Change Weekly Limit</h2>
+                    <div className='flex-container-row'>
+                        <p className="blue-on-white-button-middle-left" onClick={handleModalClose} >Cancel</p>
+                        <h2>Change Weekly Limit</h2>
+                        <p className='white-on-blue-button-top-right' >Save</p>
+                    </div>
                     <input
                         type="number"
                         value={newWeeklyLimit}

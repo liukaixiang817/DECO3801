@@ -38,7 +38,7 @@ const PrivacyStatement = ({}) => {
     
 
 return (
-    <div className='flex-container'>
+    <div className='flex-container-column'>
         
         <p className="blue-on-white-button-top-left" onClick={navigateBack}>Back</p>
         <div>

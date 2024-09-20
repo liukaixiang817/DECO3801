@@ -651,66 +651,65 @@ h2 {
 }
 
 /* container for display children vertically */
-.flex-container {
+/* 垂直排列子元素的容器 */
+.flex-container-column {
     display: flex;
     flex-direction: column;
+    width: 100%;
+}
+
+/* 水平排列子元素的容器 */
+.flex-container-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0;
 }
 
 .blue-on-white-button-middle-left {
-    position: absolute;
-    top: calc(50% + 20px);
-    left: 20px;
-    padding: 6px 12px;
     color: #007bff;
+    background: none;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
-    z-index: 1002;
+    padding: 6px 12px;
+    border-radius: 5px;
 }
 
-
 .blue-on-white-button-top-left {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    padding: 6px 12px;
     color: #007bff;
+    background: none;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
-    z-index: 1002;
+    padding: 6px 12px;
+    border-radius: 5px;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .white-on-blue-button-top-right {
-    position: absolute;
-    top: 30px;
-    right: 20px;
-    padding: 6px 12px;
-    color: #ffffff;
+    color: white;
     background-color: #007bff;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
-    z-index: 1002;
-}
-
-/* make it like an A4 doc  */
-.statement-section {
-    padding: 10px;
-    margin-top: 10%;
-    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); */
+    padding: 6px 12px;
     border-radius: 5px;
-    text-align: center;
 }
 
-.heading-center {
-    text-align: center;
-    margin-top: 10%;
-}
+
 
 .Modal-heading-top-center {
-    position: absolute;
-    text-align: center;
-    top: -18px;
-    margin-top: 10%;
+    margin: 0;
+    font-size: 1.2em;
+}
+
+/* 输入框和下拉菜单的样式 */
+.flex-container-column select,
+.flex-container-column input {
+    margin-top: 10px;
+    padding: 5px;
+    font-size: 1em;
+    width: 100%;
 }

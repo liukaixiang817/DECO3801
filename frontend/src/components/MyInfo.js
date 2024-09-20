@@ -113,6 +113,10 @@ const MyInfo = () => {
         navigate('/Profile');
     };
 
+    const handleModalClose = () => {
+        setIsModalOpen(false);
+    };
+
     return (
         <div className="my-info-page">
 
@@ -135,9 +139,11 @@ const MyInfo = () => {
 
             {/* Pop window */}
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                <p className='white-on-blue-button-top-right' onClick={navigateBack} >Save</p>
-
-                <h2 className='Modal-heading-top-center'>Edit {currentField}</h2>
+                <div className='flex-container-row'>
+                    <p className="blue-on-white-button-middle-left" onClick={handleModalClose} >Cancel</p>
+                    <h2 className='Modal-heading-top-center'>Edit {currentField}</h2>
+                    <p className='white-on-blue-button-top-right' onClick={navigateBack} >Save</p>
+                </div>
                 <input 
                     type="text"
                     value={newValue}

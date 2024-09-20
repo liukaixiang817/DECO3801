@@ -79,79 +79,93 @@ const BodyInfo = () => {
         }
     };
 
+    const handleModalClose = () => {
+        setIsModalOpen(false);
+    };
+
     return (
         <div className="body-info-page">
-            <p className='blue-on-white-button-top-left' onClick={navigateBack} >Back</p>
+            <div className='flex-container-column'>
+
+                <p className='blue-on-white-button-top-left' onClick={navigateBack} >Back</p>
 
 
-            <h1 className='heading-center'>Edit Body Information</h1>
+                <h1 className='heading-center'>Edit Body Information</h1>
 
-            {/* Gender */}
-            <div className="info-item" onClick={() => handleFieldClick('Gender')}>
-                <span>Gender</span>
-                <span>{bodyInfo.gender}</span>
+                {/* Gender */}
+                <div className="info-item" onClick={() => handleFieldClick('Gender')}>
+                    <span>Gender</span>
+                    <span>{bodyInfo.gender}</span>
+                </div>
+
+                {/* Age */}
+                <div className="info-item" onClick={() => handleFieldClick('Age')}>
+                    <span>Age</span>
+                    <span>{bodyInfo.age}</span>
+                </div>
+
+                {/* Height 10-300 */}
+                <div className="info-item" onClick={() => handleFieldClick('Height')}>
+                    <span>Height</span>
+                    <span>{bodyInfo.height || 'Enter here...'}</span>
+                </div>
+
+                {/* Weight 50-300 */}
+                <div className="info-item" onClick={() => handleFieldClick('Weight')}>
+                    <span>Weight</span>
+                    <span>{bodyInfo.weight || 'Enter here...'}</span>
+                </div>
+
+                {/* Alcohol Perference */}
+                <div className="info-item" onClick={() => handleFieldClick('drinkPreference')}>
+                    <span>Drinking Preference</span>
+                    <span>{bodyInfo.drinkPreference}</span>
+                </div>
+
+                {/* Pop window */}
+                <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+
+                    <div className='flex-container-column'>
+                        <div className='flex-container-row'>
+                            <p className="blue-on-white-button-middle-left" onClick={handleModalClose} >Cancel</p>
+                            <h2 className='Modal-heading-top-center'> Edit {currentField}</h2>
+                            <p className="white-on-blue-button-top-right"  onClick={handleSave}>Save</p>
+                        </div>
+                        
+                        {/* Use the dropdown to choose gender */}
+                        {currentField === 'Gender' && (
+                            <select value={newValue} onChange={(e) => setNewValue(e.target.value)}>
+                                {genderOptions.map(option => (
+                                    <option key={option} value={option}>{option}</option>
+                                ))}
+                            </select>
+                        )}
+
+                        
+                        {/* Use dropdown to choose alcohol perference */}
+                        {currentField === 'drinkPreference' && (
+                            <select value={newValue} onChange={(e) => setNewValue(e.target.value)}>
+                                {drinkPreferenceOptions.map(option => (
+                                    <option key={option} value={option}>{option}</option>
+                                ))}
+                            </select>
+                        )}
+
+                        {/*  */}
+                        {/* For other input keep the input textarea */}
+                        {currentField !== 'Gender' && currentField !== 'drinkPreference' && (
+                            <input
+                                type="text"
+                                value={newValue}
+                                onChange={(e) => setNewValue(e.target.value)}
+                            />
+                        )}
+                    </div>
+                    
+                    {/* <button onClick={() => setIsModalOpen(false)}>Cancel</button> */}
+                </Modal>
             </div>
-
-            {/* Age */}
-            <div className="info-item" onClick={() => handleFieldClick('Age')}>
-                <span>Age</span>
-                <span>{bodyInfo.age}</span>
-            </div>
-
-            {/* Height 10-300 */}
-            <div className="info-item" onClick={() => handleFieldClick('Height')}>
-                <span>Height</span>
-                <span>{bodyInfo.height || 'Enter here...'}</span>
-            </div>
-
-            {/* Weight 50-300 */}
-            <div className="info-item" onClick={() => handleFieldClick('Weight')}>
-                <span>Weight</span>
-                <span>{bodyInfo.weight || 'Enter here...'}</span>
-            </div>
-
-            {/* Alcohol Perference */}
-            <div className="info-item" onClick={() => handleFieldClick('drinkPreference')}>
-                <span>Drinking Preference</span>
-                <span>{bodyInfo.drinkPreference}</span>
-            </div>
-
-            {/* Pop window */}
-            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                <p className="white-on-blue-button-top-right"  onClick={handleSave}>Save</p>
-                <h2 className='Modal-heading-top-center'> Edit {currentField}</h2>
-
-                {/* Use the dropdown to choose gender */}
-                {currentField === 'Gender' && (
-                    <select value={newValue} onChange={(e) => setNewValue(e.target.value)}>
-                        {genderOptions.map(option => (
-                            <option key={option} value={option}>{option}</option>
-                        ))}
-                    </select>
-                )}
-
-                
-                {/* Use dropdown to choose alcohol perference */}
-                {currentField === 'drinkPreference' && (
-                    <select value={newValue} onChange={(e) => setNewValue(e.target.value)}>
-                        {drinkPreferenceOptions.map(option => (
-                            <option key={option} value={option}>{option}</option>
-                        ))}
-                    </select>
-                )}
-
-                {/*  */}
-                {/* For other input keep the input textarea */}
-                {currentField !== 'Gender' && currentField !== 'drinkPreference' && (
-                    <input
-                        type="text"
-                        value={newValue}
-                        onChange={(e) => setNewValue(e.target.value)}
-                    />
-                )}
-
-                {/* <button onClick={() => setIsModalOpen(false)}>Cancel</button> */}
-            </Modal>
+            
         </div>
     );
 };
