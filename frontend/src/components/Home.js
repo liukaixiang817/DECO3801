@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchHomeData } from '../api/apiClient';
 import { useNavigate } from 'react-router-dom';
 import './styles.css';
-
+import EventBanner from './Event/EventBanner';
 
 
 const Home = () => {
@@ -104,9 +104,9 @@ const Home = () => {
                 <i className="fas fa-lightbulb icon"></i>
                 <p>Find alternative drinks like non-alcoholic beverages or healthy juices.</p>
             </section>
+            <EventBanner></EventBanner>
 
-
-            <section className="event-section">
+            {/* <section className="event-section">
                 <h2>Events</h2>
                 <div className="slider">
                     <img src={events[currentIndex].imageUrl} alt={events[currentIndex].title} className="slider-image"/>
@@ -122,7 +122,7 @@ const Home = () => {
                         ))}
                     </div>
                 </div>
-            </section>
+            </section> */}
         </div>
     );
 }
