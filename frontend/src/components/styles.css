@@ -716,3 +716,11 @@ h2 {
     font-size: 1em;
     width: 100%;
 }
+
+#profile-reward-button {
+    color: white;
+    background-color: #4a7c66;
+    width: 100%;
+    /*  */
+    border-radius: 5px;
+}

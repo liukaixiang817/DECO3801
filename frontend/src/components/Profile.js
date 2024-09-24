@@ -125,6 +125,8 @@ const Profile = () => {
                     <p className="profile-email">{profile.email}</p>
                 </div>
 
+
+
                 <div className="profile-limit">
                     <div className="profile-limit-row">
                         <label>Your weekly limit is</label>
@@ -139,10 +141,21 @@ const Profile = () => {
                             <option value="sake">Sake</option>
                         </select>
 
+
                         {/* 显示的限制值，设置为橙色并添加 "ml" */}
                         <span className="weekly-limit-text">{newWeeklyLimit} ml</span>
                     </div>
                     <button onClick={handleOpen}>Change my goals</button>
+                </div>
+
+                {/* add a component to help click to rewarrd paht */}
+                <div style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                    }}>
+                    <button id= 'profile-reward-button' onClick={() => navigate('/rewards') }>Rewards</button>
                 </div>
 
                 <Modal isOpen={isOpen} onClose={handleClose}>
