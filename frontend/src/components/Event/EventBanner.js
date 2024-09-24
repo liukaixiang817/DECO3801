@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useSwipeable } from "react-swipeable"; 
-import "./styles_event.css"; // Assuming your styles are defined here
 import { getAllPosts } from "./api.js";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router-dom";
+import "./styles_event.css";
 
-// EventBanner Component
 const EventBanner = () => {
-  const [events, setEvents] = useState([]); // Store fetched events
+  const [events, setEvents] = useState([]); 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(0); // To track the current event
+  const [currentIndex, setCurrentIndex] = useState(0); 
+  const navigate = useNavigate();
 
-  // Fetch event data when component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -27,23 +26,40 @@ const EventBanner = () => {
     fetchData();
   }, []);
 
-  // Go to the previous event
-  const goToPrevious = () => {
-    setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : events.length - 1));
-  };
-
-  // Go to the next event
-  const goToNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex < events.length - 1 ? prevIndex + 1 : 0));
-  };
-
-  // Configure swipe gestures using react-swipeable
+  // Swipeable handlers
   const handlers = useSwipeable({
-    onSwipedLeft: goToNext,  // Swipe left to go to the next event
-    onSwipedRight: goToPrevious,  // Swipe right to go to the previous event
+    onSwipedLeft: () => goToNext(),
+    onSwipedRight: () => goToPrevious(),
     preventDefaultTouchmoveEvent: true,
-    trackMouse: true, // Also allow mouse dragging for desktop users
+    trackMouse: true,
   });
+
+  // Go to the previous set of events
+  const goToPrevious = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === 0 ? events.length - 3 : prevIndex - 3
+    );
+  };
+
+  // Go to the next set of events
+  const goToNext = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex >= events.length - 3 ? 0 : prevIndex + 3
+    );
+  };
+
+  // Handle click on event card
+  const handleCardClick = (eventData) => {
+    const { subject, formatteddatetime, location, description, eventimage, venueaddress } = eventData;
+    navigate(`/events/${subject}`, {
+      state: { subject, formatteddatetime, location, description, eventimage, venueaddress },
+    });
+  };
+
+  // Helper function to get event by index, wrapping around if necessary
+  const getEventByIndex = (index) => {
+    return events[index % events.length];
+  };
 
   if (isLoading) return <p>Loading events...</p>;
   if (error) return <p>{error}</p>;
@@ -52,29 +68,27 @@ const EventBanner = () => {
     <section className="event-banner-section">
       <h6>Events</h6>
       <div className="slider-container" {...handlers}>
-        {/* Show only the current event */}
         {events.length > 0 && (
-          <div className="event-card-square">
-            
-                <div className="event-content" onMouseDown={(e) => e.preventDefault()}><img
-              src={events[currentIndex].eventimage} // Adjust based on your event data
-              alt={events[currentIndex].subject} // Adjust based on event data
-              className="event-image1"
-            />
+          <>
+            {/* Display 3 events at a time */}
+            {[0, 1, 2].map((offset) => {
+              const event = getEventByIndex(currentIndex + offset);
+              return (
+                <div key={event.subject} className="event-card-square" onClick={() => handleCardClick(event)}>
+                  <div className="event-content">
+                    <img
+                      src={event.eventimage}
+                      alt={event.subject}
+                      className="event-image1"
+                    />
+                  </div>
+                  <div className="event-title1">{event.subject}</div>
                 </div>
-            
-            <div className="event-title1">{events[currentIndex].subject}</div>
-          </div>
-        )}  
+              );
+            })}
+          </>
+        )}
       </div>
-      <div className="icon-container">
-        <div className="back-button">
-<FontAwesomeIcon icon="fa-solid fa-arrows-left-right-to-line" size="2x" beatFade/>
-
-        </div>
-        
-      </div>
-      
     </section>
   );
 };

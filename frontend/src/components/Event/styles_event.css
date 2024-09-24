@@ -252,8 +252,7 @@ p {
 /*BAnners */
 
 .event-banner-section {
-  padding: 0px;
-  position: relative;
+  padding: 10px;
   text-align: center;
 }
 
@@ -261,48 +260,68 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; 
-   
+  overflow: hidden; /* Hide elements that go beyond the container */
+  width: 100%; /* Full width of the container */
+  margin-bottom: 10px;
+  align-items: flex-start; 
+}
+
+.event-slider {
+  display: flex;
+  transition: transform 0.5s ease-in-out; /* Smooth slide transition */
 }
 
 .event-card-square {
-  width: 350px;
- 
+  width: 120px;
+  margin: 0 10px; /* Spacing between the cards */
+  flex-shrink: 0; /* Prevents the card from shrinking */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  transition: transform 0.5s ease-in-out;
+  pointer-events: auto; /* Enable pointer events */
+  user-select: none; /* Prevents text/image selection */
+  cursor: pointer; /* Visual cue for clicking */
 }
+
 .event-image1 {
   width: 100%;
+  height: 150px;
+  object-fit: cover;
+  margin-bottom: 10px;
+  pointer-events: auto; /* Enable pointer events for clicking */
+  user-select: none; /* Prevents dragging or selecting */
   pointer-events: none;
   user-select: none;
-  height: 200px;
-  
-  object-fit: cover;
-  margin-bottom: 5px; 
 }
 
 .event-title1 {
   text-align: center;
-  margin: 0px; 
+  margin-top: 5px;
   font-weight: bold;
-  font-size: 16px; 
-}
-.event-content {
-  pointer-events: auto; /* Allow events on the content wrapper */
+  font-size: 16px;
+  pointer-events: auto; /* Enable pointer events */
+  user-select: none; /* Prevents text selection */
 }
 
-/* Icon*/
-.icon-container {
-  margin-top: 5px; /* Reduce the space between the title and icons */
+.navigation-icons {
   display: flex;
   justify-content: center;
- 
+  margin-top: 10px;
 }
 
-.icon {
+.nav-button {
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
   cursor: pointer;
-  padding: 0px;
+  margin: 0 15px;
 }
+
+
+
+
+
+
+
+
+
