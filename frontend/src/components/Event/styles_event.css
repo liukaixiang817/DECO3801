@@ -252,72 +252,59 @@ p {
 /*BAnners */
 
 .event-banner-section {
+  width: 100%;
+  overflow: hidden;
+}
+
+.carousel-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.carousel {
+  display: flex;
+  transition: transform 0.3s ease-out;
+}
+
+.event-card1 {
+  flex: 0 0 100%;
   padding: 10px;
-  text-align: center;
+  max-width: 200px;
+  box-sizing: border-box;
 }
 
-.slider-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden; /* Hide elements that go beyond the container */
-  width: 100%; /* Full width of the container */
-  margin-bottom: 10px;
-  align-items: flex-start; 
-}
-
-.event-slider {
-  display: flex;
-  transition: transform 0.5s ease-in-out; /* Smooth slide transition */
-}
-
-.event-card-square {
-  width: 120px;
-  margin: 0 10px; /* Spacing between the cards */
-  flex-shrink: 0; /* Prevents the card from shrinking */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  pointer-events: auto; /* Enable pointer events */
-  user-select: none; /* Prevents text/image selection */
-  cursor: pointer; /* Visual cue for clicking */
+.event-content1 {
+  
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+  overflow: hidden;
 }
 
 .event-image1 {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 150px;
+  height: 100%;
   object-fit: cover;
-  margin-bottom: 10px;
-  pointer-events: auto; /* Enable pointer events for clicking */
-  user-select: none; /* Prevents dragging or selecting */
   pointer-events: none;
   user-select: none;
+
+
+
 }
 
 .event-title1 {
-  text-align: center;
-  margin-top: 5px;
-  font-weight: bold;
-  font-size: 16px;
-  pointer-events: auto; /* Enable pointer events */
-  user-select: none; /* Prevents text selection */
-}
-
-.navigation-icons {
-  display: flex;
-  justify-content: center;
   margin-top: 10px;
+  font-weight: bold;
 }
 
-.nav-button {
-  background-color: transparent;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  margin: 0 15px;
+@media (min-width: 500px) {
+  .event-card {
+    flex: 0 0 33.333%;
+  }
 }
-
-
 
 
 
