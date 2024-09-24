@@ -123,7 +123,7 @@ const MyInfo = () => {
             <p className='blue-on-white-button-top-left' onClick={navigateBack} >Back</p>
 
 
-            <h1 className='heading-center'>Edit My Information</h1>
+            <h1 className='info-heading'>Edit My Information</h1>
 
             {/* User name */}
             <div className="info-item" onClick={() => handleFieldClick('username')}>

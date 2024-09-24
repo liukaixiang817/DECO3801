@@ -685,11 +685,10 @@ h2 {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 6px 12px;
     border-radius: 5px;
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: relative;
+    top: 18;
+    left: 14;
 }
 
 .white-on-blue-button-top-right {

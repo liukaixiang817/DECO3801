@@ -90,7 +90,7 @@ const BodyInfo = () => {
                 <p className='blue-on-white-button-top-left' onClick={navigateBack} >Back</p>
 
 
-                <h1 className='heading-center'>Edit Body Information</h1>
+                <h1 className='info-heading'>Edit Body Information</h1>
 
                 {/* Gender */}
                 <div className="info-item" onClick={() => handleFieldClick('Gender')}>

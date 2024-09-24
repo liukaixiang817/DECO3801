@@ -38,18 +38,17 @@ const PrivacyStatement = ({}) => {
     
 
 return (
-    <div className='flex-container-column'>
-        
-        <p className="blue-on-white-button-top-left" onClick={navigateBack}>Back</p>
-        <div>
-        <div className='statement-section'>
+    <div className='home-container'>
+        <div className='flex-container-column'>
+            <p className="blue-on-white-button-top-left" onClick={navigateBack}>Back</p>
+            <div className='statement-section'>
                 {/* Using dangerouslySetInnerHTML to insert HTML content */}
                 <div dangerouslySetInnerHTML={{ __html: privacyPolicy }} />
             </div>
-            </div>
         
-
+        </div>
     </div>
+    
 );
 
 };
