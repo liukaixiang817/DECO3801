@@ -63,7 +63,7 @@ h2 {
     transform: translateX(-50%);
     width: 100%;
     max-width: 500px;
-    background-color: #28a745; /* 绿色背景 */
+    background-color: #419779; /* 绿色背景 */
     padding: 10px 0;
     border-radius: 10px 10px 0 0;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* 轻微阴影 */
@@ -89,13 +89,7 @@ h2 {
     margin-bottom: 20px;
 }
 
-.record-control {
-    background-color: #4a7c66; /* 使用图片中的绿色背景色 */
-    padding: 20px; /* 增加填充使布局更紧凑 */
-    border-radius: 15px; /* 圆角和图片一致 */
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 添加轻微阴影 */
-}
+
 
 .record-control p{
     font-size:22px;
@@ -109,10 +103,10 @@ h2 {
     margin: 10px 0;
 }
 
-/* 按钮容器，使按钮水平排列 */
+
 .record-control {
-    background-color: #4a7c66; /* 使用图片中的绿色背景色 */
-    padding: 20px; /* 增加填充使布局更紧凑 */
+    background-color: #419779; 
+    padding: 20px; 
     border-radius: 15px; /* 圆角和图片一致 */
     text-align: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 添加轻微阴影 */
@@ -195,7 +189,7 @@ h2 {
 .alternative-section {
     margin-top: 20px;
     padding: 10px 20px; /* 增加左右填充 */
-    background-color: #4a7c66; /* 绿色背景 */
+    background-color: #419779; /* 绿色背景 */
     border-radius: 25px; /* 圆角 */
     display: flex; /* 使用flexbox排列图标和文本 */
     align-items: center; /* 垂直居中 */
