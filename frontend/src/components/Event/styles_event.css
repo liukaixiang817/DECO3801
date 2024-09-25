@@ -236,19 +236,19 @@ p {
     box-shadow: 0 0 4px rgba(0, 123, 255, 0.5); /* Shadow on focus */
   }
   
-  /* Style for the option elements */
+  
   .select-box option {
-    padding: 8px; /* Padding for options */
+    padding: 8px;
   }
+
   .back-button {
     max-width: 10%;
   }
-
-  .back-button:hover {
-    transform: scale(1.55);
-    
-  }
+  .back-button:hover .fa-angle-left {
+    color: #00ffaa; 
   
+    transition: all 0.1s ease; 
+  }
 /*BAnners */
 
 .event-banner-section {
