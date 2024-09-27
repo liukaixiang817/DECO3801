@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useParams ,useNavigate} from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getEventDetails } from "../../api/apiClient";
 import { useLocation } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons"; // Import all solid icons
+// import { fas1 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Add the entire set of solid icons to the library
 library.add(fas);
+// library.add(fas1);
 
 const EventDetails = () => {
 
@@ -39,47 +41,49 @@ const EventDetails = () => {
   return (
     <div className="home-container">
       <div className="back-button">
-      <FontAwesomeIcon shake  icon="fa-solid fa-angle-left" size="2x" onClick={handleGoBack}/>
+        <FontAwesomeIcon shake icon="fa-solid fa-angle-left" size="2x" onClick={handleGoBack} />
       </div>
-      
-      <img
-        loading="lazy"
-        src={eventimage}
-        alt={`${subject} event`}
-        className="aligned-image"
-        style={{ borderRadius: "10px" ,marginTop: '10px'}}
-      />
+      <div className="aligned-image">
+        <img
+          loading="lazy"
+          src={eventimage}
+          alt={`${subject} event`}
+
+        />
+      </div>
+
+
       <div className="container2">
-      <h1>{subject}</h1>
+        <h1>{subject}</h1>
       </div>
       <id>{id}</id>
-      <div>{description}</div>
-      <div className="container2">
+      <h3_1>{description}</h3_1>
+      <div className="container3">
         <FontAwesomeIcon
-          
+
           icon="fa-solid fa-map-pin"
           style={{ color: "#569970", width: "10%" }}
           size="3x"
-          bounce 
+          bounce
         />
         <h2 style={{ marginLeft: "20px" }}>{location}</h2>
       </div>
 
-      <div className="container2">
-      <FontAwesomeIcon icon="fa-solid fa-calendar-days" style={{ color: "#569970", width: "10%",marginRight: "20px" }}
+      <div className="container3">
+        <FontAwesomeIcon icon="fa-solid fa-calendar-days" style={{ color: "#569970", width: "10%", marginRight: "20px" }}
           size="3x"
-          flip  />
+          flip />
         <div >
           <h2 style={{ marginBottom: "0px" }}>Date: {date}</h2>
           <h2 style={{ marginTop: "0px" }}>Time: {time}</h2>
         </div>
       </div>
-      <div className="container2">
+      <div className="container3">
         <FontAwesomeIcon
           style={{ color: "#569970", width: "10%" }}
           icon="fa-solid fa-map-location-dot"
           size="3x"
-          beat 
+          beat
         />
         <a
           href={result}
