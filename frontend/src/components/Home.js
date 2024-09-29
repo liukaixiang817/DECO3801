@@ -11,6 +11,7 @@ const Home = () => {
     const [weeklyLimitUsed, setWeeklyLimitUsed] = useState(0);
     const [weeklyLimit, setWeeklyLimit] = useState(750);
     const [currentIndex, setCurrentIndex] = useState(0); // 管理当前轮播的索引
+    const [currentQuote, setCurrentQuote] = useState('');
     const navigate = useNavigate();
 
     const events = [
@@ -18,6 +19,21 @@ const Home = () => {
         { title: '学校运动会', imageUrl: 'path/to/image2.jpg' },
         { title: '艺术节活动', imageUrl: 'path/to/image3.jpg' },
     ];
+
+    // 添加要显示的语句数组
+    const personalizedSuggestions = [
+        "If you're lighter in weight, limit to 1-2 drinks per hour.",
+        "Women should aim for 1 drink per hour or less, and eat beforehand.",
+        "Men should keep it to 2 drinks per hour.",
+        "Never drink and drive.",
+        "Stay hydrated if drinking before or after physical activities.",
+        "Choose low-alcohol options if you have low tolerance.",
+        "Avoid drinking on an empty stomach.",
+        "Limit to 1-2 drinks if you're not a regular drinker.",
+        "Join a community volunteering activity to meet new people.",
+        "Challenge your friends to a table tennis match."
+    ];
+
 
     useEffect(() => {
         const storedUsername = localStorage.getItem('username');
@@ -36,11 +52,19 @@ const Home = () => {
             console.error('No username found in localStorage.');
         }
 
+        // 在进入Home页面时，随机选择一句作为初始语句
+        setCurrentQuote(personalizedSuggestions[Math.floor(Math.random() * personalizedSuggestions.length)]);
+
         const interval = setInterval(() => {
             setCurrentIndex((prevIndex) => (prevIndex === events.length - 1 ? 0 : prevIndex + 1));
         }, 3000); // 每3秒自动切换一次图片
 
-        return () => clearInterval(interval);
+
+
+
+        return () => {
+            clearInterval(interval);
+        };
     }, [events.length]);
 
     const handleRecordDrinksClick = () => {
@@ -102,8 +126,9 @@ const Home = () => {
 
             <section className="alternative-section">
                 <i className="fas fa-lightbulb icon"></i>
-                <p>Find alternative drinks like non-alcoholic beverages or healthy juices.</p>
+                <p>{currentQuote}</p>
             </section>
+
             <EventBanner></EventBanner>
 
             {/* <section className="event-section">
