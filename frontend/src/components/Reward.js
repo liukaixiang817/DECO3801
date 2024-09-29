@@ -17,7 +17,7 @@ const RewardPage = () => {
         { period: '6 Month', num: 120, file_path: 'assets/medal_imgs/6m_medal_transparent.png' },
     ];
 
-
+    // leave for later connected to backend
     const current_award_date = 14;
 
 
@@ -48,17 +48,24 @@ const RewardPage = () => {
                     <span className="reward-progress-text">{current_award_date}/120</span>
                 </div>
                 <div className="reward-awards-grid">
-                    {awards.map((award, index) => (
-                        <div key={index} className="reward-award-item">
+                    {awards && awards.length > 0 ? (
+                        awards.map((award, index) => (
+                        <div
+                            key={index}
+                            className={award.num > current_award_date ? "reward-award-item-transparent" : "reward-award-item"}
+                        >
                             <img src={award.file_path} alt={`${award.period} Medal`} />
                             <p>{award.period}</p>
                         </div>
-                    ))}
+                        ))
+                    ) : (
+                        <p>No awards available</p> // if no awards available
+                    )}
                 </div>
                 <div className="reward-awards-grid">
                     <div className="reward-award-item">
                         <h2 className="reward-section-title">Recent</h2>
-                        <img src={recent_award.file_path} alt="recent award image" />
+                        <img src={recent_award.file_path} alt="recent award" />
                         <p>{recent_award.period}</p>
                     </div>
                     <div className="reward-award-item">
