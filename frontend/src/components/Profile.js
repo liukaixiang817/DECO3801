@@ -194,12 +194,6 @@ const Profile = () => {
                         <span className="menu-arrow">{'>'}</span>
                     </div>
 
-                    {/* Alcohol Prevention Hotline */}
-                    <div className="menu-item">
-                        <span className="menu-icon">📞</span>
-                        <span>Alcohol Prevention Hotline</span>
-                        <span className="menu-arrow">{'>'}</span>
-                    </div>
                 </div>
             </div>
         </div>
