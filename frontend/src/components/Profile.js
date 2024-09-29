@@ -114,6 +114,8 @@ const Profile = () => {
         setIsModalOpen(false);
     };
 
+    const handleRewardsClick = () => navigate('/rewards');
+
     const avatarLetter = profile.username ? profile.username.charAt(0).toUpperCase() : '?';
 
     return (
@@ -124,7 +126,6 @@ const Profile = () => {
                     <h2>{profile.username}</h2>
                     <p className="profile-email">{profile.email}</p>
                 </div>
-
 
 
                 <div className="profile-limit">
@@ -148,21 +149,12 @@ const Profile = () => {
                     <button onClick={handleOpen}>Change my goals</button>
                 </div>
 
-                {/* add a component to help click to rewarrd paht */}
-                <div style={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                    }}>
-                    <button id= 'profile-reward-button' onClick={() => navigate('/rewards') }>Rewards</button>
-                </div>
 
                 <Modal isOpen={isOpen} onClose={handleClose}>
                     <div className='flex-container-row'>
-                        <p className="blue-on-white-button-middle-left" onClick={handleModalClose} >Cancel</p>
+                        <p className="blue-on-white-button-middle-left" onClick={handleModalClose}>Cancel</p>
                         <h2>Change Weekly Limit</h2>
-                        <p className='white-on-blue-button-top-right' >Save</p>
+                        <p className='white-on-blue-button-top-right'>Save</p>
                     </div>
                     <input
                         type="number"
@@ -174,26 +166,37 @@ const Profile = () => {
                 </Modal>
 
                 <div className="profile-menu">
-                    {/* 添加 "My body information" 菜单项，点击后跳转 */}
-                    <div className="menu-item" onClick={handleBodyInfoClick}>
-                        <span>My body information</span>
+                    {/* Rewards moved to the menu section */}
+                    <div className="menu-item" onClick={handleRewardsClick}>
+                        <span className="menu-icon">🏆</span>
+                        <span>Rewards</span>
                         <span className="menu-arrow">{'>'}</span>
                     </div>
 
-                    {/* 添加 "My Information" 菜单项，点击后跳转 */}
+                    {/* My Information */}
                     <div className="menu-item" onClick={handleMyInfoClick}>
+                        <span className="menu-icon">📋</span>
                         <span>My Information</span>
+                        <span className="menu-arrow">{'>'}</span>
+                    </div>
+
+                    {/* Awards */}
+                    <div className="menu-item" onClick={handleBodyInfoClick}>
+                        <span className="menu-icon">🎖️</span>
+                        <span>Awards</span>
                         <span className="menu-arrow">{'>'}</span>
                     </div>
 
                     {/* Privacy Statement */}
                     <div className="menu-item" onClick={handlePrivacyStatementClick}>
+                        <span className="menu-icon">📄</span>
                         <span>Privacy Statement</span>
                         <span className="menu-arrow">{'>'}</span>
                     </div>
 
                     {/* Alcohol Prevention Hotline */}
                     <div className="menu-item">
+                        <span className="menu-icon">📞</span>
                         <span>Alcohol Prevention Hotline</span>
                         <span className="menu-arrow">{'>'}</span>
                     </div>
