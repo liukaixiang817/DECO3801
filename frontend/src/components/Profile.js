@@ -180,10 +180,10 @@ const Profile = () => {
                         <span className="menu-arrow">{'>'}</span>
                     </div>
 
-                    {/* Awards */}
+                    {/* Body Info */}
                     <div className="menu-item" onClick={handleBodyInfoClick}>
-                        <span className="menu-icon">🎖️</span>
-                        <span>Personal Info</span>
+                        <span className="menu-icon">💪</span>
+                        <span>Body Information</span>
                         <span className="menu-arrow">{'>'}</span>
                     </div>
 
@@ -194,6 +194,12 @@ const Profile = () => {
                         <span className="menu-arrow">{'>'}</span>
                     </div>
 
+                    {/* Alcohol Prevention Hotline */}
+                    <div className="menu-item">
+                        <span className="menu-icon">📞</span>
+                        <span>Alcohol Prevention Hotline</span>
+                        <span className="menu-arrow">{'>'}</span>
+                    </div>
                 </div>
             </div>
         </div>
