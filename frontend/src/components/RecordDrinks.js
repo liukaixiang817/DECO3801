@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { fetchHomeData, recordDrink, getDrinkHistory } from '../api/apiClient';
 import { useNavigate } from 'react-router-dom';
 import './styles.css';
+import LeftIcon from '../assets/icons/left.svg';
+import BottleIcon from '../assets/icons/bottle.svg';
+
 
 const RecordDrinks = () => {
     const [username, setUsername] = useState('');
@@ -132,12 +135,14 @@ const RecordDrinks = () => {
     };
 
     return (
-        <div className="record-drinks-container">
+        <div className="home-container">
             <div className="record-drinks-box">
 
                 {/* 返回按钮 */}
                 <div className="header">
-                    <button className="back-button" onClick={() => navigate('/')}>←</button>
+                    <button className="back-button" onClick={() => navigate('/')}>
+                        <img src={LeftIcon} alt="left arrow" style={{ width: '20px', height: '20px' }} />
+                    </button>
                     <h2>Record Drinks</h2>
                 </div>
 
@@ -174,7 +179,7 @@ const RecordDrinks = () => {
                                 className={drinkType === type ? 'selected' : ''}
                                 onClick={() => setDrinkType(type)}
                             >
-                                <img src="/bottle.png" alt="bottle"/> {/* 假设您有对应的图片 */}
+                                <img src={BottleIcon} alt="bottle icon" style={{width: '20px', height: '20px'}}/>
                             </button>
                             <span className="drink-type-label">{type.charAt(0).toUpperCase() + type.slice(1)}</span>
                         </div>
