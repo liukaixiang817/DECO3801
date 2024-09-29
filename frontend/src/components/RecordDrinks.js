@@ -155,7 +155,7 @@ const RecordDrinks = () => {
                                 className={drinkType === type ? 'selected' : ''}
                                 onClick={() => setDrinkType(type)}
                             >
-                                <img src={`/${type}.png`} alt={type}/> {/* 假设您有对应的图片 */}
+                                <img src="/bottle.png" alt="bottle"/>
                             </button>
                             <span className="drink-type-label">{type.charAt(0).toUpperCase() + type.slice(1)}</span>
                         </div>
