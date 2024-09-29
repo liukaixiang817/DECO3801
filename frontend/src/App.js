@@ -17,14 +17,14 @@ import RewardPage from './components/Reward';
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
 
-    // useEffect(() => {
-    //     const checkLogin = () => {
-    //         const loggedIn = localStorage.getItem('isLoggedIn');
-    //         setIsLoggedIn(loggedIn === 'true');
-    //     };
+    useEffect(() => {
+        const checkLogin = () => {
+            const loggedIn = localStorage.getItem('isLoggedIn');
+            setIsLoggedIn(loggedIn === 'true');
+        };
 
-    //     checkLogin();
-    // }, []);
+        checkLogin();
+    }, []);
 
     return (
         <Router>
@@ -37,14 +37,14 @@ const App = () => {
 const AppContent = ({ isLoggedIn, setIsLoggedIn }) => {
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     if (!isLoggedIn) {
-    //         const currentPath = window.location.pathname;
-    //         if (currentPath !== '/register' && currentPath !== '/oobe') {
-    //             navigate('/login');
-    //         }
-    //     }
-    // }, [isLoggedIn, navigate]);
+    useEffect(() => {
+        if (!isLoggedIn) {
+            const currentPath = window.location.pathname;
+            if (currentPath !== '/register' && currentPath !== '/oobe') {
+                navigate('/login');
+            }
+        }
+    }, [isLoggedIn, navigate]);
 
     return (
         <Routes>

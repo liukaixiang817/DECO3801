@@ -12,6 +12,10 @@ const Navigation = () => {
                 <NavLink to="/events" activeClassName="active">
                     <FontAwesomeIcon icon="fa-solid fa-calendar-days" size="2x" />
                 </NavLink>
+                <NavLink to="/rewards" activeClassName="active">
+                    <FontAwesomeIcon icon="fa-solid fa-medal" size="2x" />
+                </NavLink>
+
                 <NavLink to="/profile" activeClassName="active">
                     <FontAwesomeIcon icon="fa-solid fa-user" size="2x" />
                 </NavLink>

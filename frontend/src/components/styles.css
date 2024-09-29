@@ -22,7 +22,6 @@ body {
     max-width: 90vw; 
     width: 100%; 
     min-width: 300px; 
-    
     height: auto; 
     max-height: 90vh; 
 
@@ -35,13 +34,7 @@ body {
     font-size: 15px;
 }
 
-/* .home-container {
-    height: 1024px; 
-    overflow-y: auto; 
-    padding: 20px;
-    box-sizing: border-box; 
-    border: 4px solid var(--green); 
-  } */
+
 
 h1 {
     font-size: 24px;
