@@ -6,9 +6,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const RewardPage = () => {
     const navigate = useNavigate();
 
-    // const handleBack = () => {
-    //     navigate('/profile');
-    // };
+    const handleBack = () => {
+        navigate('/');
+    };
 
     const awards = [
         { period: '1 Week', num: 7, file_path: 'assets/medal_imgs/1w_medal_transparent.png' },
@@ -30,9 +30,9 @@ const RewardPage = () => {
     return (
         <div className="reward-container">
             <div className="reward-header">
-                {/* <div className="back-button">
+                <div className="back-button">
                     <FontAwesomeIcon icon="fa-solid fa-angle-left" size="2x" color="#419779" onClick={handleBack} />
-                </div> */}
+                </div>
                 <h1 className="reward-title">Awards</h1>
                 <div className="placeholder"></div>
             </div>

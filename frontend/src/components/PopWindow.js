@@ -28,20 +28,8 @@ const Modal = ({ isOpen, onClose, children }) => {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
   };
 
-  
-  const backButtonStyle = {
-    position: 'absolute',
-    top: 10,
-    left: 10,
-    padding: '6px 12px',
-    color: '#007bff',
-    border: 'none',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  };
 
   return ReactDOM.createPortal(
       <div>

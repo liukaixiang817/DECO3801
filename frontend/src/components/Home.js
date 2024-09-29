@@ -3,7 +3,7 @@ import { fetchHomeData } from '../api/apiClient';
 import { useNavigate } from 'react-router-dom';
 import './styles.css';
 import EventBanner from './Event/EventBanner';
-
+import Modal from './PopWindow';
 
 const Home = () => {
     const [username, setUsername] = useState('');
@@ -12,6 +12,10 @@ const Home = () => {
     const [weeklyLimit, setWeeklyLimit] = useState(750);
     const [currentIndex, setCurrentIndex] = useState(0); // 管理当前轮播的索引
     const [currentQuote, setCurrentQuote] = useState('');
+
+    // for the fast record modal
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [drinkType, setDrinkType] = useState('beer');
     const navigate = useNavigate();
 
     const events = [
@@ -83,6 +87,27 @@ const Home = () => {
         setCurrentIndex(index);
     };
 
+
+    const handleModalClose = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleModalOpen = () => {
+        setIsModalOpen(true);
+    };
+
+    const multipliers = {
+        beer: 1,
+        wine: 3,
+        spirits: 2,
+        cocktail: 4,
+        sake: 4,
+    };
+    
+    
+    const fastRecordSave = () => {
+        
+    };
     return (
         <div className="home-container">
             <div className="header-row">
@@ -99,7 +124,7 @@ const Home = () => {
                     <span className="days-count">{daysUnderControl} Days</span>
                     <div className="button-container">
                         <button onClick={handleRecordDrinksClick}>Record Drinks</button>
-                        <button onClick={() => alert('Fast Record action')}>Fast Record</button>
+                        <button onClick={handleModalOpen}>Fast Record</button>
                     </div>
                 </div>
             </section>
@@ -130,7 +155,23 @@ const Home = () => {
             </section>
 
             <EventBanner></EventBanner>
-
+            
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                <div className='flex-container-row'>
+                    <p className="blue-on-white-button-middle-left" onClick={handleModalClose} >Cancel</p>
+                    <h2 className='Modal-heading-top-center'>Fast Record Alcohol</h2>
+                    <p className='white-on-blue-button-top-right' onClick={fastRecordSave} >Save</p>
+                </div>
+                <div className='flex-container-row'>
+                    {/* display all the keys in multiplers as drink-option-img class and make it clickable */}
+                    {Object.keys(multipliers).map(type => (
+                        <div key={type}  onClick={() => setDrinkType(type)}>
+                            <img className="drink-option-img" src={`assets/drinks_icon/${type}-icon.svg` } alt="bottle icon"/>
+                            <span className="drink-type-label">{type.charAt(0).toUpperCase() + type.slice(1)}</span>
+                        </div>
+                    ))}
+                </div>
+            </Modal>
             {/* <section className="event-section">
                 <h2>Events</h2>
                 <div className="slider">
