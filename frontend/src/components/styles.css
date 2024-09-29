@@ -523,6 +523,27 @@ h2 {
 /* RecordDrinks.css */
 
 /* 外部容器 */
+/* 顶部返回按钮和标题的样式 */
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    margin-right: 10px;
+    color: #333;
+}
+
+.back-button:hover {
+    color: #000;
+    font-weight: bold;
+}
+
 .record-drinks-container {
     width: 90%;
     max-width: 400px;
