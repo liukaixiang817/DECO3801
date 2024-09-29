@@ -183,7 +183,7 @@ const Profile = () => {
                     {/* Awards */}
                     <div className="menu-item" onClick={handleBodyInfoClick}>
                         <span className="menu-icon">🎖️</span>
-                        <span>Awards</span>
+                        <span>Personal Info</span>
                         <span className="menu-arrow">{'>'}</span>
                     </div>
 
