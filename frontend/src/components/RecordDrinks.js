@@ -13,6 +13,15 @@ const RecordDrinks = () => {
     const [history, setHistory] = useState([]);  // 新增用于存储历史记录
     const navigate = useNavigate();
 
+    const [isHistoryVisible, setIsHistoryVisible] = useState(false);
+
+    // 添加一些示例数据用于查看设计样式
+    const sampleHistory = [
+        { type: 'beer', value: 200, time: '2024.08.20 13:50' },
+        { type: 'wine', value: 150, time: '2024.08.21 14:30' },
+        { type: 'spirits', value: 100, time: '2024.08.22 15:10' }
+    ];
+
     const multipliers = {
         beer: 1,
         wine: 3,
@@ -126,25 +135,30 @@ const RecordDrinks = () => {
         <div className="record-drinks-container">
             <div className="record-drinks-box">
                 <h2>Record Drinks</h2>
-                <p>{weeklyLimit - weeklyLimitUsed}ml remains this week</p>
 
-                <div className="progress-bar">
-                    <div className="progress" style={{
-                        width: `${weeklyLimitUsed / weeklyLimit * 100}%`,
-                        backgroundColor: weeklyLimitUsed > weeklyLimit ? 'red' : 'orange'
-                    }}></div>
+                {/* 包裹进度条区域的白色圆角容器 */}
+                <div className="progress-container">
+                    <p>{weeklyLimit - weeklyLimitUsed}ml remains this week</p>
+                    <div className="progress-bar">
+                        <div className="progress" style={{
+                            width: `${(weeklyLimitUsed / weeklyLimit) * 100}%`,
+                            backgroundColor: weeklyLimitUsed > weeklyLimit ? 'red' : 'orange'
+                        }}></div>
+                    </div>
+                    <p>Your weekly limit is {weeklyLimit}ml (Converted to beer)</p>
                 </div>
-                <p>Your weekly limit is {weeklyLimit}ml (Converted to beer)</p>
 
                 <div className="drink-type-selector">
                     {Object.keys(multipliers).map(type => (
-                        <button
-                            key={type}
-                            className={drinkType === type ? 'selected' : ''}
-                            onClick={() => setDrinkType(type)}
-                        >
-                            {type.charAt(0).toUpperCase() + type.slice(1)}
-                        </button>
+                        <div key={type} className="drink-option">
+                            <button
+                                className={drinkType === type ? 'selected' : ''}
+                                onClick={() => setDrinkType(type)}
+                            >
+                                <img src={`/${type}.png`} alt={type}/> {/* 假设您有对应的图片 */}
+                            </button>
+                            <span className="drink-type-label">{type.charAt(0).toUpperCase() + type.slice(1)}</span>
+                        </div>
                     ))}
                 </div>
 
@@ -164,21 +178,26 @@ const RecordDrinks = () => {
                     </div>
                 )}
 
-                {/* 新增历史记录部分 */}
-                <h2>Drink History</h2>
-                {history.length > 0 ? (
+                {/* Record History Section with larger toggle button */}
+                <div className="history-header" onClick={() => setIsHistoryVisible(!isHistoryVisible)}>
+                    <h2>Record History</h2>
+                    <button className={`toggle-icon ${isHistoryVisible ? 'expanded' : ''}`}>
+                        {isHistoryVisible ? '▾' : '▸'}
+                    </button>
+                </div>
+
+                {isHistoryVisible && (
                     <div className="history-list">
-                        {history.map((record, index) => (
+                        {sampleHistory.map((record, index) => (
                             <div key={index} className="history-item">
-                                <span>{record.type} - </span>
-                                <span>{record.value}ml - </span>
+                                <span>{record.type}</span>
+                                <span>{record.value}ml</span>
                                 <span>{record.time}</span>
                             </div>
                         ))}
                     </div>
-                ) : (
-                    <p>No drink history available.</p>
                 )}
+
             </div>
         </div>
     );
