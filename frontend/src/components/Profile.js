@@ -167,11 +167,11 @@ const Profile = () => {
 
                 <div className="profile-menu">
                     {/* Rewards moved to the menu section */}
-                    <div className="menu-item" onClick={handleRewardsClick}>
+                    {/* <div className="menu-item" onClick={handleRewardsClick}>
                         <span className="menu-icon">🏆</span>
                         <span>Rewards</span>
                         <span className="menu-arrow">{'>'}</span>
-                    </div>
+                    </div> */}
 
                     {/* My Information */}
                     <div className="menu-item" onClick={handleMyInfoClick}>
@@ -194,12 +194,6 @@ const Profile = () => {
                         <span className="menu-arrow">{'>'}</span>
                     </div>
 
-                    {/* Alcohol Prevention Hotline */}
-                    <div className="menu-item">
-                        <span className="menu-icon">📞</span>
-                        <span>Alcohol Prevention Hotline</span>
-                        <span className="menu-arrow">{'>'}</span>
-                    </div>
                 </div>
             </div>
         </div>
