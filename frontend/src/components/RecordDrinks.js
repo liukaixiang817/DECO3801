@@ -134,7 +134,12 @@ const RecordDrinks = () => {
     return (
         <div className="record-drinks-container">
             <div className="record-drinks-box">
-                <h2>Record Drinks</h2>
+
+                {/* 返回按钮 */}
+                <div className="header">
+                    <button className="back-button" onClick={() => navigate('/')}>←</button>
+                    <h2>Record Drinks</h2>
+                </div>
 
                 {/* 包裹进度条区域的白色圆角容器 */}
                 <div className="progress-container">
@@ -142,8 +147,22 @@ const RecordDrinks = () => {
                     <div className="progress-bar">
                         <div className="progress" style={{
                             width: `${(weeklyLimitUsed / weeklyLimit) * 100}%`,
-                            backgroundColor: weeklyLimitUsed > weeklyLimit ? 'red' : 'orange'
-                        }}></div>
+                            backgroundColor:
+                                weeklyLimitUsed / weeklyLimit <= 0.33
+                                    ? 'green'
+                                    : weeklyLimitUsed / weeklyLimit <= 0.66
+                                        ? 'yellow'
+                                        : 'red',
+                            color: weeklyLimitUsed / weeklyLimit > 0.5 ? '#fff' : '#000', // 文本颜色
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            position: 'relative'
+                        }}>
+                            {/* 在进度条上显示百分比 */}
+                            <span
+                                className="progress-percentage">{`${Math.round((weeklyLimitUsed / weeklyLimit) * 100)}%`}</span>
+                        </div>
                     </div>
                     <p>Your weekly limit is {weeklyLimit}ml (Converted to beer)</p>
                 </div>
@@ -155,7 +174,7 @@ const RecordDrinks = () => {
                                 className={drinkType === type ? 'selected' : ''}
                                 onClick={() => setDrinkType(type)}
                             >
-                                <img src="/bottle.png" alt="bottle"/>
+                                <img src="/bottle.png" alt="bottle"/> {/* 假设您有对应的图片 */}
                             </button>
                             <span className="drink-type-label">{type.charAt(0).toUpperCase() + type.slice(1)}</span>
                         </div>
