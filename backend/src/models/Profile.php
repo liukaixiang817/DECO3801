@@ -38,13 +38,24 @@ class Profile {
 
         if ($bodyInfo) {
             error_log("Found body info in MongoDB for username: " . $username);
-            return $bodyInfo;
+
+            // 显式返回所需字段
+            return [
+                'username' => $bodyInfo['username'],
+                'age' => $bodyInfo['age'] ?? null,
+                'height' => $bodyInfo['height'] ?? null,
+                'weight' => $bodyInfo['weight'] ?? null,
+                'drinkingPreference' => $bodyInfo['drinkingPreference'] ?? 'Beer', // 确保返回 drinkingPreference
+                'gender' => $bodyInfo['gender'] ?? null,
+                'weeklyLimit' => $bodyInfo['weeklyLimit'] ?? null
+            ];
         } else {
             error_log("No body info found in MongoDB for username: " . $username);
             return false;
         }
     }
-    // 新增：更新用户的每周限制
+
+    // 更新用户的每周限制
     public function updateWeeklyLimit($username, $newLimit) {
         // 使用 MongoDB 更新用户的每周限制
         $query = ['username' => $username];

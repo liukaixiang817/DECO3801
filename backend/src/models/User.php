@@ -38,6 +38,9 @@ class User {
             ['username' => $data['username']],
             ['$set' => [
                 'age' => $data['age'],
+                'height' => $data['height'],
+                'weight' => $data['weight'],
+                'drinkingPreference' => $data['drinkingPreference'],
                 'gender' => $data['gender'],
                 'weeklyLimit' => $data['weeklyLimit'],
                 'daysUnderControl' => 0,

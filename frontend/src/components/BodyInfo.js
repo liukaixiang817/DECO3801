@@ -1,37 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { fetchBodyInfo, updateBodyInfo } from '../api/apiClient';
 import Modal from './PopWindow';
-import './BodyInfo.css';  // Add CSS style
+import './BodyInfo.css';
 import { useNavigate } from 'react-router-dom';
 
 const BodyInfo = () => {
     const [bodyInfo, setBodyInfo] = useState({
-        gender: 'Male',
+        gender: 'male',
         age: 18,
         height: '',
         weight: '',
-        drinkPreference: 'beer',
+        drinkingPreference: 'Beer', // 改为首字母大写，并确保使用 'drinkingPreference'
     });
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentField, setCurrentField] = useState(null);
     const [newValue, setNewValue] = useState('');
     const navigate = useNavigate();
 
-    // indentify the options
-    const genderOptions = ['Male', 'Female', 'Other'];
-    const drinkPreferenceOptions = ['beer', 'wine', 'spirits', 'cocktail', 'sake'];
+    const genderOptions = ['male', 'female', 'other'];
+    const drinkPreferenceOptions = ['Beer', 'Wine', 'Spirits', 'Cocktail', 'Sake']; // 确保选项首字母大写
 
     useEffect(() => {
-        const username = localStorage.getItem('username');  // get the user name from localStorage
+        const username = localStorage.getItem('username');
         if (username) {
-            console.log("Fetching body info for username:", username);  // navigation info
+            console.log("Fetching body info for username:", username);
             fetchBodyInfo(username)
                 .then(data => {
-                    console.log("Body info fetched:", data);  // navigation info
+                    console.log("Body info fetched:", data);
                     if (data && !data.error) {
-                        setBodyInfo(data);  // if the info is in database，update state
+                        // 确保前端正确映射 'drinkingPreference' 字段
+                        setBodyInfo({
+                            ...data,
+                            drinkingPreference: data.drinkingPreference || data.drinkPreference // 兼容字段名
+                        });
                     } else {
-                        console.error("Error in body info response:", data.error);  // print out the error message
+                        console.error("Error in body info response:", data.error);
                     }
                 })
                 .catch(error => {
@@ -42,31 +45,28 @@ const BodyInfo = () => {
         }
     }, []);
 
-    // 打开弹窗并设置要修改的字段
     const handleFieldClick = (field) => {
         setCurrentField(field);
-        setNewValue(bodyInfo[field] || '');  // initialize the value in the pop window
+        setNewValue(bodyInfo[field] || '');
         setIsModalOpen(true);
     };
 
-    // handle user click on back button
     const navigateBack = () => {
         navigate('/Profile');
     };
 
-    // save the updated info
     const handleSave = () => {
-        const username = localStorage.getItem('username');  // get the user name from localStorage
+        const username = localStorage.getItem('username');
         if (username) {
             const updatedData = { [currentField]: newValue };
-            console.log("Sending update request for username:", username, "with data:", updatedData);  // 打印调试信息
+            console.log("Sending update request for username:", username, "with data:", updatedData);
 
-            updateBodyInfo(username, updatedData)  // send the update request
+            updateBodyInfo(username, updatedData)
                 .then(response => {
-                    console.log("Body info update response:", response);  // print out the updated outcome
+                    console.log("Body info update response:", response);
                     if (response.success) {
-                        setBodyInfo(prev => ({ ...prev, [currentField]: newValue }));  // 更新前端显示
-                        setIsModalOpen(false);  // Close the pop window
+                        setBodyInfo(prev => ({ ...prev, [currentField]: newValue }));
+                        setIsModalOpen(false);
                     } else {
                         console.error("Error updating body info:", response.error);
                     }
@@ -86,54 +86,50 @@ const BodyInfo = () => {
     return (
         <div className="body-info-page">
             <div className='flex-container-column'>
-
-                <p className='blue-on-white-button-top-left' onClick={navigateBack} >Back</p>
-
-
+                <p className='blue-on-white-button-top-left' onClick={navigateBack}>Back</p>
                 <h1 className='info-heading'>Edit Body Information</h1>
 
                 {/* Gender */}
-                <div className="info-item" onClick={() => handleFieldClick('Gender')}>
+                <div className="info-item" onClick={() => handleFieldClick('gender')}>
                     <span>Gender</span>
                     <span>{bodyInfo.gender}</span>
                 </div>
 
                 {/* Age */}
-                <div className="info-item" onClick={() => handleFieldClick('Age')}>
+                <div className="info-item" onClick={() => handleFieldClick('age')}>
                     <span>Age</span>
                     <span>{bodyInfo.age}</span>
                 </div>
 
-                {/* Height 10-300 */}
-                <div className="info-item" onClick={() => handleFieldClick('Height')}>
+                {/* Height */}
+                <div className="info-item" onClick={() => handleFieldClick('height')}>
                     <span>Height</span>
                     <span>{bodyInfo.height || 'Enter here...'}</span>
                 </div>
 
-                {/* Weight 50-300 */}
-                <div className="info-item" onClick={() => handleFieldClick('Weight')}>
+                {/* Weight */}
+                <div className="info-item" onClick={() => handleFieldClick('weight')}>
                     <span>Weight</span>
                     <span>{bodyInfo.weight || 'Enter here...'}</span>
                 </div>
 
-                {/* Alcohol Perference */}
-                <div className="info-item" onClick={() => handleFieldClick('drinkPreference')}>
+                {/* Drinking Preference */}
+                <div className="info-item" onClick={() => handleFieldClick('drinkingPreference')}>
                     <span>Drinking Preference</span>
-                    <span>{bodyInfo.drinkPreference}</span>
+                    <span>{bodyInfo.drinkingPreference}</span>
                 </div>
 
-                {/* Pop window */}
-                <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-
+                {/* Modal for Editing Information */}
+                <Modal isOpen={isModalOpen} onClose={handleModalClose}>
                     <div className='flex-container-column'>
                         <div className='flex-container-row'>
-                            <p className="blue-on-white-button-middle-left" onClick={handleModalClose} >Cancel</p>
+                            <p className="blue-on-white-button-middle-left" onClick={handleModalClose}>Cancel</p>
                             <h2 className='Modal-heading-top-center'> Edit {currentField}</h2>
-                            <p className="white-on-blue-button-top-right"  onClick={handleSave}>Save</p>
+                            <p className="white-on-blue-button-top-right" onClick={handleSave}>Save</p>
                         </div>
-                        
-                        {/* Use the dropdown to choose gender */}
-                        {currentField === 'Gender' && (
+
+                        {/* Gender Dropdown */}
+                        {currentField === 'gender' && (
                             <select value={newValue} onChange={(e) => setNewValue(e.target.value)}>
                                 {genderOptions.map(option => (
                                     <option key={option} value={option}>{option}</option>
@@ -141,9 +137,8 @@ const BodyInfo = () => {
                             </select>
                         )}
 
-                        
-                        {/* Use dropdown to choose alcohol perference */}
-                        {currentField === 'drinkPreference' && (
+                        {/* Drinking Preference Dropdown */}
+                        {currentField === 'drinkingPreference' && (
                             <select value={newValue} onChange={(e) => setNewValue(e.target.value)}>
                                 {drinkPreferenceOptions.map(option => (
                                     <option key={option} value={option}>{option}</option>
@@ -151,9 +146,8 @@ const BodyInfo = () => {
                             </select>
                         )}
 
-                        {/*  */}
-                        {/* For other input keep the input textarea */}
-                        {currentField !== 'Gender' && currentField !== 'drinkPreference' && (
+                        {/* Text Input for Other Fields */}
+                        {currentField !== 'gender' && currentField !== 'drinkingPreference' && (
                             <input
                                 type="text"
                                 value={newValue}
@@ -161,11 +155,8 @@ const BodyInfo = () => {
                             />
                         )}
                     </div>
-                    
-                    {/* <button onClick={() => setIsModalOpen(false)}>Cancel</button> */}
                 </Modal>
             </div>
-            
         </div>
     );
 };

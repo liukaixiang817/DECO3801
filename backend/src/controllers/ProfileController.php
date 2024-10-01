@@ -51,13 +51,13 @@ class ProfileController {
         if ($bodyInfo) {
             error_log("Body info found for username: " . $username . " - " . json_encode($bodyInfo));
 
-            // 返回实际的用户身体信息
+            // 返回实际的用户身体信息，并确保字段名与前端一致
             return json_encode([
                 'gender' => $bodyInfo['gender'] ?? 'Male',
                 'age' => $bodyInfo['age'] ?? 18,
                 'height' => $bodyInfo['height'] ?? '',
                 'weight' => $bodyInfo['weight'] ?? '',
-                'drinkPreference' => $bodyInfo['drinkPreference'] ?? 'beer'
+                'drinkingPreference' => $bodyInfo['drinkingPreference'] ?? 'Beer' // 确保字段名称为 'drinkingPreference'
             ]);
         } else {
             error_log("No body info found for username: " . $username);
@@ -66,7 +66,7 @@ class ProfileController {
                 'age' => 18,
                 'height' => '',
                 'weight' => '',
-                'drinkPreference' => 'beer'
+                'drinkingPreference' => 'Beer' // 确保字段名称为 'drinkingPreference'
             ]);
         }
     }

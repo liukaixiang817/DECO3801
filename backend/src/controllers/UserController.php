@@ -21,7 +21,20 @@ class UserController {
                 throw new Exception('Username is missing in the OOBE data submission.');
             }
 
-            $result = $this->userModel->submitOOBEData($data);
+            // 提取并组织 OOBE 数据
+            $oobeData = [
+                'username' => $data['username'],
+                'email' => $data['email'],
+                'age' => $data['age'],
+                'height' => $data['height'],
+                'weight' => $data['weight'],
+                'drinkingPreference' => $data['drinkingPreference'],
+                'gender' => $data['gender'],
+                'weeklyLimit' => $data['weeklyLimit']
+            ];
+
+            // 提交数据到模型中
+            $result = $this->userModel->submitOOBEData($oobeData);
             if ($result) {
                 return json_encode(['success' => true, 'message' => 'OOBE data submitted']);
             }
