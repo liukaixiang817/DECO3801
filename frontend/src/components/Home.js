@@ -124,7 +124,7 @@ const Home = () => {
                     <span className="days-count">{daysUnderControl} Days</span>
                     <div className="button-container">
                         <button onClick={handleRecordDrinksClick}>Record Drinks</button>
-                        <button onClick={handleModalOpen}>Fast Record</button>
+                        <button onClick={handleModalOpen}>Daily CheckIn</button>
                     </div>
                 </div>
             </section>
