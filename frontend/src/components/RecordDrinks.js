@@ -212,15 +212,20 @@ const RecordDrinks = () => {
 
                 {isHistoryVisible && (
                     <div className="history-list">
-                        {sampleHistory.map((record, index) => (
-                            <div key={index} className="history-item">
-                                <span>{record.type}</span>
-                                <span>{record.value}ml</span>
-                                <span>{record.time}</span>
-                            </div>
-                        ))}
+                        {history.length > 0 ? (
+                            history.map((record, index) => (
+                                <div key={index} className="history-item">
+                                    <span>{record.type}</span>
+                                    <span>{record.value}ml</span>
+                                    <span>{record.time}</span>
+                                </div>
+                            ))
+                        ) : (
+                            <p>No history available.</p>  // 当没有历史记录时显示提示
+                        )}
                     </div>
                 )}
+
 
             </div>
         </div>
