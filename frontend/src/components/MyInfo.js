@@ -117,6 +117,11 @@ const MyInfo = () => {
         setIsModalOpen(false);
     };
 
+    const handleSaveInfo = () => {
+        handleSave();
+        handleModalClose();
+    };
+
     return (
         <div className="my-info-page">
 
@@ -142,7 +147,7 @@ const MyInfo = () => {
                 <div className='flex-container-row'>
                     <p className="blue-on-white-button-middle-left" onClick={handleModalClose} >Cancel</p>
                     <h2 className='Modal-heading-top-center'>Edit {currentField}</h2>
-                    <p className='white-on-blue-button-top-right' onClick={navigateBack} >Save</p>
+                    <p className='white-on-blue-button-top-right' onClick={handleSaveInfo} >Save</p>
                 </div>
                 <input 
                     type="text"

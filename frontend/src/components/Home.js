@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchHomeData } from '../api/apiClient';
+import { fetchHomeData,fetchBodyInfo } from '../api/apiClient';
 import { useNavigate } from 'react-router-dom';
 import './styles.css';
 import EventBanner from './Event/EventBanner';
@@ -9,10 +9,10 @@ const Home = () => {
     const [username, setUsername] = useState('');
     const [daysUnderControl, setDaysUnderControl] = useState(0);
     const [weeklyLimitUsed, setWeeklyLimitUsed] = useState(0);
-    const [weeklyLimit, setWeeklyLimit] = useState(750);
-    const [currentIndex, setCurrentIndex] = useState(0); // 管理当前轮播的索引
+    const [weeklyLimit, setWeeklyLimit] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(750); // 管理当前轮播的索引
     const [currentQuote, setCurrentQuote] = useState('');
-
+    const [RecommendWeeklyLimit, setRecommendWeeklyLimit] = useState(0);
     // for the fast record modal
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [drinkType, setDrinkType] = useState('beer');
@@ -52,6 +52,32 @@ const Home = () => {
                 .catch(error => {
                     console.error('Error fetching home data:', error);
                 });
+
+                // fetch the body info
+            fetchBodyInfo(storedUsername)
+            .then(data => {
+                console.log("Body info fetched:", data);
+                let weight = data.weight;
+                let gender = data.gender;
+                // calculate the recommended weekly limit
+                if (weight && gender) {
+                    const weightInGrams = weight * 1000;
+                    let limitInGrams = 0;
+                    if (gender === 'male') {
+                        limitInGrams = (0.08 * weightInGrams * 0.68) / 100;
+                    } else if (gender === 'female') {
+                        limitInGrams = (0.08 * weightInGrams * 0.55) / 100;
+                    }
+                    
+                    // transfer to beer (ml)
+                    const beerVolumeInMl = (limitInGrams / (0.05 * 0.789)).toFixed(2);
+                    setRecommendWeeklyLimit(beerVolumeInMl);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching body information:', error);
+            });
+
         } else {
             console.error('No username found in localStorage.');
         }
@@ -147,6 +173,7 @@ const Home = () => {
                     <span className="gold-text"> {weeklyLimit}ml</span>
                     <p>(Converted to beer)</p>
                 </p>
+                <p className='hint-text'> The recommended weekly limit for you is {RecommendWeeklyLimit}ml</p>
             </section>
 
             <section className="alternative-section">

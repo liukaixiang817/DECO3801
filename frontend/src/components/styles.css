@@ -158,6 +158,14 @@ h2 {
     color: #e8b44b; /* 金黄色数字 */
 }
 
+
+.hint-text {
+    /* place the hint on left bottom */
+    text-align: left;
+    font-size: 14px !important;
+    color: #888; /* grey~ */
+}
+
 .progress-bar {
     width: 100%;
     background-color: #ddd;

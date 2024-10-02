@@ -75,8 +75,7 @@ const Profile = () => {
             .then(response => {
                 if (response.success) {
                     setProfile(prev => ({ ...prev, weekly_limit: newWeeklyLimit }));
-                    setIsOpen(false);  // 成功后关闭弹窗
-                    alert('Weekly limit updated successfully!');
+                    // alert('Weekly limit updated successfully!');
                 } else {
                     alert('Failed to update weekly limit');
                 }
@@ -110,11 +109,11 @@ const Profile = () => {
         navigate('/privacy-statement');  // 跳转到 /privacy-statement 页面
     };
 
-    const handleModalClose = () => {
-        setIsModalOpen(false);
-    };
 
-    const handleRewardsClick = () => navigate('/rewards');
+    const handleSaveWeeklyLimit = () => {
+        handleUpdateLimit();
+        handleClose();
+    }
 
     const avatarLetter = profile.username ? profile.username.charAt(0).toUpperCase() : '?';
 
@@ -152,9 +151,9 @@ const Profile = () => {
 
                 <Modal isOpen={isOpen} onClose={handleClose}>
                     <div className='flex-container-row'>
-                        <p className="blue-on-white-button-middle-left" onClick={handleModalClose}>Cancel</p>
+                        <p className="blue-on-white-button-middle-left" onClick={handleClose}>Cancel</p>
                         <h2>Change Weekly Limit</h2>
-                        <p className='white-on-blue-button-top-right'>Save</p>
+                        <p className='white-on-blue-button-top-right' onClick={handleSaveWeeklyLimit}>Save</p>
                     </div>
                     <input
                         type="number"
