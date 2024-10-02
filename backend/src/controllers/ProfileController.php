@@ -51,13 +51,13 @@ class ProfileController {
         if ($bodyInfo) {
             error_log("Body info found for username: " . $username . " - " . json_encode($bodyInfo));
 
-            // 返回实际的用户身体信息，并确保字段名与前端一致
+            // 返回实际的用户身体信息
             return json_encode([
                 'gender' => $bodyInfo['gender'] ?? 'Male',
                 'age' => $bodyInfo['age'] ?? 18,
                 'height' => $bodyInfo['height'] ?? '',
                 'weight' => $bodyInfo['weight'] ?? '',
-                'drinkingPreference' => $bodyInfo['drinkingPreference'] ?? 'Beer' // 确保字段名称为 'drinkingPreference'
+                'drinkPreference' => $bodyInfo['drinkPreference'] ?? 'beer'
             ]);
         } else {
             error_log("No body info found for username: " . $username);
@@ -66,7 +66,7 @@ class ProfileController {
                 'age' => 18,
                 'height' => '',
                 'weight' => '',
-                'drinkingPreference' => 'Beer' // 确保字段名称为 'drinkingPreference'
+                'drinkPreference' => 'beer'
             ]);
         }
     }
@@ -96,6 +96,26 @@ class ProfileController {
         } else {
             error_log("Failed to update body info for username: " . $username);
             return json_encode(['error' => 'Failed to update body information']);
+        }
+    }
+
+    // 新增：处理签到请求
+    public function checkin($username) {
+        if (!$username) {
+            http_response_code(400);
+            error_log("Error: Username is missing in checkin request.");
+            return json_encode(['error' => 'Username is required']);
+        }
+
+        // 调用 Profile 模型中的签到逻辑
+        $result = $this->profileModel->updateCheckin($username);
+
+        // 返回签到结果
+        if (isset($result['message'])) {
+            return json_encode($result);
+        } else {
+            error_log("Failed to update check-in for username: " . $username);
+            return json_encode(['error' => 'Failed to update check-in status']);
         }
     }
 }

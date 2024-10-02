@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchHomeData,fetchBodyInfo } from '../api/apiClient';
+import { fetchHomeData,fetchBodyInfo,checkin} from '../api/apiClient';
 import { useNavigate } from 'react-router-dom';
 import './styles.css';
 import EventBanner from './Event/EventBanner';
@@ -53,30 +53,30 @@ const Home = () => {
                     console.error('Error fetching home data:', error);
                 });
 
-                // fetch the body info
+            // fetch the body info
             fetchBodyInfo(storedUsername)
-            .then(data => {
-                console.log("Body info fetched:", data);
-                let weight = data.weight;
-                let gender = data.gender;
-                // calculate the recommended weekly limit
-                if (weight && gender) {
-                    const weightInGrams = weight * 1000;
-                    let limitInGrams = 0;
-                    if (gender === 'male') {
-                        limitInGrams = (0.08 * weightInGrams * 0.68) / 100;
-                    } else if (gender === 'female') {
-                        limitInGrams = (0.08 * weightInGrams * 0.55) / 100;
+                .then(data => {
+                    console.log("Body info fetched:", data);
+                    let weight = data.weight;
+                    let gender = data.gender;
+                    // calculate the recommended weekly limit
+                    if (weight && gender) {
+                        const weightInGrams = weight * 1000;
+                        let limitInGrams = 0;
+                        if (gender === 'male') {
+                            limitInGrams = (0.08 * weightInGrams * 0.68) / 100;
+                        } else if (gender === 'female') {
+                            limitInGrams = (0.08 * weightInGrams * 0.55) / 100;
+                        }
+
+                        // transfer to beer (ml)
+                        const beerVolumeInMl = (limitInGrams / (0.05 * 0.789)).toFixed(2);
+                        setRecommendWeeklyLimit(beerVolumeInMl);
                     }
-                    
-                    // transfer to beer (ml)
-                    const beerVolumeInMl = (limitInGrams / (0.05 * 0.789)).toFixed(2);
-                    setRecommendWeeklyLimit(beerVolumeInMl);
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching body information:', error);
-            });
+                })
+                .catch(error => {
+                    console.error('Error fetching body information:', error);
+                });
 
         } else {
             console.error('No username found in localStorage.');
@@ -100,6 +100,23 @@ const Home = () => {
     const handleRecordDrinksClick = () => {
         navigate('/record-drinks');
     };
+
+    const handleCheckInClick = () => {
+        checkin(username)
+            .then(data => {
+                // 更新 daysUnderControl
+                if (data.message) {
+                    alert(data.message);  // 提示签到结果
+                }
+                if (data.daysUnderControl !== undefined) {
+                    setDaysUnderControl(data.daysUnderControl);  // 更新天数
+                }
+            })
+            .catch(error => {
+                console.error('Error during check-in:', error);
+            });
+    };
+
 
     const goToNext = () => {
         setCurrentIndex((prevIndex) => (prevIndex === events.length - 1 ? 0 : prevIndex + 1));
@@ -129,10 +146,10 @@ const Home = () => {
         cocktail: 4,
         sake: 4,
     };
-    
-    
+
+
     const fastRecordSave = () => {
-        
+
     };
     return (
         <div className="home-container">
@@ -150,7 +167,8 @@ const Home = () => {
                     <span className="days-count">{daysUnderControl} Days</span>
                     <div className="button-container">
                         <button onClick={handleRecordDrinksClick}>Record Drinks</button>
-                        <button onClick={handleModalOpen}>Daily CheckIn</button>
+                        <button onClick={handleCheckInClick}>Daily CheckIn</button>
+
                     </div>
                 </div>
             </section>
@@ -182,7 +200,7 @@ const Home = () => {
             </section>
 
             <EventBanner></EventBanner>
-            
+
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
                 <div className='flex-container-row'>
                     <p className="blue-on-white-button-middle-left" onClick={handleModalClose} >Cancel</p>

@@ -27,7 +27,24 @@ $pathFragments = explode('/', trim($path, '/'));
 // 默认情况下使用 UserController
 $controller = new UserController($db);
 
-if ($pathFragments[0] == 'profiles') {
+// 添加新的 /checkin 路由处理签到请求
+if ($pathFragments[0] == 'checkin') {
+    $controller = new ProfileController($db);
+    if ($requestMethod == 'POST') {
+        $data = json_decode(file_get_contents('php://input'), true);
+        if (isset($data['username'])) {
+            echo $controller->checkin($data['username']);
+        } else {
+            http_response_code(400);
+            echo json_encode(['error' => 'Username is required']);
+        }
+    } else {
+        http_response_code(405);
+        echo json_encode(['error' => 'Method not allowed']);
+    }
+}
+
+elseif ($pathFragments[0] == 'profiles') {
     $controller = new ProfileController($db);
     if ($requestMethod == 'GET') {
         echo $controller->getProfiles();

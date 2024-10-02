@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-    baseURL: ' http://20.11.49.12:10802/',
+    baseURL: 'http://20.11.49.12:10802/',
     headers: {
         'Content-Type': 'application/json',
     },
@@ -223,6 +223,17 @@ export const duplicateUser = async (oldUsername, newUsername) => {
         return response.data;
     } catch (error) {
         console.error('Error duplicating user:', error);
+        throw error;
+    }
+};
+
+// 新增：签到的 API
+export const checkin = async (username) => {
+    try {
+        const response = await apiClient.post('/checkin', { username });
+        return response.data;
+    } catch (error) {
+        console.error('Error during check-in:', error);
         throw error;
     }
 };
