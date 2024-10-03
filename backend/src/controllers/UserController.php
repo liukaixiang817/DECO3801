@@ -138,6 +138,7 @@ class UserController {
             return json_encode([
                 'username' => $user['username'],
                 'email' => $user['email'],
+                'hobbies' => $user['hobbies'] ?? [] // 返回用户的爱好
             ]);
         } else {
             http_response_code(404);

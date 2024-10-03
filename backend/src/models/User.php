@@ -14,6 +14,11 @@ class User {
         $data['lastReset'] = new MongoDB\BSON\UTCDateTime(time() * 1000);
         $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
+        // 如果 hobbies 不存在，初始化为空数组
+        if (!isset($data['hobbies'])) {
+            $data['hobbies'] = [];
+        }
+
         $insertResult = $this->collection->insertOne($data);
 
         if ($insertResult->getInsertedCount() > 0) {
@@ -22,6 +27,7 @@ class User {
             return ['success' => false, 'message' => 'Registration failed'];
         }
     }
+
 
     public function updateUserInfoById($id, $data) {
         $result = $this->collection->updateOne(
@@ -42,7 +48,8 @@ class User {
                 'weeklyLimit' => $data['weeklyLimit'],
                 'daysUnderControl' => 0,
                 'weeklyLimitUsed' => 0,
-                'lastReset' => new MongoDB\BSON\UTCDateTime(time() * 1000) // 初始化 lastReset
+                'lastReset' => new MongoDB\BSON\UTCDateTime(time() * 1000), // 初始化 lastReset
+                'hobbies' => $data['hobbies'] // 新增的爱好字段
             ]]
         );
 
@@ -66,6 +73,7 @@ class User {
             return json_encode([
                 'username' => $user['username'],
                 'email' => $user['email'],
+                'hobbies' => $user['hobbies'] ?? [] // 返回用户的爱好
             ]);
         } else {
             http_response_code(404);
@@ -80,6 +88,11 @@ class User {
 
         $query = ['username' => $username];
         $update = ['$set' => $data];
+
+        if (isset($data['hobbies'])) { // 新增爱好更新
+            $update['$set']['hobbies'] = $data['hobbies'];
+        }
+
         $result = $this->collection->updateOne($query, $update);
 
         if ($result->getModifiedCount() > 0 || $result->getUpsertedCount() > 0) {

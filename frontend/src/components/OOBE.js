@@ -9,9 +9,17 @@ const OOBE = () => {
     const [drinkingPreference, setDrinkingPreference] = useState('');
     const [gender, setGender] = useState('');
     const [beerVolume, setBeerVolume] = useState(''); // 啤酒体积
+    const [hobbies, setHobbies] = useState(['', '', '']); // 用于保存用户选择的爱好
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
+
+    // 可供选择的爱好分类
+    const hobbyOptions = [
+        'Art', 'Creative', 'Culture', 'Exhibitions', 'Free', 'Performing arts',
+        'Workshops', 'Fitness & well-being', 'Family events', 'Green', 'Tours',
+        'Music', 'Featured', 'Festivals', 'Food', 'Films', 'Markets'
+    ];
 
     useEffect(() => {
         const storedUsername = localStorage.getItem('username');
@@ -42,6 +50,12 @@ const OOBE = () => {
         }
     }, [weight, gender]);
 
+    const handleHobbyChange = (index, value) => {
+        const newHobbies = [...hobbies];
+        newHobbies[index] = value;
+        setHobbies(newHobbies);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -53,6 +67,7 @@ const OOBE = () => {
             drinkingPreference,
             gender,
             weeklyLimit: beerVolume, // 上传的是啤酒体积量
+            hobbies, // 上传用户选择的爱好
             username,
             email
         };
@@ -110,6 +125,22 @@ const OOBE = () => {
                         <option value="female">Female</option>
                         <option value="other">Other</option>
                     </select>
+
+                    {/* Hobby Selection - 三个下拉框分别选择爱好 */}
+                    <p>Select your three hobbies:</p>
+                    {hobbies.map((hobby, index) => (
+                        <select
+                            key={index}
+                            value={hobby}
+                            onChange={(e) => handleHobbyChange(index, e.target.value)}
+                            required
+                        >
+                            <option value="" disabled>Select Hobby</option>
+                            {hobbyOptions.map((option, i) => (
+                                <option key={i} value={option}>{option}</option>
+                            ))}
+                        </select>
+                    ))}
 
                     {/* Drinking Preference Selection */}
                     <p>Your preferred drink is:</p>

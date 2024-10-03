@@ -51,13 +51,14 @@ class ProfileController {
         if ($bodyInfo) {
             error_log("Body info found for username: " . $username . " - " . json_encode($bodyInfo));
 
-            // 返回实际的用户身体信息
+            // 返回实际的用户身体信息，包括爱好信息
             return json_encode([
                 'gender' => $bodyInfo['gender'] ?? 'Male',
                 'age' => $bodyInfo['age'] ?? 18,
                 'height' => $bodyInfo['height'] ?? '',
                 'weight' => $bodyInfo['weight'] ?? '',
-                'drinkPreference' => $bodyInfo['drinkPreference'] ?? 'beer'
+                'drinkPreference' => $bodyInfo['drinkPreference'] ?? 'beer',
+                'hobbies' => $bodyInfo['hobbies'] ?? [] // 添加爱好字段
             ]);
         } else {
             error_log("No body info found for username: " . $username);
@@ -66,7 +67,8 @@ class ProfileController {
                 'age' => 18,
                 'height' => '',
                 'weight' => '',
-                'drinkPreference' => 'beer'
+                'drinkPreference' => 'beer',
+                'hobbies' => [] // 默认返回空爱好列表
             ]);
         }
     }
@@ -82,12 +84,23 @@ class ProfileController {
         // 打印更新数据的调试信息
         error_log("Updating body info for username: " . $username . " with data: " . json_encode($data));
 
-        // 构建更新查询
-        $query = ['username' => $username];
-        $update = ['$set' => $data];
+        // 如果数据中包含 hobbies 字段，确保它也被正确保存
+        if (isset($data['hobbies'])) {
+            $update = ['$set' => [
+                'gender' => $data['gender'] ?? 'Male',
+                'age' => $data['age'] ?? 18,
+                'height' => $data['height'] ?? '',
+                'weight' => $data['weight'] ?? '',
+                'drinkPreference' => $data['drinkPreference'] ?? 'beer',
+                'hobbies' => $data['hobbies'] // 添加爱好字段
+            ]];
+        } else {
+            // 构建更新查询，不包含 hobbies 字段
+            $update = ['$set' => $data];
+        }
 
         // 执行更新操作
-        $result = $this->db->users->updateOne($query, $update, ['upsert' => true]);
+        $result = $this->db->users->updateOne(['username' => $username], $update, ['upsert' => true]);
 
         // 检查是否成功更新
         if ($result->getModifiedCount() > 0 || $result->getUpsertedCount() > 0) {

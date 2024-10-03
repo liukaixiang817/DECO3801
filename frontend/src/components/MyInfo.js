@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchUserInfo, updateUserInfo } from '../api/apiClient';  // make updateUserInfo has been imported
+import { fetchUserInfo, updateUserInfo } from '../api/apiClient';  // make sure updateUserInfo has been imported
 import Modal from './PopWindow';
 import './MyInfo.css';  // import CSS style sheet
 import { useNavigate } from 'react-router-dom';
@@ -8,12 +8,21 @@ const MyInfo = () => {
     const [userInfo, setUserInfo] = useState({
         username: '',
         email: '',
+        hobbies: ['', '', ''] // 初始化用户的爱好
     });
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentField, setCurrentField] = useState(null);
     const [newValue, setNewValue] = useState('');
     const [isUsernameChange, setIsUsernameChange] = useState(false);  // mark if the username is changed
+    const [newHobbies, setNewHobbies] = useState(['', '', '']); // 用于保存新的爱好
     const navigate = useNavigate();
+
+    // 可供选择的爱好分类
+    const hobbyOptions = [
+        'Art', 'Creative', 'Culture', 'Exhibitions', 'Free', 'Performing arts',
+        'Workshops', 'Fitness & well-being', 'Family events', 'Green', 'Tours',
+        'Music', 'Featured', 'Festivals', 'Food', 'Films', 'Markets'
+    ];
 
     useEffect(() => {
         const username = localStorage.getItem('username');  // fetch user name from localStorage
@@ -24,6 +33,7 @@ const MyInfo = () => {
                     console.log("User info fetched:", data);  // print out user info from backend
                     if (data && !data.error) {
                         setUserInfo(data);  // if in the database update state
+                        setNewHobbies(data.hobbies || ['', '', '']); // 设置用户的爱好
                     } else {
                         console.error("Error in user info response:", data.error);  // print out the error message
                     }
@@ -49,6 +59,13 @@ const MyInfo = () => {
         } else {
             setIsUsernameChange(false);  // mark as not username change
         }
+    };
+
+    // 更新新爱好
+    const handleHobbyChange = (index, value) => {
+        const updatedHobbies = [...newHobbies];
+        updatedHobbies[index] = value;
+        setNewHobbies(updatedHobbies);
     };
 
     // save the updated info or username
@@ -80,6 +97,27 @@ const MyInfo = () => {
                     .catch(error => {
                         console.error('Error updating username:', error);
                         alert('An error occurred while updating username.');
+                    });
+            } else if (currentField === 'hobbies') {
+                // 如果修改的是爱好
+                const updatedData = { hobbies: newHobbies };
+                console.log("Updating hobbies for username:", originalUsername, "with data:", updatedData);  // Navigation information
+
+                updateUserInfo(originalUsername, updatedData)  // send the update request
+                    .then(response => {
+                        console.log("Hobbies update response:", response);  // print out the updated outcome
+                        if (response.success) {
+                            console.log("Hobbies updated successfully");
+                            setUserInfo(prev => ({ ...prev, hobbies: newHobbies }));  // update the hobbies in the frontend
+                            setIsModalOpen(false);  // close the pop window
+                        } else {
+                            console.error("Error updating hobbies:", response.error);  // print out the error message
+                            alert(`Error updating hobbies: ${response.error}`);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error updating hobbies:', error);
+                        alert('An error occurred while updating hobbies.');
                     });
             } else {
                 // if change other fields
@@ -124,9 +162,7 @@ const MyInfo = () => {
 
     return (
         <div className="my-info-page">
-
             <p className='blue-on-white-button-top-left' onClick={navigateBack} >Back</p>
-
 
             <h1 className='info-heading'>Edit My Information</h1>
 
@@ -142,6 +178,12 @@ const MyInfo = () => {
                 <span>{userInfo.email}</span>
             </div>
 
+            {/* Hobbies */}
+            <div className="info-item" onClick={() => handleFieldClick('hobbies')}>
+                <span>Hobbies</span>
+                <span>{userInfo.hobbies.join(', ')}</span>
+            </div>
+
             {/* Pop window */}
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
                 <div className='flex-container-row'>
@@ -149,11 +191,29 @@ const MyInfo = () => {
                     <h2 className='Modal-heading-top-center'>Edit {currentField}</h2>
                     <p className='white-on-blue-button-top-right' onClick={handleSaveInfo} >Save</p>
                 </div>
-                <input 
-                    type="text"
-                    value={newValue}
-                    onChange={(e) => setNewValue(e.target.value)}
-                />
+
+                {/* 如果当前字段为hobbies，显示下拉框供选择 */}
+                {currentField === 'hobbies' ? (
+                    newHobbies.map((hobby, index) => (
+                        <select
+                            key={index}
+                            value={hobby}
+                            onChange={(e) => handleHobbyChange(index, e.target.value)}
+                            required
+                        >
+                            <option value="" disabled>Select Hobby</option>
+                            {hobbyOptions.map((option, i) => (
+                                <option key={i} value={option}>{option}</option>
+                            ))}
+                        </select>
+                    ))
+                ) : (
+                    <input
+                        type="text"
+                        value={newValue}
+                        onChange={(e) => setNewValue(e.target.value)}
+                    />
+                )}
             </Modal>
         </div>
     );

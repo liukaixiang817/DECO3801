@@ -69,7 +69,14 @@ elseif ($pathFragments[0] == 'profiles') {
 } elseif ($pathFragments[0] == 'oobe') {
     if ($requestMethod == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
-        echo $controller->submitOOBE($data);
+
+        // 检查并确保 hobbies 字段包含在数据中
+        if (isset($data['hobbies'])) {
+            echo $controller->submitOOBE($data);
+        } else {
+            http_response_code(400);
+            echo json_encode(['error' => 'Hobbies are required']);
+        }
     }
 } elseif ($pathFragments[0] == 'login') {
     if ($requestMethod == 'POST') {
@@ -216,6 +223,8 @@ elseif ($pathFragments[0] == 'user-info') {
 elseif ($pathFragments[0] == 'update-user-info') {
     if ($requestMethod == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
+
+        // 确保 hobbies 字段可以被传递
         if (isset($data['username'])) {
             echo $controller->updateUserInfo($data['username'], $data);
         } else {
