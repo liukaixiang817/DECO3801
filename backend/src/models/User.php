@@ -49,7 +49,10 @@ class User {
                 'daysUnderControl' => 0,
                 'weeklyLimitUsed' => 0,
                 'lastReset' => new MongoDB\BSON\UTCDateTime(time() * 1000), // 初始化 lastReset
-                'hobbies' => $data['hobbies'] // 新增的爱好字段
+                'hobbies' => $data['hobbies'], // 新增的爱好字段
+                'height' => $data['height'], // 新增 height 字段
+                'weight' => $data['weight'], // 新增 weight 字段
+                'drinkingPreference' => $data['drinkingPreference'] // 新增 drinkingPreference 字段
             ]]
         );
 
@@ -59,6 +62,7 @@ class User {
             throw new Exception('Failed to update OOBE data');
         }
     }
+
 
     // 通过用户名查找用户
     public function findUserByUsername($username) {
