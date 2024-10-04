@@ -77,7 +77,7 @@ class Profile {
                 if ($lastCheckinTime < $today14) {
                     if ($currentTime < $today14) {
                         // 今日已更新过
-                        return ['message' => 'It is been updated today.'];
+                        return ['message' => 'You have already check in today.'];
                     } elseif ($currentTime < $today14->modify('+1 day')) {
                         // 更新 daysUnderControl 并刷新 lastCheckin
                         $newDaysUnderControl = $profile['daysUnderControl'] + 1;
@@ -97,7 +97,7 @@ class Profile {
                 } else {
                     if ($currentTime < $today14->modify('+1 day')) {
                         // 今日已更新过
-                        return ['message' => 'It is been updated today.'];
+                        return ['message' => 'You have already check in today.'];
                     } elseif ($currentTime < $today14->modify('+2 day')) {
                         // 更新 daysUnderControl 并刷新 lastCheckin
                         $newDaysUnderControl = $profile['daysUnderControl'] + 1;

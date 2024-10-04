@@ -57,27 +57,38 @@ const Home = () => {
             fetchBodyInfo(storedUsername)
                 .then(data => {
                     console.log("Body info fetched:", data);
-                    let weight = data.weight;
-                    let gender = data.gender;
-                    // calculate the recommended weekly limit
-                    if (weight && gender) {
+
+                    // 确保 weight 是数字
+                    let weight = parseFloat(data.weight);
+                    let gender = data.gender ? data.gender.toLowerCase() : ''; // 确保 gender 为小写
+
+                    console.log("Parsed weight:", weight);
+                    console.log("Gender:", gender);
+
+                    // 计算推荐的每周限度
+                    if (!isNaN(weight) && weight > 0 && (gender === 'male' || gender === 'female')) {
                         const weightInGrams = weight * 1000;
                         let limitInGrams = 0;
+
                         if (gender === 'male') {
                             limitInGrams = (0.08 * weightInGrams * 0.68) / 100;
                         } else if (gender === 'female') {
                             limitInGrams = (0.08 * weightInGrams * 0.55) / 100;
                         }
 
-                        // transfer to beer (ml)
-                        const beerVolumeInMl = (limitInGrams / (0.05 * 0.789)).toFixed(2);
+                        // 转换为啤酒的体积（ml）
+                        const beerVolumeInMl = parseFloat((limitInGrams / (0.05 * 0.789)).toFixed(2));
+                        console.log("Calculated beerVolumeInMl:", beerVolumeInMl);
+
                         setRecommendWeeklyLimit(beerVolumeInMl);
+                    } else {
+                        console.warn('Invalid weight or gender:', weight, gender);
+                        setRecommendWeeklyLimit(0); // 如果数据无效，则设为 0
                     }
                 })
                 .catch(error => {
                     console.error('Error fetching body information:', error);
                 });
-
         } else {
             console.error('No username found in localStorage.');
         }

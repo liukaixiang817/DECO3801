@@ -7,10 +7,10 @@ import { useNavigate } from 'react-router-dom';
 const BodyInfo = () => {
     const [bodyInfo, setBodyInfo] = useState({
         gender: 'male',
-        age: 18,
+        age: '18', // 保持字符串类型，确保和后端数据类型一致
         height: '',
         weight: '',
-        drinkingPreference: 'Beer', // 改为首字母大写，并确保使用 'drinkingPreference'
+        drinkingPreference: 'Beer',
     });
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentField, setCurrentField] = useState(null);
@@ -18,34 +18,54 @@ const BodyInfo = () => {
     const navigate = useNavigate();
 
     const genderOptions = ['male', 'female', 'other'];
-    const drinkPreferenceOptions = ['Beer', 'Wine', 'Spirits', 'Cocktail', 'Sake']; // 确保选项首字母大写
+    const drinkPreferenceOptions = ['Beer', 'Wine', 'Spirits', 'Cocktail', 'Sake'];
+
+    const fetchBodyInfoFromAPI = (username) => {
+        fetchBodyInfo(username)
+            .then(data => {
+                console.log("Body info fetched:", data);
+
+                if (data && !data.error) {
+                    // 显示所有返回的字段名
+                    console.log("Data fields received:", Object.keys(data));
+                    console.log("Gender:", data.gender);
+                    console.log("Age:", data.age);
+                    console.log("Height:", data.height);
+                    console.log("Weight:", data.weight);
+                    console.log("Drinking Preference:", data.drinkingPreference || data.drinkPreference);
+
+                    // 将接收的数据类型与前端状态一致
+                    const parsedData = {
+                        gender: data.gender || 'male',
+                        age: String(data.age), // 确保类型为字符串
+                        height: data.height || '',
+                        weight: data.weight || '',
+                        drinkingPreference: data.drinkingPreference || data.drinkPreference || 'Beer',
+                    };
+
+                    setBodyInfo(parsedData);
+                    console.log("Updated bodyInfo state:", parsedData);
+                } else {
+                    console.error("Error in body info response:", data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching body information:', error);
+            });
+    };
 
     useEffect(() => {
         const username = localStorage.getItem('username');
         if (username) {
             console.log("Fetching body info for username:", username);
-            fetchBodyInfo(username)
-                .then(data => {
-                    console.log("Body info fetched:", data);
-                    if (data && !data.error) {
-                        // 确保前端正确映射 'drinkingPreference' 字段
-                        setBodyInfo({
-                            ...data,
-                            drinkingPreference: data.drinkingPreference || data.drinkPreference // 兼容字段名
-                        });
-                    } else {
-                        console.error("Error in body info response:", data.error);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching body information:', error);
-                });
+            fetchBodyInfoFromAPI(username);
         } else {
             console.error('Username not found in localStorage');
         }
     }, []);
 
     const handleFieldClick = (field) => {
+        console.log("Field clicked:", field);
         setCurrentField(field);
         setNewValue(bodyInfo[field] || '');
         setIsModalOpen(true);
@@ -58,14 +78,17 @@ const BodyInfo = () => {
     const handleSave = () => {
         const username = localStorage.getItem('username');
         if (username) {
-            const updatedData = { [currentField]: newValue };
+            // 创建更新数据时，合并已有状态和新值
+            const updatedData = { ...bodyInfo, [currentField]: newValue };
             console.log("Sending update request for username:", username, "with data:", updatedData);
 
             updateBodyInfo(username, updatedData)
                 .then(response => {
                     console.log("Body info update response:", response);
                     if (response.success) {
-                        setBodyInfo(prev => ({ ...prev, [currentField]: newValue }));
+                        // 成功更新后，重新获取最新数据
+                        fetchBodyInfoFromAPI(username);
+                        console.log("Refetched body info after update.");
                         setIsModalOpen(false);
                     } else {
                         console.error("Error updating body info:", response.error);

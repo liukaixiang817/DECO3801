@@ -57,7 +57,7 @@ class ProfileController {
                 'age' => $bodyInfo['age'] ?? 18,
                 'height' => $bodyInfo['height'] ?? '',
                 'weight' => $bodyInfo['weight'] ?? '',
-                'drinkPreference' => $bodyInfo['drinkPreference'] ?? 'beer',
+                'drinkingPreference' => $bodyInfo['drinkingPreference'] ?? 'beer', // 使用正确的字段名
                 'hobbies' => $bodyInfo['hobbies'] ?? [] // 添加爱好字段
             ]);
         } else {
@@ -67,7 +67,7 @@ class ProfileController {
                 'age' => 18,
                 'height' => '',
                 'weight' => '',
-                'drinkPreference' => 'beer',
+                'drinkingPreference' => 'beer',
                 'hobbies' => [] // 默认返回空爱好列表
             ]);
         }
@@ -84,20 +84,15 @@ class ProfileController {
         // 打印更新数据的调试信息
         error_log("Updating body info for username: " . $username . " with data: " . json_encode($data));
 
-        // 如果数据中包含 hobbies 字段，确保它也被正确保存
-        if (isset($data['hobbies'])) {
-            $update = ['$set' => [
-                'gender' => $data['gender'] ?? 'Male',
-                'age' => $data['age'] ?? 18,
-                'height' => $data['height'] ?? '',
-                'weight' => $data['weight'] ?? '',
-                'drinkPreference' => $data['drinkPreference'] ?? 'beer',
-                'hobbies' => $data['hobbies'] // 添加爱好字段
-            ]];
-        } else {
-            // 构建更新查询，不包含 hobbies 字段
-            $update = ['$set' => $data];
-        }
+        // 构建更新查询
+        $update = ['$set' => [
+            'gender' => $data['gender'] ?? 'Male',
+            'age' => $data['age'] ?? 18,
+            'height' => $data['height'] ?? '',
+            'weight' => $data['weight'] ?? '',
+            'drinkingPreference' => $data['drinkingPreference'] ?? 'beer', // 这里将 drinkPreference 替换为 drinkingPreference
+            'hobbies' => $data['hobbies'] ?? [] // 添加爱好字段
+        ]];
 
         // 执行更新操作
         $result = $this->db->users->updateOne(['username' => $username], $update, ['upsert' => true]);
