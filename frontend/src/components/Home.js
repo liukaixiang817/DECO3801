@@ -57,38 +57,27 @@ const Home = () => {
             fetchBodyInfo(storedUsername)
                 .then(data => {
                     console.log("Body info fetched:", data);
-
-                    // 确保 weight 是数字
-                    let weight = parseFloat(data.weight);
-                    let gender = data.gender ? data.gender.toLowerCase() : ''; // 确保 gender 为小写
-
-                    console.log("Parsed weight:", weight);
-                    console.log("Gender:", gender);
-
-                    // 计算推荐的每周限度
-                    if (!isNaN(weight) && weight > 0 && (gender === 'male' || gender === 'female')) {
+                    let weight = data.weight;
+                    let gender = data.gender;
+                    // calculate the recommended weekly limit
+                    if (weight && gender) {
                         const weightInGrams = weight * 1000;
                         let limitInGrams = 0;
-
                         if (gender === 'male') {
                             limitInGrams = (0.08 * weightInGrams * 0.68) / 100;
                         } else if (gender === 'female') {
                             limitInGrams = (0.08 * weightInGrams * 0.55) / 100;
                         }
 
-                        // 转换为啤酒的体积（ml）
-                        const beerVolumeInMl = parseFloat((limitInGrams / (0.05 * 0.789)).toFixed(2));
-                        console.log("Calculated beerVolumeInMl:", beerVolumeInMl);
-
+                        // transfer to beer (ml)
+                        const beerVolumeInMl = (limitInGrams / (0.05 * 0.789)).toFixed(2);
                         setRecommendWeeklyLimit(beerVolumeInMl);
-                    } else {
-                        console.warn('Invalid weight or gender:', weight, gender);
-                        setRecommendWeeklyLimit(0); // 如果数据无效，则设为 0
                     }
                 })
                 .catch(error => {
                     console.error('Error fetching body information:', error);
                 });
+
         } else {
             console.error('No username found in localStorage.');
         }
@@ -165,7 +154,7 @@ const Home = () => {
     return (
         <div className="home-container">
             <div className="header-row">
-                <h1>Welcome {username}</h1>
+                <h1>Welcome {username} !</h1>
                 <p className="emergency-call">
                     <a href="tel:1800250015">📞</a>
                 </p>
@@ -174,7 +163,7 @@ const Home = () => {
             <section className="record-section">
                 <h2>Record</h2>
                 <div className="record-control">
-                    <p>Alcohol take under control for</p>
+                    <p>Number of Days Have Checked in</p>
                     <span className="days-count">{daysUnderControl} Days</span>
                     <div className="button-container">
                         <button onClick={handleRecordDrinksClick}>Record Drinks</button>
@@ -187,22 +176,24 @@ const Home = () => {
             <h2>Goal</h2>
 
             <section className="goal-section">
-                <p>
-                    <span className="gold-text">{(weeklyLimitUsed / weeklyLimit * 100).toFixed(1)}%</span>
-                    of your weekly limit used
-                </p>
-                <div className="progress-bar">
-                    <div className="progress" style={{
-                        width: `${weeklyLimitUsed / weeklyLimit * 100}%`,
-                        backgroundColor: weeklyLimitUsed > weeklyLimit ? 'red' : 'orange'
-                    }}></div>
-                </div>
-                <p>
-                    Your weekly limit is
-                    <span className="gold-text"> {weeklyLimit}ml</span>
-                    <p>(Converted to beer)</p>
-                </p>
-                <p className='hint-text'> The recommended weekly limit for you is {RecommendWeeklyLimit}ml</p>
+                <pre>
+                    <p>
+                        <span className="gold-text">{(weeklyLimitUsed / weeklyLimit * 100).toFixed(1)}% </span>
+                         of your weekly limit used
+                    </p>
+                    <div className="progress-bar">
+                        <div className="progress" style={{
+                            width: `${weeklyLimitUsed / weeklyLimit * 100}%`,
+                            backgroundColor: weeklyLimitUsed > weeklyLimit ? 'red' : 'orange'
+                        }}></div>
+                    </div>
+                    <p>
+                        Your weekly limit is
+                        <span className="gold-text"> {weeklyLimit}ml</span>
+                        <p>(Converted to beer)</p>
+                    </p>
+                    <p className='hint-text'> The recommended weekly limit for you is {RecommendWeeklyLimit}ml</p>
+                </pre>
             </section>
 
             <section className="alternative-section">
