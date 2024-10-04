@@ -42,6 +42,7 @@ const RewardPage = () => {
     return (
 
         <div>
+            <h1>Your Drinking Status Is Here</h1>
             <DrinkHistory> </DrinkHistory>
             <div className="reward-container">
                 <div className="reward-header">
@@ -56,7 +57,7 @@ const RewardPage = () => {
                     <div className="reward-progress-award">
                         <img src='assets/medal_imgs/6m_medal_transparent.png' alt="Medal" />
                         <div className="reward-progress-info">
-                            <p>On the way</p>
+                            <p>The Number of Days You Have Checked In</p>
                             <div className="reward-progress-bar">
                                 <div
                                     className="reward-progress-fill"
