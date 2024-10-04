@@ -41,7 +41,7 @@ const EventDetails = () => {
   return (
     <div className="home-container">
       <div className="back-button">
-        <FontAwesomeIcon shake icon="fa-solid fa-angle-left" size="2x" onClick={handleGoBack} />
+          <FontAwesomeIcon icon="fa-solid fa-angle-left" size="2x" color="#419779" onClick={handleGoBack}/>
       </div>
       <div className="aligned-image">
         <img
