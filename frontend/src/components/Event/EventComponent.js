@@ -69,52 +69,53 @@ const EventComponent = () => {
   }
 
   return (
-    <div className="home-container">
-      <div className="back-button">
-      <FontAwesomeIcon shake  icon="fa-solid fa-angle-left" size="2x" onClick={handleGoBack}/>
-      </div>
-
-      <div>
-        <GoogleMap events={result.slice(0, visibleCount)}></GoogleMap>
-        <div className="container2">
-          <h1 style={{ marginRight: '10px' }}>
-            Recommended events
-          </h1>
-          <select
-            className="select-box"
-            value={selectedEventType}
-            onChange={handleChange}
-          >
-            <option value="">Select event type</option>
-            {uniqueTypes.map((type, index) => (
-              <option key={index} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
+      <div className="home-container">
+        <div className="back-button">
+          <FontAwesomeIcon icon="fa-solid fa-angle-left" size="2x" color="#419779" onClick={handleGoBack}/>
         </div>
-        
-        <div className="event-card-container">
-          {isLoading ? (
-            <p>Loading...</p>
-          ) : error ? (
-            <p>{error}</p>
-          ) : Array.isArray(result) && result.length > 0 ? (
-            result.slice(0, visibleCount).map((event) => (
-              <EventCard key={event.id} {...event} />
-            ))
-          ) : (
-            <p>No events available.</p>
+
+
+        <div>
+          <GoogleMap events={result.slice(0, visibleCount)}></GoogleMap>
+          <div className="container2">
+            <h1 style={{marginRight: '10px'}}>
+              Recommended events
+            </h1>
+            <select
+                className="select-box"
+                value={selectedEventType}
+                onChange={handleChange}
+            >
+              <option value="">Select event type</option>
+              {uniqueTypes.map((type, index) => (
+                  <option key={index} value={type}>
+                    {type}
+                  </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="event-card-container">
+            {isLoading ? (
+                <p>Loading...</p>
+            ) : error ? (
+                <p>{error}</p>
+            ) : Array.isArray(result) && result.length > 0 ? (
+                result.slice(0, visibleCount).map((event) => (
+                    <EventCard key={event.id} {...event} />
+                ))
+            ) : (
+                <p>No events available.</p>
+            )}
+          </div>
+
+          {result.length > visibleCount && (
+              <h3_0 onClick={loadMoreEvents}>
+                See More Events...
+              </h3_0>
           )}
         </div>
-        
-        {result.length > visibleCount && (
-          <h3_0 onClick={loadMoreEvents} >
-            See More Events...
-          </h3_0>
-        )}
       </div>
-    </div>
   );
 }
 
