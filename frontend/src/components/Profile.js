@@ -28,10 +28,11 @@ const Profile = () => {
 
     useEffect(() => {
         const storedUsername = localStorage.getItem('username');
-        console.log("Stored username from localStorage:", storedUsername);
+        const storedDrinkType = localStorage.getItem('drinkType');  // 从 localStorage 获取 drinkType
+        console.log("Stored username and drink type from localStorage:", storedUsername, storedDrinkType);
 
         if (storedUsername) {
-            fetchProfileWithEmail(storedUsername)  // use new API
+            fetchProfileWithEmail(storedUsername)  // 调用 API 获取用户信息
                 .then(data => {
                     console.log("Fetched profile with email from backend:", data);
 
@@ -39,18 +40,17 @@ const Profile = () => {
                         setProfile({
                             username: data.username || 'Unknown',
                             email: data.email || '',
-                            weekly_limit: data.weeklyLimit || '750',  // make sure to pass the data part
-                            drinkType: profile.drinkType,  // set up drink type
+                            weekly_limit: data.weeklyLimit || '750',
+                            drinkType: storedDrinkType || profile.drinkType,  // 使用 localStorage 中的 drinkType
                         });
-                        setNewWeeklyLimit(data.weeklyLimit);  // initialize the weekly limit
+                        setNewWeeklyLimit(data.weeklyLimit);  // 初始化 weekly_limit
 
                         console.log("Updated profile state:", {
                             username: data.username || 'Unknown',
                             email: data.email || '',
                             weekly_limit: data.weeklyLimit || '750',
-                            drinkType: profile.drinkType
+                            drinkType: storedDrinkType || profile.drinkType
                         });
-
                     } else {
                         console.log("No profile data found.");
                     }
@@ -62,6 +62,7 @@ const Profile = () => {
             console.error("No username found in localStorage.");
         }
     }, []);
+
 
     // the function to open the modal
     const handleOpen = () => setIsOpen(true);
@@ -130,18 +131,8 @@ const Profile = () => {
                 <div className="profile-limit">
                     <div className="profile-limit-row">
                         <label>Your weekly limit is</label>
-                        <select
-                            value={profile.drinkType}
-                            onChange={handleDrinkTypeChange}  // 当选择饮料类型时调用 handleDrinkTypeChange
-                        >
-                            <option value="beer">Beer</option>
-                            <option value="wine">Wine</option>
-                            <option value="spirits">Spirits</option>
-                            <option value="cocktail">Cocktail</option>
-                            <option value="sake">Sake</option>
-                        </select>
-
-
+                        {/* 不再允许更改饮料类型 */}
+                        <span>{profile.drinkType.charAt(0).toUpperCase() + profile.drinkType.slice(1)}</span>
                         {/* 显示的限制值，设置为橙色并添加 "ml" */}
                         <span className="weekly-limit-text">{newWeeklyLimit} ml</span>
                     </div>
