@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { submitOOBEData } from '../api/apiClient';
 
 const OOBE = () => {
-    const [age, setAge] = useState('');
-    const [height, setHeight] = useState('');
-    const [weight, setWeight] = useState('');
-    const [drinkingPreference, setDrinkingPreference] = useState('');
-    const [gender, setGender] = useState('');
-    const [beerVolume, setBeerVolume] = useState(''); // 啤酒体积
+    const [age, setAge] = useState(''); // 保持字符串类型
+    const [height, setHeight] = useState(''); // 保持字符串类型
+    const [weight, setWeight] = useState(''); // 保持字符串类型
+    const [drinkingPreference, setDrinkingPreference] = useState('Beer'); // 默认值为 'Beer'
+    const [gender, setGender] = useState('male'); // 默认值为 'male'
+    const [beerVolume, setBeerVolume] = useState(''); // 保持字符串类型，啤酒体积
     const [hobbies, setHobbies] = useState(['', '', '']); // 用于保存用户选择的爱好
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
@@ -36,7 +36,7 @@ const OOBE = () => {
     // 根据体重和性别计算推荐饮酒限量，并转换为啤酒体积
     useEffect(() => {
         if (weight && gender) {
-            const weightInGrams = weight * 1000;
+            const weightInGrams = parseFloat(weight) * 1000; // 确保 weight 转换为数值
             let limitInGrams = 0;
             if (gender === 'male') {
                 limitInGrams = (0.08 * weightInGrams * 0.68) / 100;
@@ -46,7 +46,7 @@ const OOBE = () => {
 
             // 转换为啤酒体积 (ml)
             const beerVolumeInMl = (limitInGrams / (0.05 * 0.789)).toFixed(2);
-            setBeerVolume(beerVolumeInMl);
+            setBeerVolume(String(beerVolumeInMl)); // 确保 beerVolume 为字符串类型
         }
     }, [weight, gender]);
 
@@ -61,16 +61,18 @@ const OOBE = () => {
 
         // 构建提交的数据，将 weeklyLimit 设置为 beerVolume
         const oobeData = {
-            age,
-            height,
-            weight,
+            age: age.trim(),
+            height: height.trim(),
+            weight: weight.trim(),
             drinkingPreference,
             gender,
             weeklyLimit: beerVolume, // 上传的是啤酒体积量
-            hobbies, // 上传用户选择的爱好
+            hobbies: hobbies.filter(hobby => hobby), // 只提交非空的爱好
             username,
             email
         };
+
+        console.log("Submitting OOBE data:", oobeData);
 
         try {
             const response = await submitOOBEData(oobeData);
@@ -92,22 +94,27 @@ const OOBE = () => {
             <div className="oobe-box">
                 <h2>Welcome! Let's Set Up Your Profile</h2>
                 <form onSubmit={handleSubmit}>
+                    {/* Age */}
                     <input
-                        type="number"
+                        type="text"
                         placeholder="Age"
                         value={age}
                         onChange={(e) => setAge(e.target.value)}
                         required
                     />
+
+                    {/* Height */}
                     <input
-                        type="number"
+                        type="text"
                         placeholder="Height (cm)"
                         value={height}
                         onChange={(e) => setHeight(e.target.value)}
                         required
                     />
+
+                    {/* Weight */}
                     <input
-                        type="number"
+                        type="text"
                         placeholder="Weight (kg)"
                         value={weight}
                         onChange={(e) => setWeight(e.target.value)}
@@ -126,7 +133,7 @@ const OOBE = () => {
                         <option value="other">Other</option>
                     </select>
 
-                    {/* Hobby Selection - 三个下拉框分别选择爱好 */}
+                    {/* Hobby Selection */}
                     <p>Select your three hobbies:</p>
                     {hobbies.map((hobby, index) => (
                         <select
@@ -145,51 +152,17 @@ const OOBE = () => {
                     {/* Drinking Preference Selection */}
                     <p>Your preferred drink is:</p>
                     <div className="drinking-preference">
-                        <label>
-                            <input
-                                type="radio"
-                                value="Beer"
-                                checked={drinkingPreference === 'Beer'}
-                                onChange={(e) => setDrinkingPreference(e.target.value)}
-                            />
-                            Beer
-                        </label>
-                        <label>
-                            <input
-                                type="radio"
-                                value="Wine"
-                                checked={drinkingPreference === 'Wine'}
-                                onChange={(e) => setDrinkingPreference(e.target.value)}
-                            />
-                            Wine
-                        </label>
-                        <label>
-                            <input
-                                type="radio"
-                                value="Spirits"
-                                checked={drinkingPreference === 'Spirits'}
-                                onChange={(e) => setDrinkingPreference(e.target.value)}
-                            />
-                            Spirits
-                        </label>
-                        <label>
-                            <input
-                                type="radio"
-                                value="Cocktail"
-                                checked={drinkingPreference === 'Cocktail'}
-                                onChange={(e) => setDrinkingPreference(e.target.value)}
-                            />
-                            Cocktail
-                        </label>
-                        <label>
-                            <input
-                                type="radio"
-                                value="Sake"
-                                checked={drinkingPreference === 'Sake'}
-                                onChange={(e) => setDrinkingPreference(e.target.value)}
-                            />
-                            Sake
-                        </label>
+                        {['Beer', 'Wine', 'Spirits', 'Cocktail', 'Sake'].map((drink, index) => (
+                            <label key={index}>
+                                <input
+                                    type="radio"
+                                    value={drink}
+                                    checked={drinkingPreference === drink}
+                                    onChange={(e) => setDrinkingPreference(e.target.value)}
+                                />
+                                {drink}
+                            </label>
+                        ))}
                     </div>
 
                     {/* Weekly Limit Display */}
@@ -197,7 +170,7 @@ const OOBE = () => {
                         <p>Your recommended weekly drink limit is approximately {beerVolume} ml of beer.</p>
                     ) : (
                         <input
-                            type="number"
+                            type="text"
                             placeholder="Weekly Limit (e.g., 10 ml)"
                             value={beerVolume}
                             onChange={(e) => setBeerVolume(e.target.value)}
