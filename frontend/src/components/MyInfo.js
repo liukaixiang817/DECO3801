@@ -2,13 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { fetchUserInfo, updateUserInfo } from '../api/apiClient';  // make sure updateUserInfo has been imported
 import Modal from './PopWindow';
 import './MyInfo.css';  // import CSS style sheet
+import './styles.css';
+import './BodyInfo.css';
 import { useNavigate } from 'react-router-dom';
+import {css} from "@emotion/react";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const MyInfo = () => {
     const [userInfo, setUserInfo] = useState({
         username: '',
         email: '',
-        hobbies: ['', '', ''] // 初始化用户的爱好
+        hobbies: ['', '', ''], // 初始化用户的爱好
+        drinkingPreference: 'Beer',
     });
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentField, setCurrentField] = useState(null);
@@ -23,6 +28,8 @@ const MyInfo = () => {
         'Workshops', 'Fitness & well-being', 'Family events', 'Green', 'Tours',
         'Music', 'Featured', 'Festivals', 'Food', 'Films', 'Markets'
     ];
+
+    const drinkPreferenceOptions = ['Beer', 'Wine', 'Spirits', 'Cocktail', 'Sake']; // 确保选项首字母大写
 
     useEffect(() => {
         const username = localStorage.getItem('username');  // fetch user name from localStorage
@@ -119,7 +126,29 @@ const MyInfo = () => {
                         console.error('Error updating hobbies:', error);
                         alert('An error occurred while updating hobbies.');
                     });
-            } else {
+            }
+            else if (currentField === 'drinkingPreference') {
+                const updatedData = { drinkingPreference: newValue };
+                console.log("Updating drink preference for username:", originalUsername, "with data:", updatedData);
+
+                updateUserInfo(originalUsername, updatedData)  // 发送更新请求
+                    .then(response => {
+                        if (response.success) {
+                            console.log("Drink preference updated successfully");
+                            setUserInfo(prev => ({ ...prev, drinkingPreference: newValue }));  // 更新前端的饮品偏好
+                            localStorage.setItem('drinkType', newValue);  // 将饮品偏好存储到 localStorage
+                            setIsModalOpen(false);  // 关闭弹窗
+                        } else {
+                            console.error("Error updating drink preference:", response.error);  // 输出错误信息
+                            alert(`Error updating drink preference: ${response.error}`);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error updating drink preference:', error);
+                        alert('An error occurred while updating drink preference.');
+                    });
+            }
+            else {
                 // if change other fields
                 const updatedData = { [currentField]: newValue };
                 console.log("Updating user info for username:", originalUsername, "with data:", updatedData);  // Navigation information
@@ -162,7 +191,9 @@ const MyInfo = () => {
 
     return (
         <div className="my-info-page">
-            <p className='blue-on-white-button-top-left' onClick={navigateBack} >Back</p>
+            <div className="back-button">
+                <FontAwesomeIcon icon="fa-solid fa-angle-left" size="2x" color="#419779" onClick={navigateBack}/>
+            </div>
 
             <h1 className='info-heading'>Edit My Information</h1>
 
@@ -184,12 +215,20 @@ const MyInfo = () => {
                 <span>{userInfo.hobbies.join(', ')}</span>
             </div>
 
+
+            {/* Drinking Preference */}
+            <div className="info-item" onClick={() => handleFieldClick('drinkingPreference')}>
+                <span>Drinking Preference</span>
+                <span>{userInfo.drinkingPreference}</span>
+            </div>
+
+
             {/* Pop window */}
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
                 <div className='flex-container-row'>
-                    <p className="blue-on-white-button-middle-left" onClick={handleModalClose} >Cancel</p>
+                    <p className="blue-on-white-button-middle-left" onClick={handleModalClose}>Cancel</p>
                     <h2 className='Modal-heading-top-center'>Edit {currentField}</h2>
-                    <p className='white-on-blue-button-top-right' onClick={handleSaveInfo} >Save</p>
+                    <p className='white-on-blue-button-top-right' onClick={handleSaveInfo}>Save</p>
                 </div>
 
                 {/* 如果当前字段为hobbies，显示下拉框供选择 */}
@@ -214,6 +253,16 @@ const MyInfo = () => {
                         onChange={(e) => setNewValue(e.target.value)}
                     />
                 )}
+
+                {/* Drinking Preference Dropdown */}
+                {currentField === 'drinkingPreference' && (
+                    <select value={newValue} onChange={(e) => setNewValue(e.target.value)}>
+                        {drinkPreferenceOptions.map(option => (
+                            <option key={option} value={option}>{option}</option>
+                        ))}
+                    </select>
+                )}
+
             </Modal>
         </div>
     );
