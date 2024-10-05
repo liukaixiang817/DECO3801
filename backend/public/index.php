@@ -1,8 +1,8 @@
 <?php
 
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
+//header("Access-Control-Allow-Origin: *");
+//header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+//header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     http_response_code(200);
@@ -37,6 +37,130 @@ if ($pathFragments[0] == 'checkin') {
         } else {
             http_response_code(400);
             echo json_encode(['error' => 'Username is required']);
+        }
+    } else {
+        http_response_code(405);
+        echo json_encode(['error' => 'Method not allowed']);
+    }
+}
+elseif ($pathFragments[0] == 'callback') {
+    if ($requestMethod == 'POST') {
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        // 添加对 $data 的处理逻辑，这可能涉及验证苹果登录回调的参数
+        // 这里可以添加日志记录以确认请求到达后端
+        error_log('Received callback request with data: ' . print_r($data, true));
+
+        // 返回示例响应
+        echo json_encode(['message' => 'Callback received', 'data' => $data]);
+    } else {
+        http_response_code(405); // Method not allowed
+        echo json_encode(['error' => 'Method not allowed']);
+    }
+}
+
+// 新增 /apple-login 路由处理苹果登录请求
+elseif ($pathFragments[0] == 'apple-login') {
+    if ($requestMethod == 'POST') {
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        // 检查请求中是否存在 username 和 email
+        if (isset($data['username']) && isset($data['email'])) {
+            echo $controller->appleLogin($data);
+        } else {
+            http_response_code(400);
+            echo json_encode(['error' => 'Username and email are required for Apple login']);
+        }
+    } else {
+        http_response_code(405); // Method not allowed
+        echo json_encode(['error' => 'Method not allowed']);
+    }
+}
+// 新增 /apple-callback 路由处理苹果登录回调
+// 新增 /apple-callback 路由处理苹果登录回调
+elseif ($pathFragments[0] == 'apple-callback') {
+    if ($requestMethod == 'POST') {
+        // 读取并打印原始请求体
+        $rawBody = file_get_contents('php://input');
+        error_log('Received raw body: ' . $rawBody);
+
+        // 解析 `application/x-www-form-urlencoded` 格式的请求体
+        parse_str($rawBody, $post_vars);
+
+        // 打印解析后的请求体内容
+        error_log('Parsed post_vars: ' . print_r($post_vars, true));
+
+        // 获取 code、state 和 id_token
+        $code = $post_vars['code'] ?? null;
+        $state = $post_vars['state'] ?? null;
+        $id_token = $post_vars['id_token'] ?? null;
+
+        error_log('Received apple-callback request with code: ' . $code);
+        error_log('Received apple-callback request with state: ' . $state);
+        error_log('Received id_token: ' . $id_token);
+
+        if ($code && $state && $id_token) {
+            try {
+                // 分解 `id_token` (格式：header.payload.signature)
+                $id_token_parts = explode('.', $id_token);
+                $payload = json_decode(base64_decode(str_replace(['-', '_'], ['+', '/'], $id_token_parts[1])), true);
+
+                // 打印解码后的 payload
+                error_log('Decoded payload: ' . print_r($payload, true));
+
+                // 提取 email
+                $email = $payload['email'] ?? null;
+
+                if ($email) {
+                    // 使用 User.php 中的 findUserByEmail 方法查找用户
+                    $userModel = new User($db); // 创建 User 模型实例
+                    $user = $userModel->findUserByEmail($email);
+
+                    if ($user) {
+                        // 用户已存在，构造跳转到 Home 页面
+                        $username = $user['username'];
+                        $redirectURL = "https://deco.lkx666.cn/home?username=" . urlencode($username) . "&email=" . urlencode($email);
+
+                        // 执行跳转到 Home
+                        header("Location: $redirectURL");
+                        exit;
+                    } else {
+                        // 用户不存在，生成用户名和密码后注册
+                        $username = explode('@', $email)[0]; // 使用邮箱的前部分作为用户名
+                        $password = $email . '2024'; // 以邮箱+2024作为密码
+
+                        // 注册新用户
+                        $newUser = [
+                            'username' => $username,
+                            'email' => $email,
+                            'password' => password_hash($password, PASSWORD_DEFAULT),
+                            'lastReset' => new MongoDB\BSON\UTCDateTime(time() * 1000) // 初始化 lastReset
+                        ];
+
+                        $result = $userModel->registerUser($newUser);
+
+                        if ($result['success']) {
+                            // 注册成功，构造跳转到 OOBE 页面
+                            $redirectURL = "https://deco.lkx666.cn/oobe?username=" . urlencode($username) . "&email=" . urlencode($email);
+
+                            // 执行跳转到 OOBE
+                            header("Location: $redirectURL");
+                            exit;
+                        } else {
+                            throw new Exception('Failed to create new user.');
+                        }
+                    }
+                } else {
+                    throw new Exception('Email not found in id_token payload.');
+                }
+            } catch (Exception $e) {
+                error_log('Error decoding id_token or processing user: ' . $e->getMessage());
+                http_response_code(500);
+                echo json_encode(['error' => 'Failed to process Apple callback']);
+            }
+        } else {
+            http_response_code(400);
+            echo json_encode(['error' => 'Code, state, and id_token are required for Apple callback']);
         }
     } else {
         http_response_code(405);
@@ -86,6 +210,7 @@ elseif ($pathFragments[0] == 'profiles') {
 } elseif ($pathFragments[0] == 'home' && isset($pathFragments[1])) {
     echo $controller->getHomeData($pathFragments[1]);
 }
+
 // 新添加的 recordDrink 路由处理逻辑
 elseif ($pathFragments[0] == 'recordDrink') {
     if ($requestMethod == 'POST') {
@@ -111,6 +236,7 @@ elseif ($pathFragments[0] == 'profileWithEmail') {
         echo json_encode(['error' => 'Invalid request, username required']);
     }
 }
+
 // 新增的 /update-username 路由，用于更新用户名
 elseif ($pathFragments[0] == 'update-username') {
     if ($requestMethod == 'POST') {
@@ -150,6 +276,7 @@ elseif ($pathFragments[0] == 'update-limit') {
         echo $controller->updateWeeklyLimit($data['username'], $data['weekly_limit']);
     }
 }
+
 // 添加新的 /body-info 路由来获取或创建身体信息
 elseif ($pathFragments[0] == 'body-info') {
     $controller = new ProfileController($db);

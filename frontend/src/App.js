@@ -10,8 +10,8 @@ import Registration from './components/Registration';
 import OOBE from './components/OOBE';
 import Login from './components/Login';
 import BodyInfo from './components/BodyInfo';
-import MyInfo from './components/MyInfo';  // import My Information page
-import PrivacyStatement from './components/PrivacyStatement';  // import Privacy Statement page
+import MyInfo from './components/MyInfo'; // Import My Information page
+import PrivacyStatement from './components/PrivacyStatement'; // Import Privacy Statement page
 import RewardPage from './components/Reward';
 
 const App = () => {
@@ -40,11 +40,19 @@ const AppContent = ({ isLoggedIn, setIsLoggedIn }) => {
     useEffect(() => {
         if (!isLoggedIn) {
             const currentPath = window.location.pathname;
-            if (currentPath !== '/register' && currentPath !== '/oobe') {
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // 检查 URL 参数中是否包含 '@' 字符
+            const hasEmail = Array.from(urlParams.values()).some(value => value.includes('@'));
+
+            // 添加对苹果登录的特殊路径检查，以及如果 URL 中包含 '@'，则不跳转
+            if (currentPath !== '/register' && currentPath !== '/oobe' &&
+                !currentPath.startsWith('/apple-callback-url') && !hasEmail) {
                 navigate('/login');
             }
         }
     }, [isLoggedIn, navigate]);
+
 
     return (
         <Routes>
@@ -58,8 +66,9 @@ const AppContent = ({ isLoggedIn, setIsLoggedIn }) => {
             <Route path="/events/:subject" element={<EventDetails />} />
             <Route path="/record-drinks" element={<RecordDrinks />} />
             <Route path="/body-info" element={<BodyInfo />} />
-            <Route path="/my-info" element={<MyInfo />} />  {/* Add My Information Router */}
-            <Route path="/privacy-statement" element={<PrivacyStatement />} />  {/* Add Privacy Statement Router */}
+            <Route path="/my-info" element={<MyInfo />} /> {/* Add My Information Router */}
+            <Route path="/privacy-statement" element={<PrivacyStatement />} /> {/* Add Privacy Statement Router */}
+
             <Route path="/" element={isLoggedIn ? <Home /> : <Login setIsLoggedIn={setIsLoggedIn} />} />
         </Routes>
     );

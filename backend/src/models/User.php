@@ -68,6 +68,16 @@ class User {
     public function findUserByUsername($username) {
         return $this->collection->findOne(['username' => $username]);
     }
+// 根据 email 查找用户
+    public function findUserByEmail($email) {
+        $user = $this->collection->findOne(['email' => $email]);
+
+        if ($user) {
+            return $user;
+        } else {
+            return null;
+        }
+    }
 
     // 获取用户信息
     public function getUserInfo($username) {

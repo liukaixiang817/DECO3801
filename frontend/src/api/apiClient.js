@@ -2,11 +2,12 @@ import axios from 'axios';
 
 const apiClient = axios.create({
     baseURL: 'http://20.11.49.12:10802/',
+    //baseURL: 'http://localhost:8000/',
+    //baseURL: 'https://login.lkx666.cn/',
     headers: {
         'Content-Type': 'application/json',
     },
 });
-
 // Fetch profile by email
 export const fetchProfileWithEmail = async (username) => {
     try {
@@ -36,6 +37,16 @@ export const fetchHomeData = async (username) => {
         return response.data;
     } catch (error) {
         console.error('Error fetching home data:', error);
+        throw error;
+    }
+};
+// Apple 登录 API
+export const appleLogin = async (appleData) => {
+    try {
+        const response = await apiClient.post('/apple-login', appleData);
+        return response.data;
+    } catch (error) {
+        console.error('Apple Sign-In failed:', error);
         throw error;
     }
 };

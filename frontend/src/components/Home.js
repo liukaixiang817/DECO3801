@@ -12,6 +12,7 @@ const Home = () => {
     const [weeklyLimit, setWeeklyLimit] = useState(0);
     const [currentIndex, setCurrentIndex] = useState(750); // 管理当前轮播的索引
     const [currentQuote, setCurrentQuote] = useState('');
+    //const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [RecommendWeeklyLimit, setRecommendWeeklyLimit] = useState(0);
     // for the fast record modal
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -41,7 +42,58 @@ const Home = () => {
 
     useEffect(() => {
         const storedUsername = localStorage.getItem('username');
+        if (!storedUsername) {
+            const params = new URLSearchParams(window.location.search);
+            const urlUsername = params.get('username');
+
+            if (urlUsername) {
+                setUsername(urlUsername);
+                localStorage.setItem('username', urlUsername); // 存储到本地
+                localStorage.setItem('isLoggedIn', 'true'); // 存储登录状态
+                //setIsLoggedIn(true); // 设置为已登录状态
+                setUsername(storedUsername);
+                fetchHomeData(urlUsername)
+                    .then(data => {
+                        setUsername(data.username);
+                        setDaysUnderControl(data.daysUnderControl);
+                        setWeeklyLimitUsed(data.weeklyLimitUsed);
+                        setWeeklyLimit(data.weeklyLimit);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching home data:', error);
+                    });
+                fetchBodyInfo(urlUsername)
+                    .then(data => {
+                        console.log("Body info fetched:", data);
+                        let weight = data.weight;
+                        let gender = data.gender;
+                        // calculate the recommended weekly limit
+                        if (weight && gender) {
+                            const weightInGrams = weight * 1000;
+                            let limitInGrams = 0;
+                            if (gender === 'male') {
+                                limitInGrams = (0.08 * weightInGrams * 0.68) / 100;
+                            } else if (gender === 'female') {
+                                limitInGrams = (0.08 * weightInGrams * 0.55) / 100;
+                            }
+
+                            // transfer to beer (ml)
+                            const beerVolumeInMl = (limitInGrams / (0.05 * 0.789)).toFixed(2);
+                            setRecommendWeeklyLimit(beerVolumeInMl);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching body information:', error);
+                    });
+            } else {
+                console.error('No username found in localStorage or URL.');
+                return; // 如果 URL 中也没有，退出
+            }
+        } else {
+            setUsername(storedUsername);
+        }
         if (storedUsername) {
+            localStorage.setItem('isLoggedIn', 'true');
             fetchHomeData(storedUsername)
                 .then(data => {
                     setUsername(data.username);

@@ -22,14 +22,32 @@ const OOBE = () => {
     ];
 
     useEffect(() => {
+        // 优先从 URL 中提取参数
+        const queryParams = new URLSearchParams(window.location.search);
+        const urlUsername = queryParams.get('username');
+        const urlEmail = queryParams.get('email');
+
+        // 从 localStorage 获取数据
         const storedUsername = localStorage.getItem('username');
         const storedEmail = localStorage.getItem('email');
-        if (!storedUsername || !storedEmail) {
-            alert('Username or Email not found. Please login or register.');
-            navigate('/register'); // 如果没有找到 username 或 email，则重定向到注册页面
+
+        // 设置优先级：URL 中的参数优先级高于 localStorage
+        const finalUsername = urlUsername || storedUsername;
+        const finalEmail = urlEmail || storedEmail;
+
+        // 如果从 URL 中提取到数据，则将其存储到 localStorage
+        if (urlUsername && urlEmail) {
+            localStorage.setItem('username', urlUsername);
+            localStorage.setItem('email', urlEmail);
+        }
+
+        if (finalUsername && finalEmail) {
+            setUsername(finalUsername);
+            setEmail(finalEmail);
         } else {
-            setUsername(storedUsername);
-            setEmail(storedEmail);
+            // 如果没有找到 username 或 email，则重定向到注册页面
+            alert('Username or Email not found. Please login or register.');
+            navigate('/register');
         }
     }, [navigate]);
 
@@ -79,7 +97,16 @@ const OOBE = () => {
 
             if (response.success) {
                 alert('OOBE Data Submitted Successfully!');
-                navigate('/home'); // 提交成功后跳转到主页
+
+                const username = localStorage.getItem('username');
+                const email = localStorage.getItem('email');
+                if (username && email) {
+                    const redirectURL = `https://deco.lkx666.cn/home?username=${encodeURIComponent(username)}&email=${encodeURIComponent(email)}`;
+                    window.location.href = redirectURL; // 使用 window.location.href 进行 URL 跳转
+                } else {
+                    console.error('Username or email not found in localStorage.');
+                    alert('Unable to proceed: Missing username or email.');
+                }
             } else {
                 alert('Submission failed: ' + response.message);
             }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registerUser } from '../api/apiClient';
 
@@ -10,6 +10,12 @@ const Registration = () => {
     const [turnstileToken, setTurnstileToken] = useState(null);
     const navigate = useNavigate();
 
+    // useEffect 用于自动加载 CAPTCHA
+    useEffect(() => {
+        //loadTurnstile();
+        setTurnstileToken('bypass-token');
+    }, []);
+
     const loadTurnstile = () => {
         if (!document.getElementById('turnstile-script')) {
             const script = document.createElement('script');
@@ -19,19 +25,16 @@ const Registration = () => {
             script.defer = true;
             script.onload = () => {
                 window.turnstile.render('#turnstile-container', {
-                    sitekey: '000',
+                    sitekey: '0x4AAAAAAAiT6lPVpxiLdQKD',
                     callback: (token) => setTurnstileToken(token)
                 });
             };
             document.body.appendChild(script);
         }
     };
-    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setTurnstileToken('bypass-token');
-
         if (!turnstileToken) {
             alert("Please finish verification");
             return;
@@ -60,7 +63,6 @@ const Registration = () => {
             alert('Registration failed: Network or server error');
         }
     };
-    
 
     return (
         <div className="registration-container">
@@ -97,11 +99,17 @@ const Registration = () => {
                     />
 
                     <div id="turnstile-container" style={{ margin: '10px 0' }}></div>
-                    <button type="button" onClick={loadTurnstile}>
-                        Load CAPTCHA
-                    </button>
+
                     <button type="submit">Register</button>
                 </form>
+                {/* 添加 "Already have an account?" 按钮 */}
+                <button
+                    type="button"
+                    onClick={() => navigate('/login')}
+                    style={{ marginTop: '10px', cursor: 'pointer' }}
+                >
+                    Already have an account?
+                </button>
             </div>
         </div>
     );
