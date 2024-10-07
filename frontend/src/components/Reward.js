@@ -42,9 +42,11 @@ const RewardPage = () => {
     return (
 
         <div>
-            <h1>Your Drinking Status Is Here</h1>
-            <DrinkHistory> </DrinkHistory>
+
             <div className="reward-container">
+                
+
+
                 <div className="reward-header">
                     <div className="back-button">
                         <FontAwesomeIcon icon="fa-solid fa-angle-left" size="2x" color="#419779" onClick={handleBack} />
@@ -54,6 +56,8 @@ const RewardPage = () => {
                     <div className="placeholder"></div>
                 </div>
                 <div className="reward-content">
+                
+                <DrinkHistory> </DrinkHistory>
                     <div className="reward-progress-award">
                         <img src='assets/medal_imgs/6m_medal_transparent.png' alt="Medal" />
                         <div className="reward-progress-info">
