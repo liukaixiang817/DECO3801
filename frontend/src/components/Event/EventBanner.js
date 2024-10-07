@@ -16,11 +16,11 @@ const EventBanner = () => {
     const fetchData = async () => {
       try {
         const data = await getAllPosts();
-        setEvents(data.results);
-        console.log(events);
 
-
-
+        let final = data?.results || [];  // Check if data.results is null/undefined, default to empty array
+        
+        final = final.filter((event) => !isUnder15(event.age));  // Only filter if it's a valid array
+        setEvents(final);
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -30,6 +30,26 @@ const EventBanner = () => {
     };
     fetchData();
   }, []);
+
+  // Helper function to check if an age range is less than 15
+  const isUnder15 = (ageString) => {
+    // Check if ageString is null or undefined
+    if (!ageString) {
+      return false; 
+    }
+  
+    // Extract numbers from the age string using regex
+    const ageNumbers = ageString.match(/\d+/g);
+    
+    if (!ageNumbers) {
+      return false;
+    }
+  
+    const ageNumbersAsNumbers = ageNumbers.map(Number);
+  
+    // Check if any of the extracted numbers are below 15
+    return ageNumbersAsNumbers.some((age) => age < 15);
+  };
 
   const handlers = useSwipeable({
     onSwiping: (eventData) => {

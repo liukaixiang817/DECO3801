@@ -20,8 +20,14 @@ const EventComponent = () => {
     const fetchData = async () => {
       try {
         const data = await getAllPosts();
-        setPosts(data.results); // Adjust if needed based on actual response structure
+
+        let final = data?.results || [];  // Check if data.results is null/undefined, default to empty array
+        
+        final = final.filter((event) => !isUnder15(event.age)); 
+
+        setPosts(final); // Adjust if needed based on actual response structure
         const types = [...new Set(data.results.map(event => event.event_type))];
+
         setEventTypes(types);
         setIsLoading(false);
       } catch (error) {
@@ -33,6 +39,26 @@ const EventComponent = () => {
 
     fetchData();
   }, []);
+
+   // Helper function to check if an age range is less than 15
+   const isUnder15 = (ageString) => {
+    // Check if ageString is null or undefined
+    if (!ageString) {
+      return false; 
+    }
+  
+    // Extract numbers from the age string using regex
+    const ageNumbers = ageString.match(/\d+/g);
+    
+    if (!ageNumbers) {
+      return false;
+    }
+  
+    const ageNumbersAsNumbers = ageNumbers.map(Number);
+  
+    // Check if any of the extracted numbers are below 15
+    return ageNumbersAsNumbers.some((age) => age < 15);
+  };
 
   const types = posts.map(event => event.event_type);
 
