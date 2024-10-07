@@ -42,8 +42,10 @@ function ServerDay(props) {
 // The main calendar component
 const BasicDateCalendar = ({ highlightedDays }) => {
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <div style={{ height: '300px' }}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateCalendar
+        sx={{ height: '100%' }}
         slots={{
           day: ServerDay,  // Use the custom day rendering function
         }}
@@ -51,7 +53,9 @@ const BasicDateCalendar = ({ highlightedDays }) => {
           day: { highlightedDays },  // Pass the highlighted days to the day component
         }}
       />
-    </LocalizationProvider>
+      </LocalizationProvider>
+    </div>
+    
   );
 };
 
