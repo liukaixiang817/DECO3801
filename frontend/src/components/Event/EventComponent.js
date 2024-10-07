@@ -47,9 +47,7 @@ const EventComponent = () => {
 
   const navigate = useNavigate();
 
-  const handleGoBack = () => {
-    navigate(-1); // Go back to the previous page
-  };
+ 
 
   const result = selectedEventType
     ? posts.filter(event => {
@@ -70,10 +68,7 @@ const EventComponent = () => {
 
   return (
       <div className="home-container">
-        <div className="back-button">
-          <FontAwesomeIcon icon="fa-solid fa-angle-left" size="2x" color="#419779" onClick={handleGoBack}/>
-        </div>
-
+  
 
         <div>
           <GoogleMap events={result.slice(0, visibleCount)}></GoogleMap>
