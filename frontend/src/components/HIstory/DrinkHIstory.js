@@ -33,21 +33,22 @@ const DrinkHistory = () => {
   }, []);
 
   return (
-    <div>
-      {/* Pass the history to the BasicDateCalendar component */}
-      <h1>Your progress this month</h1>
-      <BasicDateCalendar highlightedDays={history} />
-      <h1>Drink History</h1>
-      {history.length === 0 ? (
-        <p>No drink history available.</p>
-      ) : (
-        <ul>
-          {history.map((date, index) => (
-            <li key={index}>{date}</li>
-          ))}
-        </ul>
-      )}
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <BasicDateCalendar highlightedDays={history} />
+    <div style={{ marginTop: '20px', textAlign: 'center' }}>
+  
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
+        <div>
+          <span style={{ color: 'green', marginRight: '5px' }}>✓</span>
+          No Drinking
+        </div>
+        <div>
+          <span style={{ color: 'red', marginRight: '5px' }}>✗</span>
+          Drinking
+        </div>
+      </div>
     </div>
+  </div>
   );
 };
 
