@@ -17,6 +17,10 @@ const EventBanner = () => {
       try {
         const data = await getAllPosts();
         setEvents(data.results);
+        console.log(events);
+
+
+
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -71,7 +75,7 @@ const EventBanner = () => {
       <div className="carousel-container" {...handlers}>
         <div className="carousel" ref={carouselRef}>
           {events.map((event, index) => (
-            <div key={event.subject} className="event-card1" onClick={() => handleCardClick(event)}>
+            <div key={event.web_link} className="event-card1" onClick={() => handleCardClick(event)}>
               <div className="event-content1">
                 <img src={event.eventimage} alt={event.subject} className="event-image1" />
               </div>
