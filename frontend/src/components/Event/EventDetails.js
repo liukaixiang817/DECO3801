@@ -56,7 +56,7 @@ const EventDetails = () => {
       <div className="container2">
         <h1>{subject}</h1>
       </div>
-      <id>{id}</id>
+     
       <h3_1>{description}</h3_1>
       <div className="container3">
         <FontAwesomeIcon

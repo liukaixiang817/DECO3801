@@ -23,7 +23,7 @@ const EventComponent = () => {
 
         let final = data?.results || [];  // Check if data.results is null/undefined, default to empty array
         
-        final = final.filter((event) => !isUnder15(event.age)); 
+        final = final.filter((event) => event.eventimage && !isUnder15(event.age)); 
 
         setPosts(final); // Adjust if needed based on actual response structure
         const types = [...new Set(data.results.map(event => event.event_type))];

@@ -19,7 +19,9 @@ const EventBanner = () => {
 
         let final = data?.results || [];  // Check if data.results is null/undefined, default to empty array
         
-        final = final.filter((event) => !isUnder15(event.age));  // Only filter if it's a valid array
+        final = final.filter((event) => event.eventimage && !isUnder15(event.age)).slice(0, 20);  // Only filter if it's a valid array
+        console.log(final);
+        
         setEvents(final);
         setIsLoading(false);
       } catch (error) {
