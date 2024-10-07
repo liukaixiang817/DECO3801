@@ -48,6 +48,7 @@ input {
 h3_0 {
   font-family: "DynaPuff";
   font-size: medium;
+  margin: 0;
 }
 
 h3_1 {
@@ -291,6 +292,7 @@ p {
   
     transition: all 0.1s ease; 
   }
+
 /*BAnners */
 
 .event-banner-section {
@@ -308,12 +310,20 @@ p {
   display: flex;
   transition: transform 0.3s ease-out;
 }
+.carousel.locked {
+  pointer-events: none; /* Prevent swiping */
+}
 
 .event-card1 {
   flex: 0 0 100%;
   padding: 10px;
-  max-width: 400px;
+  max-width: 500px;
   box-sizing: border-box;
+}
+
+.event-card1.last-card {
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+  transition: box-shadow 0.3s ease;
 }
 
 .event-content1 {
@@ -333,8 +343,6 @@ p {
   object-fit: cover;
   pointer-events: none;
   user-select: none;
-
-
 
 }
 

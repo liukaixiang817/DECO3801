@@ -57,21 +57,42 @@ const EventBanner = () => {
     onSwiping: (eventData) => {
       if (carouselRef.current) {
         const swipeDistance = eventData.deltaX;
-        carouselRef.current.style.transform = `translateX(${-currentIndex * 100 + swipeDistance / 5}%)`;
+        const maxTranslate = -(events.length - 2) * 100;
+        
+        // Prevent swiping left at the last event
+        if (currentIndex === events.length - 2 && swipeDistance < 0) {
+          return;
+        }
+        
+        // Prevent swiping right at the first event
+        if (currentIndex === 0 && swipeDistance > 0) {
+          return;
+        }
+        
+        const newTranslate = Math.max(maxTranslate, Math.min(0, -currentIndex * 100 + swipeDistance / 5));
+        carouselRef.current.style.transform = `translateX(${newTranslate}%)`;
       }
     },
-    onSwipedLeft: () => goToNext(),
-    onSwipedRight: () => goToPrevious(),
+    onSwipedLeft: () => {
+      if (currentIndex < events.length - 2) {
+        goToNext();
+      }
+    },
+    onSwipedRight: () => {
+      if (currentIndex > 0) {
+        goToPrevious();
+      }
+    },
     trackMouse: true,
     preventDefaultTouchmoveEvent: true,
   });
 
   const goToPrevious = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === 0 ? events.length - 1 : prevIndex - 1));
+    setCurrentIndex((prevIndex) => Math.max(0, prevIndex - 1));
   };
-
+  
   const goToNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === events.length - 1 ? 0 : prevIndex + 1));
+    setCurrentIndex((prevIndex) => Math.min(events.length - 1, prevIndex + 1));
   };
 
   const handleCardClick = (eventData) => {
@@ -80,20 +101,47 @@ const EventBanner = () => {
       state: { subject, formatteddatetime, location, description, eventimage, venueaddress },
     });
   };
+  console.log("Current index");
+  console.log(currentIndex);
 
   useEffect(() => {
     if (carouselRef.current) {
       carouselRef.current.style.transition = "transform 0.3s ease-out";
-      carouselRef.current.style.transform = `translateX(-${currentIndex * 100}%)`;
+      const newTranslate = -currentIndex * 100;
+      carouselRef.current.style.transform = `translateX(${newTranslate}%)`;
     }
   }, [currentIndex]);
+
+  useEffect(() => {
+    const lastCard = document.querySelector('.event-card1:last-child');
+    if (lastCard) {
+      if (currentIndex === events.length - 1) {
+        lastCard.classList.add('last-card');
+      } else {
+        lastCard.classList.remove('last-card');
+      }
+    }
+  }, [currentIndex, events.length]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (carouselRef.current) {
+        const newTranslate = Math.max(-(events.length - 1) * 100, Math.min(0, -currentIndex * 100));
+        carouselRef.current.style.transform = `translateX(${newTranslate}%)`;
+      }
+    };
+  
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [currentIndex, events.length]);
 
   if (isLoading) return <p>Loading events...</p>;
   if (error) return <p>{error}</p>;
 
   return (
     <section className="event-banner-section">
-      <h2>Events</h2>
+      <h3>Events:</h3>
+      <div className="h3_0">&#8592;Swipe left to see more</div>
       <div className="carousel-container" {...handlers}>
         <div className="carousel" ref={carouselRef}>
           {events.map((event, index) => (
