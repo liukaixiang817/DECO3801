@@ -35,9 +35,9 @@ const DrinkHistory = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
     <BasicDateCalendar highlightedDays={history} />
-    <div style={{ marginTop: '20px', textAlign: 'center' }}>
+    <div style={{textAlign: 'center' }}>
   
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '20px'}}>
         <div>
           <span style={{ color: 'green', marginRight: '5px' }}>✓</span>
           No Drinking
