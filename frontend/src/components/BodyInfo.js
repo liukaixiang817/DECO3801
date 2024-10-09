@@ -76,6 +76,11 @@ const BodyInfo = () => {
     };
 
     const handleSave = () => {
+        if (currentField === 'age' && parseInt(newValue, 10) < 18) {
+        alert('Age must be 18 or older.');
+        return; // 如果验证失败，中止保存
+        }
+        
         const username = localStorage.getItem('username');
         if (username) {
             // 创建更新数据时，合并已有状态和新值
