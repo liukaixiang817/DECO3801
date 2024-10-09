@@ -10,7 +10,7 @@ const Navigation = () => {
                 <NavLink to="/home" activeClassName="active">
                     <FontAwesomeIcon icon="fa-solid fa-house" size='2x' /></NavLink>
                 <NavLink to="/events" activeClassName="active">
-                    <FontAwesomeIcon icon="fa-solid fa-calendar-days" size="2x" />
+                    <FontAwesomeIcon icon="fa-solid fa-table-tennis-paddle-ball" size="2x"/>
                 </NavLink>
                 <NavLink to="/rewards" activeClassName="active">
                     <FontAwesomeIcon icon="fa-solid fa-medal" size="2x" />
