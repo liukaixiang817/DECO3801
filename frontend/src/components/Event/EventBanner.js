@@ -3,6 +3,7 @@ import { useSwipeable } from "react-swipeable";
 import { getAllPosts } from "./api.js";
 import { useNavigate } from "react-router-dom";
 import "./styles_event.css";
+import { fetchBodyInfo, fetchHomeData } from '../../api/apiClient';
 
 const EventBanner = () => {
   const [events, setEvents] = useState([]);
@@ -12,6 +13,41 @@ const EventBanner = () => {
   const navigate = useNavigate();
   const carouselRef = useRef(null);
 
+  const [hobbies, setHobbies] = useState([]);
+
+  
+  useEffect(() => {
+    const storedUsername = localStorage.getItem('username');
+    console.log("Stored username from localStorage:", storedUsername);
+
+    if (storedUsername) {
+      fetchHomeData(storedUsername)
+        .then(data => fetchBodyInfo(storedUsername))
+        .then(historyData => {
+          // Check if historyData exists and has a valid recordTime array
+          if (historyData.hobbies) {
+            // Process recordTime if valid
+            setHobbies(historyData.hobbies);
+            console.log("history data");
+            console.log(historyData.hobbies);
+          } else {
+            // Handle the case where there's no drink history
+            console.log("No drink history found.");
+            setHobbies([]);  // Set history to an empty array
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching drink history:", error);
+          setHobbies([]);  // In case of error, set history to an empty array
+        });
+    } else {
+      console.log("No users found.");
+    }}
+    
+    , []);
+
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -19,19 +55,32 @@ const EventBanner = () => {
 
         let final = data?.results || [];  // Check if data.results is null/undefined, default to empty array
         
-        final = final.filter((event) => event.eventimage && !isUnder15(event.age)).slice(0, 20);  // Only filter if it's a valid array
-        console.log(final);
+        final = final.filter((event) => event.eventimage && !isUnder15(event.age));  // Only filter if it's a valid array
         
-        setEvents(final);
+     
+        const selectedEventTypes = hobbies;
+        
+        const result = selectedEventTypes.length > 0
+        ? final.filter(event => {
+            if (!event.event_type) return false;
+            // Split the event_type into individual words and check if any selectedEventTypes are included
+            const eventTypes = event.event_type.split(/[,]+/);
+            return selectedEventTypes.some(selectedType => 
+              eventTypes.includes(selectedType)
+            );
+          })
+        : final;
+        
+        setEvents(result);
         setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching posts:", error);
+       
         setError("Failed to load posts. Please try again later.");
         setIsLoading(false);
       }
     };
     fetchData();
-  }, []);
+  }, [hobbies]);
 
   // Helper function to check if an age range is less than 15
   const isUnder15 = (ageString) => {
@@ -101,8 +150,7 @@ const EventBanner = () => {
       state: { subject, formatteddatetime, location, description, eventimage, venueaddress },
     });
   };
-  console.log("Current index");
-  console.log(currentIndex);
+
 
   useEffect(() => {
     if (carouselRef.current) {
