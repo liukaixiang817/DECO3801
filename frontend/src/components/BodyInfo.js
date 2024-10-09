@@ -8,10 +8,10 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 const BodyInfo = () => {
     const [bodyInfo, setBodyInfo] = useState({
         gender: 'male',
-        age: '18', // 保持字符串类型，确保和后端数据类型一致
+        age: 18,
         height: '',
         weight: '',
-        drinkingPreference: 'Beer',
+        drinkingPreference: 'Beer', // 改为首字母大写，并确保使用 'drinkingPreference'
     });
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentField, setCurrentField] = useState(null);
@@ -19,54 +19,34 @@ const BodyInfo = () => {
     const navigate = useNavigate();
 
     const genderOptions = ['male', 'female', 'other'];
-    const drinkPreferenceOptions = ['Beer', 'Wine', 'Spirits', 'Cocktail', 'Sake'];
-
-    const fetchBodyInfoFromAPI = (username) => {
-        fetchBodyInfo(username)
-            .then(data => {
-                console.log("Body info fetched:", data);
-
-                if (data && !data.error) {
-                    // 显示所有返回的字段名
-                    console.log("Data fields received:", Object.keys(data));
-                    console.log("Gender:", data.gender);
-                    console.log("Age:", data.age);
-                    console.log("Height:", data.height);
-                    console.log("Weight:", data.weight);
-                    console.log("Drinking Preference:", data.drinkingPreference || data.drinkPreference);
-
-                    // 将接收的数据类型与前端状态一致
-                    const parsedData = {
-                        gender: data.gender || 'male',
-                        age: String(data.age), // 确保类型为字符串
-                        height: data.height || '',
-                        weight: data.weight || '',
-                        drinkingPreference: data.drinkingPreference || data.drinkPreference || 'Beer',
-                    };
-
-                    setBodyInfo(parsedData);
-                    console.log("Updated bodyInfo state:", parsedData);
-                } else {
-                    console.error("Error in body info response:", data.error);
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching body information:', error);
-            });
-    };
+    const drinkPreferenceOptions = ['Beer', 'Wine', 'Spirits', 'Cocktail', 'Sake']; // 确保选项首字母大写
 
     useEffect(() => {
         const username = localStorage.getItem('username');
         if (username) {
             console.log("Fetching body info for username:", username);
-            fetchBodyInfoFromAPI(username);
+            fetchBodyInfo(username)
+                .then(data => {
+                    console.log("Body info fetched:", data);
+                    if (data && !data.error) {
+                        // 确保前端正确映射 'drinkingPreference' 字段
+                        setBodyInfo({
+                            ...data,
+                            drinkingPreference: data.drinkingPreference || data.drinkPreference // 兼容字段名
+                        });
+                    } else {
+                        console.error("Error in body info response:", data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching body information:', error);
+                });
         } else {
             console.error('Username not found in localStorage');
         }
     }, []);
 
     const handleFieldClick = (field) => {
-        console.log("Field clicked:", field);
         setCurrentField(field);
         setNewValue(bodyInfo[field] || '');
         setIsModalOpen(true);
@@ -78,23 +58,20 @@ const BodyInfo = () => {
 
     const handleSave = () => {
         if (currentField === 'age' && parseInt(newValue, 10) < 18) {
-        alert('Age must be 18 or older.');
-        return; // 如果验证失败，中止保存
+            alert('Age must be 18 or older.');
+            return; // 如果验证失败，中止保存
         }
-        
+
         const username = localStorage.getItem('username');
         if (username) {
-            // 创建更新数据时，合并已有状态和新值
-            const updatedData = { ...bodyInfo, [currentField]: newValue };
+            const updatedData = { [currentField]: newValue };
             console.log("Sending update request for username:", username, "with data:", updatedData);
 
             updateBodyInfo(username, updatedData)
                 .then(response => {
                     console.log("Body info update response:", response);
                     if (response.success) {
-                        // 成功更新后，重新获取最新数据
-                        fetchBodyInfoFromAPI(username);
-                        console.log("Refetched body info after update.");
+                        setBodyInfo(prev => ({ ...prev, [currentField]: newValue }));
                         setIsModalOpen(false);
                     } else {
                         console.error("Error updating body info:", response.error);
@@ -113,7 +90,7 @@ const BodyInfo = () => {
     };
 
     return (
-        <div className="home-container">
+        <div className="body-info-page">
             <div className='flex-container-column'>
                 <div className="back-button">
                     <FontAwesomeIcon icon="fa-solid fa-angle-left" size="2x" color="#419779" onClick={navigateBack}/>
@@ -121,34 +98,34 @@ const BodyInfo = () => {
                 <h1 className='info-heading'>Edit Body Information</h1>
 
                 {/* Gender */}
-                <div className="body-info-item" onClick={() => handleFieldClick('gender')}>
+                <div className="info-item" onClick={() => handleFieldClick('gender')}>
                     <span>Gender</span>
                     <span>{bodyInfo.gender}</span>
                 </div>
 
                 {/* Age */}
-                <div className="body-info-item" onClick={() => handleFieldClick('age')}>
+                <div className="info-item" onClick={() => handleFieldClick('age')}>
                     <span>Age</span>
                     <span>{bodyInfo.age}</span>
                 </div>
 
                 {/* Height */}
-                <div className="body-info-item" onClick={() => handleFieldClick('height')}>
+                <div className="info-item" onClick={() => handleFieldClick('height')}>
                     <span>Height</span>
                     <span>{bodyInfo.height || 'Enter here...'}cm</span>
                 </div>
 
                 {/* Weight */}
-                <div className="body-info-item" onClick={() => handleFieldClick('weight')}>
+                <div className="info-item" onClick={() => handleFieldClick('weight')}>
                     <span>Weight</span>
                     <span>{bodyInfo.weight || 'Enter here...'}kg</span>
                 </div>
 
                 {/* Drinking Preference */}
-                <div className="body-info-item" onClick={() => handleFieldClick('drinkingPreference')}>
+                {/*<div className="info-item" onClick={() => handleFieldClick('drinkingPreference')}>
                     <span>Drinking Preference</span>
                     <span>{bodyInfo.drinkingPreference}</span>
-                </div>
+                </div>/*}
 
                 {/* Modal for Editing Information */}
                 <Modal isOpen={isModalOpen} onClose={handleModalClose}>
@@ -169,13 +146,13 @@ const BodyInfo = () => {
                         )}
 
                         {/* Drinking Preference Dropdown */}
-                        {currentField === 'drinkingPreference' && (
+                        {/*{currentField === 'drinkingPreference' && (
                             <select value={newValue} onChange={(e) => setNewValue(e.target.value)}>
                                 {drinkPreferenceOptions.map(option => (
                                     <option key={option} value={option}>{option}</option>
                                 ))}
                             </select>
-                        )}
+                        )}*/}
 
                         {/* Text Input for Other Fields */}
                         {currentField !== 'gender' && currentField !== 'drinkingPreference' && (
