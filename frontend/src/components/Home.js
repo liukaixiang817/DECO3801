@@ -205,8 +205,10 @@ const Home = () => {
     };
     return (
         <div className="home-container">
+           
+ 
             <div className="header-row">
-                <h1>Welcome {username} !</h1>
+                <div className='h3_1'> Welcome {username} </div>
                 <p className="emergency-call">
                     <a href="tel:1800250015">📞</a>
                 </p>
@@ -219,7 +221,7 @@ const Home = () => {
                     <span className="days-count">{daysUnderControl} Days</span>
                     <div className="button-container">
                         <button onClick={handleRecordDrinksClick}>Record Drinks</button>
-                        <button onClick={handleCheckInClick}>Daily CheckIn</button>
+                        <button onClick={handleCheckInClick} style={{ color: "white",backgroundColor: '#e8b44b' }}>Daily Check In</button>
 
                     </div>
                 </div>
