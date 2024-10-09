@@ -55,10 +55,12 @@ const RewardPage = () => {
                     <h1 className="reward-title">Awards</h1>
                     <div className="placeholder"></div>
                 </div>
-                <div className="reward-content">
-                
+
                 <DrinkHistory> </DrinkHistory>
+                <div className="reward-content">
+                    <p>My Awards</p>
                     <div className="reward-progress-award">
+                        
                         <img src='assets/medal_imgs/6m_medal_transparent.png' alt="Medal" />
                         <div className="reward-progress-info">
                             <p>The Number of Days You Have Checked In</p>
@@ -71,6 +73,7 @@ const RewardPage = () => {
                         </div>
                         <span className="reward-progress-text">{daysUnderControl}/120</span>
                     </div>
+                    <p>All Awards</p>
                     <div className="reward-awards-grid">
                         {awards && awards.length > 0 ? (
                             awards.map((award, index) => (
@@ -103,6 +106,7 @@ const RewardPage = () => {
                         )}
                     </div>
                 </div>
+
             </div>
 
 
