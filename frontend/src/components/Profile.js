@@ -37,19 +37,23 @@ const Profile = () => {
                     console.log("Fetched profile with email from backend:", data);
 
                     if (data && !data.error) {
+                        const retrievedDrinkType = storedDrinkType || data.drinkType || profile.drinkType;
+                        const multiplier = multipliers[retrievedDrinkType.toLowerCase()] || 1; // 获取饮料类型的系数
+                        const adjustedLimit = (data.weeklyLimit * multiplier).toFixed(2); // 使用系数调整后的限额值
+
                         setProfile({
                             username: data.username || 'Unknown',
                             email: data.email || '',
-                            weekly_limit: data.weeklyLimit || '750',
-                            drinkType: storedDrinkType || profile.drinkType,  // 使用 localStorage 中的 drinkType
+                            weekly_limit: adjustedLimit,  // 使用调整后的限制值
+                            drinkType: retrievedDrinkType,
                         });
-                        setNewWeeklyLimit(data.weeklyLimit);  // 初始化 weekly_limit
+                        setNewWeeklyLimit(adjustedLimit);  // 初始化调整后的 weekly_limit
 
                         console.log("Updated profile state:", {
                             username: data.username || 'Unknown',
                             email: data.email || '',
-                            weekly_limit: data.weeklyLimit || '750',
-                            drinkType: storedDrinkType || profile.drinkType
+                            weekly_limit: adjustedLimit,
+                            drinkType: retrievedDrinkType
                         });
                     } else {
                         console.log("No profile data found.");
@@ -62,6 +66,7 @@ const Profile = () => {
             console.error("No username found in localStorage.");
         }
     }, []);
+
 
 
     // the function to open the modal
@@ -119,10 +124,11 @@ const Profile = () => {
     const avatarLetter = profile.username ? profile.username.charAt(0).toUpperCase() : '?';
 
     return (
-            <div className="home-container">
+        <div className="profile-page">  {/* 为整个Profile页面添加 profile-page 类名 */}
+            <div className="profile-container">
                 <div className="profile-header">
                     <div className="profile-avatar">{avatarLetter}</div>
-                    <h2 className='profile-h2'>{profile.username}</h2>
+                    <h2>{profile.username}</h2>
                     <p className="profile-email">{profile.email}</p>
                 </div>
 
@@ -135,7 +141,7 @@ const Profile = () => {
                         {/* 显示的限制值，设置为橙色并添加 "ml" */}
                         <span className="weekly-limit-text">{newWeeklyLimit} ml</span>
                     </div>
-                    <button onClick={handleOpen} className='profile-button'>Change my goals</button>
+                    <button onClick={handleOpen}>Change my goals</button>
                 </div>
 
 
@@ -163,21 +169,21 @@ const Profile = () => {
                     </div> */}
 
                     {/* My Information */}
-                    <div className="profile-menu-item" onClick={handleMyInfoClick}>
+                    <div className="menu-item" onClick={handleMyInfoClick}>
                         <span className="menu-icon">📋</span>
                         <span>My Information</span>
                         <span className="menu-arrow">{'>'}</span>
                     </div>
 
                     {/* Body Info */}
-                    <div className="profile-menu-item" onClick={handleBodyInfoClick}>
+                    <div className="menu-item" onClick={handleBodyInfoClick}>
                         <span className="menu-icon">💪</span>
                         <span>Body Information</span>
                         <span className="menu-arrow">{'>'}</span>
                     </div>
 
                     {/* Privacy Statement */}
-                    <div className="profile-menu-item" onClick={handlePrivacyStatementClick}>
+                    <div className="menu-item" onClick={handlePrivacyStatementClick}>
                         <span className="menu-icon">📄</span>
                         <span>Privacy Statement</span>
                         <span className="menu-arrow">{'>'}</span>
@@ -185,6 +191,7 @@ const Profile = () => {
 
                 </div>
             </div>
+        </div>
     );
 };
 
