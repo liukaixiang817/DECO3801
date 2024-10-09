@@ -127,13 +127,13 @@ const BodyInfo = () => {
                 {/* Height */}
                 <div className="info-item" onClick={() => handleFieldClick('height')}>
                     <span>Height</span>
-                    <span>{bodyInfo.height || 'Enter here...'}</span>
+                    <span>{bodyInfo.height || 'Enter here...'}cm</span>
                 </div>
 
                 {/* Weight */}
                 <div className="info-item" onClick={() => handleFieldClick('weight')}>
                     <span>Weight</span>
-                    <span>{bodyInfo.weight || 'Enter here...'}</span>
+                    <span>{bodyInfo.weight || 'Enter here...'}kg</span>
                 </div>
 
                 {/* Drinking Preference */}
