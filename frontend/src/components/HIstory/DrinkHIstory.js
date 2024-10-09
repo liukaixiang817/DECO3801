@@ -33,7 +33,7 @@ const DrinkHistory = () => {
   }, []);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div  className='reward-calendar'>
     <BasicDateCalendar highlightedDays={history} />
     <div style={{textAlign: 'center' }}>
   

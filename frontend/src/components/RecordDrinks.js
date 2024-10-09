@@ -193,6 +193,7 @@ const RecordDrinks = () => {
                         onChange={e => setAmount(parseInt(e.target.value))}
                         placeholder="Enter amount in ml"
                     />
+                    <span>ml&nbsp;</span>
                     <button onClick={handleDrinkRecord}>Submit</button>
                 </div>
 
