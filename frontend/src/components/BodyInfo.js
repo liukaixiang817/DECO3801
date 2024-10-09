@@ -3,6 +3,7 @@ import { fetchBodyInfo, updateBodyInfo } from '../api/apiClient';
 import Modal from './PopWindow';
 import './BodyInfo.css';
 import { useNavigate } from 'react-router-dom';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const BodyInfo = () => {
     const [bodyInfo, setBodyInfo] = useState({
@@ -114,7 +115,9 @@ const BodyInfo = () => {
     return (
         <div className="body-info-page">
             <div className='flex-container-column'>
-                <p className='blue-on-white-button-top-left' onClick={navigateBack}>Back</p>
+                <div className="back-button">
+                    <FontAwesomeIcon icon="fa-solid fa-angle-left" size="2x" color="#419779" onClick={navigateBack}/>
+                </div>
                 <h1 className='info-heading'>Edit Body Information</h1>
 
                 {/* Gender */}

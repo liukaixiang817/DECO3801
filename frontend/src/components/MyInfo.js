@@ -68,11 +68,30 @@ const MyInfo = () => {
         }
     };
 
-    // 更新新爱好
+    // update on the new hobbies
     const handleHobbyChange = (index, value) => {
         const updatedHobbies = [...newHobbies];
         updatedHobbies[index] = value;
-        setNewHobbies(updatedHobbies);
+    
+        // Remove empty selections
+        const filteredHobbies = updatedHobbies.filter(hobby => hobby !== "");
+    
+        // If all selections are empty, don't update
+        if (filteredHobbies.length === 0) {
+            return;
+        }
+    
+        // If there are empty selections, fill them with existing hobbies
+        while (filteredHobbies.length < newHobbies.length) {
+            const existingHobby = newHobbies.find(hobby => !filteredHobbies.includes(hobby) && hobby !== "");
+            if (existingHobby) {
+                filteredHobbies.push(existingHobby);
+            } else {
+                break; // No more existing hobbies to add
+            }
+        }
+    
+        setNewHobbies(filteredHobbies);
     };
 
     // save the updated info or username
@@ -216,11 +235,11 @@ const MyInfo = () => {
             </div>
 
 
-            {/* Drinking Preference */}
+            {/* Drinking Preference
             <div className="info-item" onClick={() => handleFieldClick('drinkingPreference')}>
                 <span>Drinking Preference</span>
                 <span>{userInfo.drinkingPreference}</span>
-            </div>
+            </div> */}
 
 
             {/* Pop window */}
@@ -233,19 +252,34 @@ const MyInfo = () => {
 
                 {/* 如果当前字段为hobbies，显示下拉框供选择 */}
                 {currentField === 'hobbies' ? (
-                    newHobbies.map((hobby, index) => (
-                        <select
-                            key={index}
-                            value={hobby}
-                            onChange={(e) => handleHobbyChange(index, e.target.value)}
-                            required
-                        >
-                            <option value="" disabled>Select Hobby</option>
-                            {hobbyOptions.map((option, i) => (
-                                <option key={i} value={option}>{option}</option>
-                            ))}
-                        </select>
-                    ))
+                    <>
+                        {newHobbies.length === 0 ? (
+                            <select
+                                value=""
+                                onChange={(e) => handleHobbyChange(0, e.target.value)}
+                                required
+                            >
+                                <option value="" disabled>Select Hobby</option>
+                                {hobbyOptions.map((option, i) => (
+                                    <option key={i} value={option}>{option}</option>
+                                ))}
+                            </select>
+                        ) : (
+                            newHobbies.map((hobby, index) => (
+                                <select
+                                    key={index}
+                                    value={hobby}
+                                    onChange={(e) => handleHobbyChange(index, e.target.value)}
+                                    required
+                                >
+                                    <option value="" disabled>Select Hobby</option>
+                                    {hobbyOptions.map((option, i) => (
+                                        <option key={i} value={option}>{option}</option>
+                                    ))}
+                                </select>
+                            ))
+                        )}
+                    </>
                 ) : (
                     <input
                         type="text"
@@ -254,14 +288,14 @@ const MyInfo = () => {
                     />
                 )}
 
-                {/* Drinking Preference Dropdown */}
+                {/* Drinking Preference Dropdown
                 {currentField === 'drinkingPreference' && (
                     <select value={newValue} onChange={(e) => setNewValue(e.target.value)}>
                         {drinkPreferenceOptions.map(option => (
                             <option key={option} value={option}>{option}</option>
                         ))}
                     </select>
-                )}
+                )} */}
 
             </Modal>
         </div>

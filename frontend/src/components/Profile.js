@@ -119,11 +119,10 @@ const Profile = () => {
     const avatarLetter = profile.username ? profile.username.charAt(0).toUpperCase() : '?';
 
     return (
-        <div className="profile-page">  {/* 为整个Profile页面添加 profile-page 类名 */}
-            <div className="profile-container">
+            <div className="home-container">
                 <div className="profile-header">
                     <div className="profile-avatar">{avatarLetter}</div>
-                    <h2>{profile.username}</h2>
+                    <h2 className='profile-h2'>{profile.username}</h2>
                     <p className="profile-email">{profile.email}</p>
                 </div>
 
@@ -136,7 +135,7 @@ const Profile = () => {
                         {/* 显示的限制值，设置为橙色并添加 "ml" */}
                         <span className="weekly-limit-text">{newWeeklyLimit} ml</span>
                     </div>
-                    <button onClick={handleOpen}>Change my goals</button>
+                    <button onClick={handleOpen} className='profile-button'>Change my goals</button>
                 </div>
 
 
@@ -164,21 +163,21 @@ const Profile = () => {
                     </div> */}
 
                     {/* My Information */}
-                    <div className="menu-item" onClick={handleMyInfoClick}>
+                    <div className="profile-menu-item" onClick={handleMyInfoClick}>
                         <span className="menu-icon">📋</span>
                         <span>My Information</span>
                         <span className="menu-arrow">{'>'}</span>
                     </div>
 
                     {/* Body Info */}
-                    <div className="menu-item" onClick={handleBodyInfoClick}>
+                    <div className="profile-menu-item" onClick={handleBodyInfoClick}>
                         <span className="menu-icon">💪</span>
                         <span>Body Information</span>
                         <span className="menu-arrow">{'>'}</span>
                     </div>
 
                     {/* Privacy Statement */}
-                    <div className="menu-item" onClick={handlePrivacyStatementClick}>
+                    <div className="profile-menu-item" onClick={handlePrivacyStatementClick}>
                         <span className="menu-icon">📄</span>
                         <span>Privacy Statement</span>
                         <span className="menu-arrow">{'>'}</span>
@@ -186,7 +185,6 @@ const Profile = () => {
 
                 </div>
             </div>
-        </div>
     );
 };
 

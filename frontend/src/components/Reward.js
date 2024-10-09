@@ -48,14 +48,14 @@ const RewardPage = () => {
 
 
                 <div className="reward-header">
-                    <div className="back-button">
+                    {/* <div className="back-button">
                         <FontAwesomeIcon icon="fa-solid fa-angle-left" size="2x" color="#419779" onClick={handleBack} />
-                    </div>
+                    </div> */}
 
                     <h1 className="reward-title">Awards</h1>
                     <div className="placeholder"></div>
                 </div>
-
+                <p style={{marginBottom:'10px'}}>Daily Check In Calendar</p>
                 <DrinkHistory> </DrinkHistory>
                 <div className="reward-content">
                     <p>My Awards</p>

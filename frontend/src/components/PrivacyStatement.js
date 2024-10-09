@@ -4,7 +4,7 @@
 import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles.css';
-// import BackArrowIcon from '../assets/icons/angle-small-left.png'
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const PrivacyStatement = ({}) => {
 
@@ -40,7 +40,9 @@ const PrivacyStatement = ({}) => {
 return (
     <div className='home-container'>
         <div className='flex-container-column'>
-            <p className="blue-on-white-button-top-left" onClick={navigateBack}>Back</p>
+            <div className="back-button">
+                <FontAwesomeIcon icon="fa-solid fa-angle-left" size="2x" color="#419779" onClick={navigateBack}/>
+            </div>
             <div className='statement-section'>
                 {/* Using dangerouslySetInnerHTML to insert HTML content */}
                 <div dangerouslySetInnerHTML={{ __html: privacyPolicy }} />

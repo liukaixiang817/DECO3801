@@ -11,7 +11,7 @@ body {
 
     margin: 20px auto;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    
+
     max-width: 90vw; 
     width: 100%; 
     min-width: 300px; 
@@ -24,8 +24,13 @@ body {
     border: 4px solid var(--green); /* Add a border: thickness, style, and color */
 }
 
-.reward-container p{
-    font-size: 15px;
+
+.reward-container p {
+    flex-grow: 1;
+    text-align: left;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
 }
 
 .reward-header {
@@ -54,21 +59,10 @@ body {
 
 .reward-content {
     flex-grow: 1;
-    padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
-
-
-.reward-content p {
-    flex-grow: 1;
-    text-align: left;
-    font-size: 20px;
-    font-weight: bold;
-    margin: 0;
-}
-
 
 
 .reward-progress-award {
