@@ -27,16 +27,29 @@ const Home = () => {
 
     // 添加要显示的语句数组
     const personalizedSuggestions = [
-        "If you're lighter in weight, limit to 1-2 drinks per hour.",
-        "Women should aim for 1 drink per hour or less, and eat beforehand.",
-        "Men should keep it to 2 drinks per hour.",
-        "Never drink and drive.",
-        "Stay hydrated if drinking before or after physical activities.",
-        "Choose low-alcohol options if you have low tolerance.",
-        "Avoid drinking on an empty stomach.",
-        "Limit to 1-2 drinks if you're not a regular drinker.",
-        "Join a community volunteering activity to meet new people.",
-        "Challenge your friends to a table tennis match."
+        "Drinking Tips: Alcohol can affect the absorption of B vitamins.",
+        "Drinking Tips: Set a drinking limit before you start.",
+        "Drinking Tips: Alcohol intake can increase blood pressure.",
+        "Drinking Tips: Alcohol slows down the central nervous system.",
+        "Drinking Tips: Long-term drinking can lead to fatty liver.",
+        "Drinking Tips: Sip slowly and enjoy the drink.",
+        "Drinking Tips: Alcohol breaks down into acetaldehyde, which can be harmful.",
+        "Drinking Tips: Alcohol can impair memory and learning.",
+        "Drinking Tips: Keep busy with other activities to reduce the urge.",
+        "Drinking Tips: Excessive drinking strains the liver.",
+        "Drinking Tips: Eat a meal before drinking to slow absorption.",
+        "Drinking Tips: Alcohol weakens the immune system.",
+        "Drinking Tips: Replace your evening drink with a non-alcoholic one.",
+        "Drinking Tips: Alcohol can affect blood sugar levels, causing fluctuations.",
+        "Drinking Tips: Find a new hobby that doesn’t involve alcohol.",
+        "Drinking Tips: Excessive drinking can slow down muscle recovery.",
+        "Drinking Tips: Alcohol can affect stomach acid production, leading to indigestion.",
+        "Drinking Tips: Alcohol affects calcium absorption, impacting bone health.",
+        "Drinking Tips: Alcohol reduces the liver’s ability to break down toxins.",
+        "Drinking Tips: Alcohol intake can increase inflammation in the body.",
+        "Drinking Tips: Excessive drinking can damage the stomach lining, increasing the risk of ulcers.",
+        "Drinking Tips: Alcohol can affect the heart’s normal rhythm.",
+        "Drinking Tips: Try to socialize in places that don’t focus on alcohol."
     ];
 
 
@@ -211,6 +224,7 @@ const Home = () => {
                 <p className="emergency-call">
                     <a href="tel:1800250015">
                         <span>📞</span> <span>Help</span>
+                        <p>Alcohol Hot Line 1800250015</p>
                     </a>
                 </p>
             </div>
