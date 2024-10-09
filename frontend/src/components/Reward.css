@@ -18,10 +18,8 @@ body {
     
     height: auto; 
     max-height: 90vh; 
-
     overflow-y: auto; 
-    box-sizing: border-box; /* Ensure padding and border are included in the total size */
-    border: 4px solid var(--green); /* Add a border: thickness, style, and color */
+    
 }
 
 
