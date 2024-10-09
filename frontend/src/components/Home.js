@@ -88,6 +88,8 @@ const Home = () => {
                                 limitInGrams = (0.08 * weightInGrams * 0.68) / 100;
                             } else if (gender === 'female') {
                                 limitInGrams = (0.08 * weightInGrams * 0.55) / 100;
+                            } else {
+                                limitInGrams = (0.08 * weightInGrams * 0.615) / 100;
                             }
 
                             // transfer to beer (ml)
@@ -132,6 +134,9 @@ const Home = () => {
                             limitInGrams = (0.08 * weightInGrams * 0.68) / 100;
                         } else if (gender === 'female') {
                             limitInGrams = (0.08 * weightInGrams * 0.55) / 100;
+                        }
+                        else {
+                            limitInGrams = (0.08 * weightInGrams * 0.615) / 100;
                         }
 
                         // transfer to beer (ml)

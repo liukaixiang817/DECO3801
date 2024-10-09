@@ -20,27 +20,45 @@ const BodyInfo = () => {
 
     const genderOptions = ['male', 'female', 'other'];
     const drinkPreferenceOptions = ['Beer', 'Wine', 'Spirits', 'Cocktail', 'Sake']; // 确保选项首字母大写
+    
+    const fetchBodyInfoFromAPI = (username) => {
+        fetchBodyInfo(username)
+            .then(data => {
+                console.log("Body info fetched:", data);
+                if (data && !data.error) {
+                    // showing all the strings in the console
+                    // console.log("Data fields received:", Object.keys(data));
+                    // console.log("Gender:", data.gender);
+                    // console.log("Age:", data.age);
+                    // console.log("Height:", data.height);
+                    // console.log("Weight:", data.weight);
+                    // console.log("Drinking Preference:", data.drinkingPreference || data.drinkPreference);
+                    
+                    // match the received data with the state
+                    const parsedData = {
+                        gender: data.gender || 'male',
+                        age: String(data.age), // make sure it's string
+                        height: data.height || '',
+                        weight: data.weight || '',
+                        drinkingPreference: data.drinkingPreference || data.drinkPreference || 'Beer',
+                    };
+                    setBodyInfo(parsedData);
+                    console.log("Updated bodyInfo state:", parsedData);
+                } else {
+                    console.error("Error in body info response:", data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching body information:', error);
+            });
+    };
+
 
     useEffect(() => {
         const username = localStorage.getItem('username');
         if (username) {
             console.log("Fetching body info for username:", username);
-            fetchBodyInfo(username)
-                .then(data => {
-                    console.log("Body info fetched:", data);
-                    if (data && !data.error) {
-                        // 确保前端正确映射 'drinkingPreference' 字段
-                        setBodyInfo({
-                            ...data,
-                            drinkingPreference: data.drinkingPreference || data.drinkPreference // 兼容字段名
-                        });
-                    } else {
-                        console.error("Error in body info response:", data.error);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching body information:', error);
-                });
+            fetchBodyInfoFromAPI(username);
         } else {
             console.error('Username not found in localStorage');
         }
@@ -64,14 +82,14 @@ const BodyInfo = () => {
 
         const username = localStorage.getItem('username');
         if (username) {
-            const updatedData = { [currentField]: newValue };
+            const updatedData = { ...bodyInfo, [currentField]: newValue };
             console.log("Sending update request for username:", username, "with data:", updatedData);
 
             updateBodyInfo(username, updatedData)
                 .then(response => {
                     console.log("Body info update response:", response);
                     if (response.success) {
-                        setBodyInfo(prev => ({ ...prev, [currentField]: newValue }));
+                        fetchBodyInfoFromAPI(username);
                         setIsModalOpen(false);
                     } else {
                         console.error("Error updating body info:", response.error);
