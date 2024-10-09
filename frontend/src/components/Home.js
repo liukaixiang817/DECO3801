@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchHomeData,fetchBodyInfo,checkin} from '../api/apiClient';
+import { fetchHomeData, fetchBodyInfo, checkin } from '../api/apiClient';
 import { useNavigate } from 'react-router-dom';
 import './styles.css';
 import EventBanner from './Event/EventBanner';
@@ -205,15 +205,16 @@ const Home = () => {
     };
     return (
         <div className="home-container">
-           
- 
+
             <div className="header-row">
                 <div className='h3_1'> Welcome {username} </div>
                 <p className="emergency-call">
-                    <a href="tel:1800250015">📞</a>
+                    <a href="tel:1800250015">
+                        <span>📞</span> <span>Help</span>
+                    </a>
                 </p>
             </div>
-            <p>Our app is designed to help you reduce your dependence on alcohol</p>
+            <p5>Remember to reduce your alcohol intake today !</p5>
             <section className="record-section">
                 <h2>Record</h2>
                 <div className="record-control">
@@ -221,7 +222,7 @@ const Home = () => {
                     <span className="days-count">{daysUnderControl} Days</span>
                     <div className="button-container">
                         <button onClick={handleRecordDrinksClick}>Record Drinks</button>
-                        <button onClick={handleCheckInClick} style={{ color: "white",backgroundColor: '#e8b44b' }}>Daily Check In</button>
+                        <button onClick={handleCheckInClick} style={{ color: "white", backgroundColor: '#e8b44b' }}>Daily Check In</button>
 
                     </div>
                 </div>
@@ -233,7 +234,7 @@ const Home = () => {
                 <pre>
                     <p>
                         <span className="gold-text">{(weeklyLimitUsed / weeklyLimit * 100).toFixed(1)}% </span>
-                         of your weekly limit used
+                        of your weekly limit used
                     </p>
                     <div className="progress-bar">
                         <div className="progress" style={{
@@ -266,8 +267,8 @@ const Home = () => {
                 <div className='flex-container-row'>
                     {/* display all the keys in multiplers as drink-option-img class and make it clickable */}
                     {Object.keys(multipliers).map(type => (
-                        <div key={type}  onClick={() => setDrinkType(type)}>
-                            <img className="drink-option-img" src={`assets/drinks_icon/${type}-icon.svg` } alt="bottle icon"/>
+                        <div key={type} onClick={() => setDrinkType(type)}>
+                            <img className="drink-option-img" src={`assets/drinks_icon/${type}-icon.svg`} alt="bottle icon" />
                             <span className="drink-type-label">{type.charAt(0).toUpperCase() + type.slice(1)}</span>
                         </div>
                     ))}

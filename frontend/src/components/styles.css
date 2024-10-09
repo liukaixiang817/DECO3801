@@ -761,9 +761,9 @@ h2 {
 
 .emergency-call a {
     color: #dc3545;
-    font-weight: bold;
+    
     text-decoration: none;
-    font-size: 25px;
+    font-size: 20px;
 }
 
 .emergency-call a:hover {
@@ -771,11 +771,20 @@ h2 {
 }
 
 /* Header Row for Home Page */
+
+
 .header-row {
+    background: linear-gradient(135deg, #baff76 0%, #fffffd 100%); /* Cool gradient design */
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px; /* Adds rounded corners if you like */
+    color: white;
+    font-family: Arial, sans-serif; /* Adjust the font if needed */
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+
 
 /* container for display children vertically */
 /* 垂直排列子元素的容器 */
