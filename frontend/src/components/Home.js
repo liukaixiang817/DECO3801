@@ -223,8 +223,7 @@ const Home = () => {
                 <div className='h3_3'> Welcome {username} </div>
                 <p className="emergency-call">
                     <a href="tel:1800250015">
-                        <span>📞</span> <span>Help</span>
-                        <p>Alcohol Hot Line 1800250015</p>
+                        <span>📞</span> <span>Alcohol Hot Line</span>
                     </a>
                 </p>
             </div>
