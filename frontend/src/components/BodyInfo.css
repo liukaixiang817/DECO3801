@@ -1,24 +1,4 @@
-.body-info-page {
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 10px;
-
-    margin: 20px auto;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    
-    max-width: 90vw; 
-    width: 100%; 
-    min-width: 300px; 
-    min-height: 800px;
-    height: auto; 
-    max-height: 90vh; 
-
-    overflow-y: auto; 
-    box-sizing: border-box; /* Ensure padding and border are included in the total size */
-    border: 4px solid var(--green); /* Add a border: thickness, style, and color */
-}
-
-.info-item {
+.body-info-item {
     display: flex;
     justify-content: space-between;
     padding: 10px;
@@ -26,54 +6,10 @@
     cursor: pointer;
 }
 
-.info-item span:last-child {
+.body-info-item span:last-child {
     color: #888;
 }
 
-.info-item:hover {
+.body-info-item:hover {
     background-color: #f9f9f9;
-}
-
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.6); /* 半透明背景 */
-}
-
-.modal-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 300px;
-}
-
-.modal-content input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-}
-
-.modal-content button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.modal-content button + button {
-    background-color: #f44336;
-    margin-left: 10px;
 }

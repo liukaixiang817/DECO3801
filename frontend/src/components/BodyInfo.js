@@ -113,7 +113,7 @@ const BodyInfo = () => {
     };
 
     return (
-        <div className="body-info-page">
+        <div className="home-container">
             <div className='flex-container-column'>
                 <div className="back-button">
                     <FontAwesomeIcon icon="fa-solid fa-angle-left" size="2x" color="#419779" onClick={navigateBack}/>
@@ -121,31 +121,31 @@ const BodyInfo = () => {
                 <h1 className='info-heading'>Edit Body Information</h1>
 
                 {/* Gender */}
-                <div className="info-item" onClick={() => handleFieldClick('gender')}>
+                <div className="body-info-item" onClick={() => handleFieldClick('gender')}>
                     <span>Gender</span>
                     <span>{bodyInfo.gender}</span>
                 </div>
 
                 {/* Age */}
-                <div className="info-item" onClick={() => handleFieldClick('age')}>
+                <div className="body-info-item" onClick={() => handleFieldClick('age')}>
                     <span>Age</span>
                     <span>{bodyInfo.age}</span>
                 </div>
 
                 {/* Height */}
-                <div className="info-item" onClick={() => handleFieldClick('height')}>
+                <div className="body-info-item" onClick={() => handleFieldClick('height')}>
                     <span>Height</span>
                     <span>{bodyInfo.height || 'Enter here...'}cm</span>
                 </div>
 
                 {/* Weight */}
-                <div className="info-item" onClick={() => handleFieldClick('weight')}>
+                <div className="body-info-item" onClick={() => handleFieldClick('weight')}>
                     <span>Weight</span>
                     <span>{bodyInfo.weight || 'Enter here...'}kg</span>
                 </div>
 
                 {/* Drinking Preference */}
-                <div className="info-item" onClick={() => handleFieldClick('drinkingPreference')}>
+                <div className="body-info-item" onClick={() => handleFieldClick('drinkingPreference')}>
                     <span>Drinking Preference</span>
                     <span>{bodyInfo.drinkingPreference}</span>
                 </div>

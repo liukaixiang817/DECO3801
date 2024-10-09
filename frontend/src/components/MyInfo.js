@@ -209,7 +209,7 @@ const MyInfo = () => {
     };
 
     return (
-        <div className="my-info-page">
+        <div className="home-container">
             <div className="back-button">
                 <FontAwesomeIcon icon="fa-solid fa-angle-left" size="2x" color="#419779" onClick={navigateBack}/>
             </div>
@@ -217,26 +217,26 @@ const MyInfo = () => {
             <h1 className='info-heading'>Edit My Information</h1>
 
             {/* User name */}
-            <div className="info-item" onClick={() => handleFieldClick('username')}>
+            <div className="my-info-item" onClick={() => handleFieldClick('username')}>
                 <span>Username</span>
                 <span>{userInfo.username}</span>
             </div>
 
             {/* Email */}
-            <div className="info-item" onClick={() => handleFieldClick('email')}>
+            <div className="my-info-item" onClick={() => handleFieldClick('email')}>
                 <span>Email</span>
                 <span>{userInfo.email}</span>
             </div>
 
             {/* Hobbies */}
-            <div className="info-item" onClick={() => handleFieldClick('hobbies')}>
+            <div className="my-info-item" onClick={() => handleFieldClick('hobbies')}>
                 <span>Hobbies</span>
                 <span>{userInfo.hobbies.join(', ')}</span>
             </div>
 
 
             {/* Drinking Preference
-            <div className="info-item" onClick={() => handleFieldClick('drinkingPreference')}>
+            <div className="my-info-item" onClick={() => handleFieldClick('drinkingPreference')}>
                 <span>Drinking Preference</span>
                 <span>{userInfo.drinkingPreference}</span>
             </div> */}
@@ -252,35 +252,22 @@ const MyInfo = () => {
 
                 {/* 如果当前字段为hobbies，显示下拉框供选择 */}
                 {currentField === 'hobbies' ? (
-                    <>
-                        {newHobbies.length === 0 ? (
-                            <select
-                                value=""
-                                onChange={(e) => handleHobbyChange(0, e.target.value)}
-                                required
-                            >
-                                <option value="" disabled>Select Hobby</option>
-                                {hobbyOptions.map((option, i) => (
-                                    <option key={i} value={option}>{option}</option>
-                                ))}
-                            </select>
-                        ) : (
-                            newHobbies.map((hobby, index) => (
+                        <>
+                            {[0, 1, 2].map((index) => (
                                 <select
                                     key={index}
-                                    value={hobby}
+                                    value={newHobbies[index] || ""}
                                     onChange={(e) => handleHobbyChange(index, e.target.value)}
-                                    required
+                                    required={index === 0}  // 只有第一个选择是必需的
                                 >
                                     <option value="" disabled>Select Hobby</option>
                                     {hobbyOptions.map((option, i) => (
                                         <option key={i} value={option}>{option}</option>
                                     ))}
                                 </select>
-                            ))
-                        )}
-                    </>
-                ) : (
+                            ))}
+                        </>
+                    ) : (
                     <input
                         type="text"
                         value={newValue}

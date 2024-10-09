@@ -1,31 +1,5 @@
-/* MyInfo.css */
 
-.my-info-page {
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 10px;
-
-    margin: 20px auto;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    
-    max-width: 90vw; 
-    width: 100%; 
-    min-width: 300px; 
-    min-height: 800px;
-    height: auto; 
-    max-height: 90vh; 
-
-    overflow-y: auto; 
-    box-sizing: border-box; /* Ensure padding and border are included in the total size */
-    border: 4px solid var(--green); /* Add a border: thickness, style, and color */
-}
-
-.my-info-page h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.info-item {
+.my-info-item {
     display: flex;
     justify-content: space-between;
     padding: 10px;
@@ -33,16 +7,16 @@
     cursor: pointer;
 }
 
-.info-item:hover {
+.my-info-item:hover {
     background-color: #f0f0f0;
 }
 
-.info-item span {
+.my-info-item span {
     font-size: 16px;
     color: #333;
 }
 
-.info-item .menu-arrow {
+.my-info-item .menu-arrow {
     font-size: 18px;
     color: #888;
 }
@@ -50,48 +24,5 @@
 /* Heading center */
 .info-heading {
     text-align: center;
-}
-
-
-/* 弹窗样式 */
-.modal-content {
-    width: 50%;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
-}
-
-.modal-content h2 {
-    font-size: 20px;
     margin-bottom: 10px;
-}
-
-.modal-content input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-.modal-content button {
-    padding: 10px 20px;
-    margin-right: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.modal-content button.cancel-btn {
-    background-color: #f44336;
-}
-
-.modal-content button:hover {
-    opacity: 0.9;
 }
