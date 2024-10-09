@@ -9,7 +9,7 @@
   --blue: #6e33cc;
   --green: #68919c;
   --greenfaded: #abb0b1;
-  --greendarker: #569970;
+  --greendarker: #bddea6;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -45,33 +45,38 @@ h3,
 input {
   font-family: "DynaPuff";
 }
-h3_0 {
-  font-family: "DynaPuff";
-  font-size: medium;
-  margin: 0;
-}
+ 
 
-h3_1 {
+.h3_1 {
   font-family: "DynaPuff";
   font-size: 20px;
   line-height: 1.5;
+  margin-bottom: 10px;
 }
 
 
-h3_0:hover {
-  text-decoration: underline; /* Underline text on hover */
-  transform: scale(1.5); /* Enlarge text on hover */
-  
-}
+
 
 h4 {
   color: var(--fgColor);
   height: 100%;
 }
 
+.h3_0 {
+  font-family: "DynaPuff";
+  font-size: medium;
+  margin-top: 20px; /* Try increasing this value */
+}
 
 
-
+.h3_0:hover {
+  text-decoration: underline; /* Underline text on hover */
+  /* Enlarge text on hover */
+  
+}
+.gap {
+  margin-top: 40px;
+}
 
 
 p {
@@ -349,6 +354,10 @@ p {
 .event-title1 {
   margin-top: 10px;
   font-weight: bold;
+}
+.rounded-image {
+  margin-bottom: 15px;
+  border-radius: 10px; /* Adjust the value as needed for rounding */
 }
 
 @media (min-width: 500px) {

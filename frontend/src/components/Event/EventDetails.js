@@ -48,6 +48,7 @@ const EventDetails = () => {
           loading="lazy"
           src={eventimage}
           alt={`${subject} event`}
+          className="rounded-image"
 
         />
       </div>
@@ -58,6 +59,12 @@ const EventDetails = () => {
       </div>
      
       <h3_1>{description}</h3_1>
+
+      <div className="gap">
+
+
+
+      </div>
       <div className="container3">
         <FontAwesomeIcon
 

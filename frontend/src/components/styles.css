@@ -40,7 +40,7 @@ h1 {
     color: #333;
 }
 
-.h3_1 {
+.h3_3 {
     font-family: "DynaPuff";
     font-size: 30px;
     margin: 0;
@@ -86,6 +86,7 @@ h2 {
 /* Record Section */
 .record-section {
     margin-bottom: 20px;
+    margin-top: 40px;
 }
 
 
@@ -104,6 +105,7 @@ h2 {
 
 
 .record-control {
+    margin-top: 10px;
     background-color: #419779; 
     padding: 20px; 
     border-radius: 15px; /* 圆角和图片一致 */
@@ -116,6 +118,7 @@ h2 {
     color: #e8b44b; /* 改为黄色字体，匹配图片中的天数样式 */
     font-weight: bold;
     margin: 10px 0;
+    
 }
 
 /* 按钮容器，确保按钮水平排列 */
@@ -123,6 +126,7 @@ h2 {
     display: flex;
     justify-content: center; /* 居中对齐按钮 */
     gap: 15px; /* 按钮之间的间距 */
+    margin-top: 8px;
 }
 
 .record-control button {
@@ -150,6 +154,7 @@ h2 {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 轻微的阴影 */
     text-align: center; /* 居中对齐 */
     margin-bottom: 20px;
+    margin-top: 10px;
 }
 
 .goal-section p {
@@ -200,6 +205,7 @@ h2 {
     border-radius: 25px; /* 圆角 */
     display: flex; /* 使用flexbox排列图标和文本 */
     align-items: center; /* 垂直居中 */
+    margin-bottom: 20px;
 }
 
 .alternative-section p {
@@ -208,6 +214,7 @@ h2 {
     font-size: 20px;
     flex-grow: 1; /* 让文本占据剩余空间 */
     text-align: left; /* 让文字靠左对齐 */
+    
 }
 
 .icon {
@@ -774,11 +781,11 @@ h2 {
 
 
 .header-row {
-    background: linear-gradient(135deg, #baff76 0%, #fffffd 100%); /* Cool gradient design */
-    padding: 20px;
+    /* background: linear-gradient(135deg, #f2f9d2    0%, #e1edda  100%); /* Cool gradient design */
+    /* padding: 20px;
     text-align: center;
     border-radius: 8px; /* Adds rounded corners if you like */
-    color: white;
+    /* color: white; */ 
     font-family: Arial, sans-serif; /* Adjust the font if needed */
     display: flex;
     justify-content: space-between;
