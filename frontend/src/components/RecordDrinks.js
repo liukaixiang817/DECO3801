@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import './styles.css';
 import LeftIcon from '../assets/icons/left.svg';
 import BottleIcon from '../assets/icons/bottle.svg';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const RecordDrinks = () => {
     const [username, setUsername] = useState('');
@@ -13,17 +13,8 @@ const RecordDrinks = () => {
     const [drinkType, setDrinkType] = useState('beer');
     const [amount, setAmount] = useState(0);
     const [submitSuccess, setSubmitSuccess] = useState(null);
-    const [history, setHistory] = useState([]);  // 新增用于存储历史记录
+    const [history, setHistory] = useState([]); // 用于存储历史记录
     const navigate = useNavigate();
-
-    const [isHistoryVisible, setIsHistoryVisible] = useState(false);
-
-    // 添加一些示例数据用于查看设计样式
-    const sampleHistory = [
-        { type: 'beer', value: 200, time: '2024.08.20 13:50' },
-        { type: 'wine', value: 150, time: '2024.08.21 14:30' },
-        { type: 'spirits', value: 100, time: '2024.08.22 15:10' }
-    ];
 
     const multipliers = {
         beer: 1,
@@ -35,28 +26,20 @@ const RecordDrinks = () => {
 
     useEffect(() => {
         const storedUsername = localStorage.getItem('username');
-        console.log('Stored username:', storedUsername);  // 调试
         if (storedUsername) {
             fetchHomeData(storedUsername)
                 .then(data => {
-                    console.log('Fetched home data:', data);  // 调试
                     setUsername(data.username);
                     setWeeklyLimitUsed(data.weeklyLimitUsed);
                     setWeeklyLimit(data.weeklyLimit);
-
-                    // 获取历史记录
                     return getDrinkHistory(storedUsername);
                 })
                 .then(historyData => {
-                    console.log('Fetched drink history:', historyData);  // 调试
-
-                    // 重新构造历史记录，调整 value 根据比例，手动+10小时
                     const combinedHistory = historyData.recordTime.map((time, index) => {
                         let localTime = new Date(time);
-                        localTime.setHours(localTime.getHours() + 10);  // 手动增加 10 小时
-
+                        localTime.setHours(localTime.getHours() + 10); // 手动增加 10 小时
                         localTime = localTime.toLocaleString('en-AU', {
-                            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,  // 使用本地时区
+                            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // 使用本地时区
                             year: 'numeric',
                             month: 'numeric',
                             day: 'numeric',
@@ -64,16 +47,15 @@ const RecordDrinks = () => {
                             minute: '2-digit',
                             second: '2-digit',
                             timeZoneName: 'short',
-                            hour12: false  // 关闭12小时制，启用24小时制
+                            hour12: false
                         });
-
                         return {
                             time: localTime,
-                            value: (historyData.recordValue[index] / multipliers[historyData.recordType[index]]).toFixed(2),  // 按比例调整
+                            value: (historyData.recordValue[index] / multipliers[historyData.recordType[index]]).toFixed(2),
                             type: historyData.recordType[index],
                         };
                     });
-
+                    combinedHistory.sort((a, b) => new Date(b.time) - new Date(a.time));
                     setHistory(combinedHistory);
                 })
                 .catch(error => {
@@ -86,27 +68,18 @@ const RecordDrinks = () => {
 
     const handleDrinkRecord = () => {
         const calculatedAmount = amount * multipliers[drinkType];
-        console.log('Recording drink for:', { username, amount: calculatedAmount, drinkType });  // 调试
-
         recordDrink(username, calculatedAmount, drinkType)
             .then(updatedData => {
-                console.log('Drink recorded successfully:', updatedData);  // 调试
                 setWeeklyLimitUsed(updatedData.weeklyLimitUsed);
                 setSubmitSuccess(true);
-
-                // 更新历史记录
                 return getDrinkHistory(username);
             })
             .then(updatedHistory => {
-                console.log('Updated drink history:', updatedHistory);  // 调试
-
-                // 按比例和本地时间调整历史记录，并手动增加 10 小时
                 const combinedHistory = updatedHistory.recordTime.map((time, index) => {
                     let localTime = new Date(time);
-                    localTime.setHours(localTime.getHours() + 10);  // 手动增加 10 小时
-
+                    localTime.setHours(localTime.getHours() + 10); // 手动增加 10 小时
                     localTime = localTime.toLocaleString('en-AU', {
-                        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,  // 使用本地时区
+                        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // 使用本地时区
                         year: 'numeric',
                         month: 'numeric',
                         day: 'numeric',
@@ -114,19 +87,18 @@ const RecordDrinks = () => {
                         minute: '2-digit',
                         second: '2-digit',
                         timeZoneName: 'short',
-                        hour12: false  // 关闭12小时制，启用24小时制
+                        hour12: false
                     });
-
                     return {
                         time: localTime,
-                        value: (updatedHistory.recordValue[index] / multipliers[updatedHistory.recordType[index]]).toFixed(2),  // 按比例调整
+                        value: (updatedHistory.recordValue[index] / multipliers[updatedHistory.recordType[index]]).toFixed(2),
                         type: updatedHistory.recordType[index],
                     };
                 });
-
-                setHistory(combinedHistory);  // 更新历史记录
-                setAmount(0);  // 重置 amount
-                setSubmitSuccess(true);  // 成功后设置状态
+                combinedHistory.sort((a, b) => new Date(b.time) - new Date(a.time));
+                setHistory(combinedHistory);
+                setAmount(0); // 重置 amount
+                setSubmitSuccess(true); // 成功后设置状态
             })
             .catch(error => {
                 console.error('Error recording drink:', error);
@@ -135,51 +107,44 @@ const RecordDrinks = () => {
     };
 
     return (
-        <div className="home-container">
+        <div className="goal-section">
             <div className="record-drinks-box">
-
-                {/* 返回按钮 */}
                 <div className="header">
                     <button className="back-button" onClick={() => navigate('/')}>
-                        <img src={LeftIcon} alt="left arrow" style={{ width: '20px', height: '20px' }} />
+                        <FontAwesomeIcon icon="fa-solid fa-angle-left" size="2x" color="#419779"/>
                     </button>
-                    <h2>Record Drinks</h2>
                 </div>
 
-                {/* 包裹进度条区域的白色圆角容器 */}
                 <div className="progress-container">
-                    <p>{weeklyLimit - weeklyLimitUsed}ml remains this week</p>
-                    <div className="progress-bar">
-                        <div className="progress" style={{
-                            width: `${(weeklyLimitUsed / weeklyLimit) * 100}%`,
-                            backgroundColor:
-                                weeklyLimitUsed / weeklyLimit <= 0.33
-                                    ? 'green'
-                                    : weeklyLimitUsed / weeklyLimit <= 0.66
-                                        ? 'yellow'
-                                        : 'red',
-                            color: weeklyLimitUsed / weeklyLimit > 0.5 ? '#fff' : '#000', // 文本颜色
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            position: 'relative'
-                        }}>
-                            {/* 在进度条上显示百分比 */}
-                            <span
-                                className="progress-percentage">{`${Math.round((weeklyLimitUsed / weeklyLimit) * 100)}%`}</span>
+                    <pre>
+                        <p>
+                            <span className="gold-text">{weeklyLimit - weeklyLimitUsed}ml </span>
+                            remains this week
+                        </p>
+                        <div className="progress-bar">
+                            <div className="progress" style={{
+                                width: `${(weeklyLimitUsed / weeklyLimit) * 100}%`,
+                                backgroundColor: weeklyLimitUsed / weeklyLimit <= 0.33 ? 'green' : weeklyLimitUsed / weeklyLimit <= 0.66 ? 'yellow' : 'red',
+                                color: weeklyLimitUsed / weeklyLimit > 0.5 ? '#fff' : '#000',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                position: 'relative'
+                            }}>
+                                <span className="progress-percentage">{`${Math.round((weeklyLimitUsed / weeklyLimit) * 100)}%`}</span>
+                            </div>
                         </div>
-                    </div>
-                    <p>Your weekly limit is {weeklyLimit}ml (Converted to beer)</p>
+                        <p>Your weekly limit is <span className="gold-text">{weeklyLimit}ml</span>
+                            <p>(Converted to beer)</p>
+                        </p>
+                    </pre>
                 </div>
 
                 <div className="drink-type-selector">
                     {Object.keys(multipliers).map(type => (
                         <div key={type} className="drink-option">
-                            <button
-                                className={drinkType === type ? 'selected' : ''}
-                                onClick={() => setDrinkType(type)}
-                            >
-                                <img src={BottleIcon} alt="bottle icon" style={{width: '20px', height: '20px'}}/>
+                            <button className={drinkType === type ? 'selected' : ''} onClick={() => setDrinkType(type)}>
+                                <img src={BottleIcon} alt="bottle icon" style={{ width: '20px', height: '20px' }}/>
                             </button>
                             <span className="drink-type-label">{type.charAt(0).toUpperCase() + type.slice(1)}</span>
                         </div>
@@ -192,6 +157,7 @@ const RecordDrinks = () => {
                         value={amount}
                         onChange={e => setAmount(parseInt(e.target.value))}
                         placeholder="Enter amount in ml"
+                        style={{ paddingRight: '30px' }}
                     />
                     <span>ml&nbsp;</span>
                     <button onClick={handleDrinkRecord}>Submit</button>
@@ -203,31 +169,21 @@ const RecordDrinks = () => {
                     </div>
                 )}
 
-                {/* Record History Section with larger toggle button */}
-                <div className="history-header" onClick={() => setIsHistoryVisible(!isHistoryVisible)}>
+                {/* Record History Section - Always visible now */}
+                <div className="history-list">
                     <h2>Record History</h2>
-                    <button className={`toggle-icon ${isHistoryVisible ? 'expanded' : ''}`}>
-                        {isHistoryVisible ? '▾' : '▸'}
-                    </button>
+                    {history.length > 0 ? (
+                        history.map((record, index) => (
+                            <div key={index} className="history-item">
+                                <span>{record.type}</span>
+                                <span>{record.value}ml</span>
+                                <span>{record.time}</span>
+                            </div>
+                        ))
+                    ) : (
+                        <p>No history available.</p> // 当没有历史记录时显示提示
+                    )}
                 </div>
-
-                {isHistoryVisible && (
-                    <div className="history-list">
-                        {history.length > 0 ? (
-                            history.map((record, index) => (
-                                <div key={index} className="history-item">
-                                    <span>{record.type}</span>
-                                    <span>{record.value}ml</span>
-                                    <span>{record.time}</span>
-                                </div>
-                            ))
-                        ) : (
-                            <p>No history available.</p>  // 当没有历史记录时显示提示
-                        )}
-                    </div>
-                )}
-
-
             </div>
         </div>
     );
