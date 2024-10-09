@@ -235,11 +235,11 @@ const MyInfo = () => {
             </div>
 
 
-            {/* Drinking Preference
+            {/* Drinking Preference */}
             <div className="my-info-item" onClick={() => handleFieldClick('drinkingPreference')}>
                 <span>Drinking Preference</span>
                 <span>{userInfo.drinkingPreference}</span>
-            </div> */}
+            </div>
 
 
             {/* Pop window */}
@@ -250,39 +250,36 @@ const MyInfo = () => {
                     <p className='white-on-blue-button-top-right' onClick={handleSaveInfo}>Save</p>
                 </div>
 
-                {/* 如果当前字段为hobbies，显示下拉框供选择 */}
                 {currentField === 'hobbies' ? (
-                        <>
-                            {[0, 1, 2].map((index) => (
-                                <select
-                                    key={index}
-                                    value={newHobbies[index] || ""}
-                                    onChange={(e) => handleHobbyChange(index, e.target.value)}
-                                    required={index === 0}  // 只有第一个选择是必需的
-                                >
-                                    <option value="" disabled>Select Hobby</option>
-                                    {hobbyOptions.map((option, i) => (
-                                        <option key={i} value={option}>{option}</option>
-                                    ))}
-                                </select>
-                            ))}
-                        </>
-                    ) : (
+                    <>
+                        {[0, 1, 2].map((index) => (
+                            <select
+                                key={index}
+                                value={newHobbies[index] || ""}
+                                onChange={(e) => handleHobbyChange(index, e.target.value)}
+                                required={index === 0}
+                            >
+                                <option value="" disabled>Select Hobby</option>
+                                {hobbyOptions.map((option, i) => (
+                                    <option key={i} value={option}>{option}</option>
+                                ))}
+                            </select>
+                        ))}
+                    </>
+                ) : currentField === 'drinkingPreference' ? (
+                    <select value={newValue} onChange={(e) => setNewValue(e.target.value)}>
+                        <option value="" disabled>Select Drinking Preference</option>
+                        {drinkPreferenceOptions.map((option) => (
+                            <option key={option} value={option}>{option}</option>
+                        ))}
+                    </select>
+                ) : (
                     <input
                         type="text"
                         value={newValue}
                         onChange={(e) => setNewValue(e.target.value)}
                     />
                 )}
-
-                {/* Drinking Preference Dropdown
-                {currentField === 'drinkingPreference' && (
-                    <select value={newValue} onChange={(e) => setNewValue(e.target.value)}>
-                        {drinkPreferenceOptions.map(option => (
-                            <option key={option} value={option}>{option}</option>
-                        ))}
-                    </select>
-                )} */}
 
             </Modal>
         </div>
