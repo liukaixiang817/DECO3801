@@ -6,6 +6,14 @@ import LeftIcon from '../assets/icons/left.svg';
 import BottleIcon from '../assets/icons/bottle.svg';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+const convertBeerToStandardDrinks = (beerMl) => {
+    const BEER_TO_STANDARD_DRINK = 1.4; // 375 ml of beer = 1.4 standard drinks
+    const BEER_VOLUME = 375; // 375 ml per beer
+    return (beerMl / BEER_VOLUME * BEER_TO_STANDARD_DRINK).toFixed(2); // 转换为标准饮品单位
+};
+
+
+
 const RecordDrinks = () => {
     const [username, setUsername] = useState('');
     const [weeklyLimitUsed, setWeeklyLimitUsed] = useState(0);
@@ -18,10 +26,10 @@ const RecordDrinks = () => {
 
     const multipliers = {
         beer: 1,
-        wine: 3,
-        spirits: 2,
-        cocktail: 4,
-        sake: 4,
+        wine: 2.86,
+        spirits: 2.5,
+        cocktail: 2.54,
+        sake: 0.97,
     };
 
     useEffect(() => {
@@ -115,11 +123,13 @@ const RecordDrinks = () => {
                     </button>
                 </div>
 
+
                 <div className="progress-container">
                     <pre>
                         <p>
-                            <span className="gold-text">{weeklyLimit - weeklyLimitUsed}ml </span>
-                            remains this week
+                            <span className="gold-text">
+                                {convertBeerToStandardDrinks(weeklyLimit - weeklyLimitUsed)} standard drinks
+                            </span> remains this week
                         </p>
                         <div className="progress-bar">
                             <div className="progress" style={{
@@ -134,17 +144,17 @@ const RecordDrinks = () => {
                                 <span className="progress-percentage">{`${Math.round((weeklyLimitUsed / weeklyLimit) * 100)}%`}</span>
                             </div>
                         </div>
-                        <p>Your weekly limit is <span className="gold-text">{weeklyLimit}ml</span>
-                            <p>(Converted to beer)</p>
-                        </p>
+                        <p>Your weekly limit is <span
+                            className="gold-text">{convertBeerToStandardDrinks(weeklyLimit)} standard drinks</span></p>
                     </pre>
                 </div>
+
 
                 <div className="drink-type-selector">
                     {Object.keys(multipliers).map(type => (
                         <div key={type} className="drink-option">
                             <button className={drinkType === type ? 'selected' : ''} onClick={() => setDrinkType(type)}>
-                                <img src={BottleIcon} alt="bottle icon" style={{ width: '20px', height: '20px' }}/>
+                                <img src={BottleIcon} alt="bottle icon" style={{width: '20px', height: '20px'}}/>
                             </button>
                             <span className="drink-type-label">{type.charAt(0).toUpperCase() + type.slice(1)}</span>
                         </div>
@@ -157,7 +167,7 @@ const RecordDrinks = () => {
                         value={amount}
                         onChange={e => setAmount(parseInt(e.target.value))}
                         placeholder="Enter amount in ml"
-                        style={{ paddingRight: '30px' }}
+                        style={{paddingRight: '30px'}}
                     />
                     <span>ml&nbsp;</span>
                     <button onClick={handleDrinkRecord}>Submit</button>

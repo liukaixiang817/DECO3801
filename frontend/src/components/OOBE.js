@@ -65,6 +65,9 @@ const OOBE = () => {
             // 转换为啤酒体积 (ml)
             const beerVolumeInMl = (limitInGrams / (0.05 * 0.789)).toFixed(2);
             setBeerVolume(String(beerVolumeInMl)); // 确保 beerVolume 为字符串类型
+
+            const standardDrinks = (beerVolumeInMl / 375 * 1.4).toFixed(2);
+            setBeerVolume(String(standardDrinks)); // 确保标准饮品单位为字符串类型
         }
     }, [weight, gender]);
 
@@ -194,11 +197,11 @@ const OOBE = () => {
 
                     {/* Weekly Limit Display */}
                     {gender === 'male' || gender === 'female' ? (
-                        <p>Your recommended weekly drink limit is approximately {beerVolume} ml of beer.</p>
+                        <p style={{ fontSize: '18px' }}>Your suggested weekly limits is {beerVolume} standard drinks.</p>
                     ) : (
                         <input
                             type="text"
-                            placeholder="Weekly Limit (e.g., 10 ml)"
+                            placeholder="Weekly Limit (e.g., 10 standard drinks)"
                             value={beerVolume}
                             onChange={(e) => setBeerVolume(e.target.value)}
                             required

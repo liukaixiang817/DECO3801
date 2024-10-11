@@ -5,6 +5,12 @@ import './styles.css';
 import EventBanner from './Event/EventBanner';
 import Modal from './PopWindow';
 
+const convertBeerToStandardDrinks = (beerMl) => {
+    const BEER_TO_STANDARD_DRINK = 1.4; // 375ml full-strength beer = 1.4 standard drinks
+    return (beerMl / 375 * BEER_TO_STANDARD_DRINK).toFixed(2);
+};
+
+
 const Home = () => {
     const [username, setUsername] = useState('');
     const [daysUnderControl, setDaysUnderControl] = useState(0);
@@ -54,6 +60,9 @@ const Home = () => {
 
 
     useEffect(() => {
+        // 转换函数，将啤酒毫升数转换为标准饮品单位
+
+
         const storedUsername = localStorage.getItem('username');
         if (!storedUsername) {
             const params = new URLSearchParams(window.location.search);
@@ -65,12 +74,12 @@ const Home = () => {
                 localStorage.setItem('isLoggedIn', 'true'); // 存储登录状态
                 //setIsLoggedIn(true); // 设置为已登录状态
                 setUsername(storedUsername);
-                fetchHomeData(urlUsername)
+                fetchHomeData(storedUsername)
                     .then(data => {
                         setUsername(data.username);
                         setDaysUnderControl(data.daysUnderControl);
-                        setWeeklyLimitUsed(data.weeklyLimitUsed);
-                        setWeeklyLimit(data.weeklyLimit);
+                        setWeeklyLimitUsed(convertBeerToStandardDrinks(data.weeklyLimitUsed)); // 转换为标准饮品单位
+                        setWeeklyLimit(convertBeerToStandardDrinks(data.weeklyLimit)); // 转换为标准饮品单位
                     })
                     .catch(error => {
                         console.error('Error fetching home data:', error);
@@ -95,6 +104,9 @@ const Home = () => {
                             // transfer to beer (ml)
                             const beerVolumeInMl = (limitInGrams / (0.05 * 0.789)).toFixed(2);
                             setRecommendWeeklyLimit(beerVolumeInMl);
+
+                            localStorage.setItem('recommendWeeklyLimit', beerVolumeInMl);
+
                         }
                     })
                     .catch(error => {
@@ -225,10 +237,10 @@ const Home = () => {
         <div className="home-container">
 
             <div className="header-row">
-                <div className='h3_3'> Welcome {username} </div>
+                <div className='h3_3'> Welcome {username}!</div>
                 <p className="emergency-call">
                     <a href="tel:1800250015">
-                        <span>📞</span> <span>Alcohol Hot Line</span>
+                        <span>📞</span> <span>Alcohol Hotline</span>
                     </a>
                 </p>
             </div>
@@ -240,7 +252,9 @@ const Home = () => {
                     <span className="days-count">{daysUnderControl} Days</span>
                     <div className="button-container">
                         <button onClick={handleRecordDrinksClick}>Record Drinks</button>
-                        <button onClick={handleCheckInClick} style={{ color: "white", backgroundColor: '#e8b44b' }}>Daily Check In</button>
+                        <button onClick={handleCheckInClick} style={{color: "white", backgroundColor: '#e8b44b'}}>Daily
+                            Check In
+                        </button>
 
                     </div>
                 </div>
@@ -251,23 +265,24 @@ const Home = () => {
             <section className="goal-section">
                 <pre>
                     <p>
-                        <span className="gold-text">{(weeklyLimitUsed / weeklyLimit * 100).toFixed(1)}% </span>
+                        <span
+                            className="gold-text">{(convertBeerToStandardDrinks(weeklyLimitUsed) / convertBeerToStandardDrinks(weeklyLimit) * 100).toFixed(1)}%</span>
                         of your weekly limit used
                     </p>
                     <div className="progress-bar">
                         <div className="progress" style={{
-                            width: `${weeklyLimitUsed / weeklyLimit * 100}%`,
+                            width: `${convertBeerToStandardDrinks(weeklyLimitUsed) / convertBeerToStandardDrinks(weeklyLimit) * 100}%`,
                             backgroundColor: weeklyLimitUsed > weeklyLimit ? 'red' : 'orange'
                         }}></div>
                     </div>
                     <p>
                         Your weekly limit is
-                        <span className="gold-text"> {weeklyLimit}ml</span>
-                        <p>(Converted to beer)</p>
+                        <span className="gold-text"> {convertBeerToStandardDrinks(weeklyLimit)} standard drinks</span>
                     </p>
-                    <p className='hint-text'> The recommended weekly limit for you is {RecommendWeeklyLimit}ml</p>
-                </pre>
+                    <p className='hint-text'> The recommended weekly limit for you is {convertBeerToStandardDrinks(RecommendWeeklyLimit)} standard drinks</p>
+                 </pre>
             </section>
+
 
             <section className="alternative-section">
                 <i className="fas fa-lightbulb icon"></i>
@@ -278,15 +293,16 @@ const Home = () => {
 
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
                 <div className='flex-container-row'>
-                    <p className="blue-on-white-button-middle-left" onClick={handleModalClose} >Cancel</p>
+                    <p className="blue-on-white-button-middle-left" onClick={handleModalClose}>Cancel</p>
                     <h2 className='Modal-heading-top-center'>Fast Record Alcohol</h2>
-                    <p className='white-on-blue-button-top-right' onClick={fastRecordSave} >Save</p>
+                    <p className='white-on-blue-button-top-right' onClick={fastRecordSave}>Save</p>
                 </div>
                 <div className='flex-container-row'>
                     {/* display all the keys in multiplers as drink-option-img class and make it clickable */}
                     {Object.keys(multipliers).map(type => (
                         <div key={type} onClick={() => setDrinkType(type)}>
-                            <img className="drink-option-img" src={`assets/drinks_icon/${type}-icon.svg`} alt="bottle icon" />
+                            <img className="drink-option-img" src={`assets/drinks_icon/${type}-icon.svg`}
+                                 alt="bottle icon"/>
                             <span className="drink-type-label">{type.charAt(0).toUpperCase() + type.slice(1)}</span>
                         </div>
                     ))}

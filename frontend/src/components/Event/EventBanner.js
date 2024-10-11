@@ -188,7 +188,7 @@ const EventBanner = () => {
 
   return (
     <section className="event-banner-section">
-      <h3>Events:</h3>
+      <h3>Events</h3>
       <div className="h3_0">&#8592;Swipe left to see more</div>
       <div className="carousel-container" {...handlers}>
         <div className="carousel" ref={carouselRef}>
