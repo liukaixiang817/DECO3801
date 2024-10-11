@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Reward.css';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { fetchHomeData } from '../api/apiClient'; // 引入获取数据的函数
+import { fetchHomeData } from '../api/apiClient';
 import DrinkHistory from './HIstory/DrinkHIstory';
 
 const RewardPage = () => {
@@ -29,15 +28,17 @@ const RewardPage = () => {
     };
 
     const awards = [
-        { period: '1 Week', num: 7, file_path: 'assets/medal_imgs/1w_medal_transparent.png' },
-        { period: '1 Month', num: 30, file_path: 'assets/medal_imgs/1m_medal_transparent.png' },
-        { period: '3 Months', num: 90, file_path: 'assets/medal_imgs/3m_medal_transparent.png' },
-        { period: '6 Months', num: 120, file_path: 'assets/medal_imgs/6m_medal_transparent.png' },
+        { period: 'New Sober', num: 1, file_path: 'assets/medal_imgs/1d.svg' },
+        { period: '1 Week', num: 7, file_path: 'assets/medal_imgs/1w.svg' },
+        { period: '1 Month', num: 30, file_path: 'assets/medal_imgs/1m.svg' },
+        { period: '6 Months', num: 180, file_path: 'assets/medal_imgs/6m.svg' },
+        { period: '1 Year', num: 365, file_path: 'assets/medal_imgs/1y.svg' },
+        { period: 'Congrats', num: 365, file_path: 'assets/medal_imgs/all.svg' },
     ];
 
-    // 计算下一个和最近的奖励
-    let next_award = awards.find(award => award.num > daysUnderControl);
-    let recent_award = awards.find(award => award.num <= daysUnderControl);
+    // calculate the first and second recent awards
+    let recent_first_award = awards.find(award => award.num <= daysUnderControl);
+    let recent_second_award = awards.find(award => award.num <= daysUnderControl && award.num !== recent_first_award.num);
 
     return (
 
@@ -56,18 +57,24 @@ const RewardPage = () => {
                 <p style={{marginBottom:'10px'}}>Daily Check In Calendar</p>
                 <DrinkHistory> </DrinkHistory>
                 <div className="reward-content">
-                    <p>My Awards</p>
+                    <p>Recent Awards</p>
                     <div className="reward-progress-award">
-                        <div className="reward-progress-info">
-                            <p>The Number of Days You Have Checked In</p>
-                            <div className="reward-progress-bar">
-                                <div
-                                    className="reward-progress-fill"
-                                    style={{ width: `${(daysUnderControl / 120) * 100}%` }}
-                                ></div>
-                            </div>
+                        <div className="reward-awards-grid">
+                            {/* if first recent exists  */}
+                            {recent_first_award ? (
+                                <div className="reward-award-item">
+                                    <img src={recent_first_award.file_path} alt="recent award" />
+                                    <p>{recent_first_award.period}</p>
+                                </div>
+                            ) : <p>No Recent Award Available</p>}
+                            {/* if second recent exists  */}
+                            {recent_second_award ? (
+                                <div className="reward-award-item">
+                                    <img src={recent_second_award.file_path} alt="recent award" />
+                                    <p>{recent_second_award.period}</p>
+                                </div>
+                            ) : <p>  Start Sober Today!</p>}
                         </div>
-                        <span className="reward-progress-text">{daysUnderControl}/120</span>
                     </div>
                     <p>All Awards</p>
                     <div className="reward-awards-grid">
@@ -82,10 +89,10 @@ const RewardPage = () => {
                                 </div>
                             ))
                         ) : (
-                            <p>No awards available</p> // 如果没有奖项可用
+                            <p>No awards available</p> // if there's no awards available
                         )}
                     </div>
-                    <div className="reward-awards-grid">
+                    {/* <div className="reward-awards-grid">
                         {recent_award && (
                             <div className="reward-award-item">
                                 <h2 className="reward-section-title">Recent</h2>
@@ -100,7 +107,7 @@ const RewardPage = () => {
                                 <p>{next_award.period}</p>
                             </div>
                         )}
-                    </div>
+                    </div> */}
                 </div>
 
             </div>
