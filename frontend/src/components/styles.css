@@ -159,9 +159,8 @@ h2 {
 }
 
 .goal-section p {
-    font-size: 20px;
+    font-size: 18px;
     color: #333; /* 黑色文字 */
-    margin-bottom: 15px;
 }
 
 .gold-text {
@@ -173,7 +172,7 @@ h2 {
 
 .hint-text {
     /* place the hint on left bottom */
-    text-align: left;
+    text-align: center;
     font-size: 14px !important;
     color: #888; /* grey~ */
 }

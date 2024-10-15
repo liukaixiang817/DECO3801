@@ -266,7 +266,7 @@ const Home = () => {
                 <pre>
                     <p>
                         <span
-                            className="gold-text">{(convertBeerToStandardDrinks(weeklyLimitUsed) / convertBeerToStandardDrinks(weeklyLimit) * 100).toFixed(1)}%</span>
+                            className="gold-text">{(convertBeerToStandardDrinks(weeklyLimitUsed) / convertBeerToStandardDrinks(weeklyLimit) * 100).toFixed(1)}% </span>
                         of your weekly limit used
                     </p>
                     <div className="progress-bar">
@@ -276,10 +276,12 @@ const Home = () => {
                         }}></div>
                     </div>
                     <p>
-                        Your weekly limit is
-                        <span className="gold-text"> {convertBeerToStandardDrinks(weeklyLimit)} standard drinks</span>
+                        Weekly limit:
+                        <span className="gold-text"> {convertBeerToStandardDrinks(weeklyLimit)} </span>
+                        standard drinks
                     </p>
-                    <p className='hint-text'> The recommended weekly limit for you is {convertBeerToStandardDrinks(RecommendWeeklyLimit)} standard drinks</p>
+                    <p className='hint-text'style={{marginTop:'10px'}}>Recommended weekly limit is {convertBeerToStandardDrinks(RecommendWeeklyLimit)}</p>
+                    <p className='hint-text' >(standard drinks)</p>
                  </pre>
             </section>
 
