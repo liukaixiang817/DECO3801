@@ -1,14 +1,17 @@
 /* General Styles */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevents scrolling on the body */
+}
+
 body {
     font-family: 'Tahoma', sans-serif;
     background-color: #EFEFEF;
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
     position: relative;
-    min-height: 100vh;
     padding-bottom: 60px; /* leave space for navigation bar */
-    overflow-x: hidden; /* Ensure the body doesn't scroll horizontally */
 }
 
 /* Home Container */
@@ -28,6 +31,55 @@ body {
     box-sizing: border-box; /* Includes padding and borders in width calculation */
 }
 
+/* Responsive Design */
+@media (max-width: 600px) {
+    .home-container {
+        padding: 15px;
+        margin: 10px;
+        width: calc(100% - 20px); /* Adjusts for smaller margins on mobile */
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    .days-count {
+        font-size: 28px;
+    }
+
+    .navigation a {
+        font-size: 16px;
+    }
+}
+
+/* Additional media query for even smaller screens */
+@media (max-width: 400px) {
+    .home-container {
+        padding: 10px;
+        margin: 5px;
+        width: calc(100% - 10px);
+    }
+
+    h1 {
+        font-size: 18px;
+    }
+
+    h2 {
+        font-size: 16px;
+    }
+
+    .days-count {
+        font-size: 24px;
+    }
+
+    .navigation a {
+        font-size: 14px;
+    }
+}
 
 .home-container p{
     font-size: 15px;
@@ -295,30 +347,6 @@ h2 {
     background-color: white;
 }
 
-
-/* Responsive Design */
-@media (max-width: 600px) {
-    .home-container {
-        padding: 15px;
-        margin: 10px;
-    }
-
-    h1 {
-        font-size: 20px;
-    }
-
-    h2 {
-        font-size: 18px;
-    }
-
-    .days-count {
-        font-size: 28px;
-    }
-
-    .navigation a {
-        font-size: 16px;
-    }
-}
 
 /* Login Container */
 .login-container {
