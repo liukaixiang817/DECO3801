@@ -137,6 +137,7 @@ This project include both frontend and backend.
 
 > [!IMPORTANT]
 > A .env profile is needed in the backend folder, and it is not provided on GitHub.
+> When deploying locally, Sign in with apple and cloudflare captcha will not work because of the domain.
 
 # Installation
 Frontend and backend are installed independently of each other. Before installation, please make sure you have navigated to the `DECO3801` folder.
