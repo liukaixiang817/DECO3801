@@ -220,6 +220,16 @@ const Profile = () => {
                 </div>
 
             </div>
+
+            {/* log out button */}
+            <div className="logout-button-container">
+                <div className='logout-button' onClick={() => {
+                    localStorage.clear();
+                    navigate('/login');
+                }}>
+                    Log Out
+                </div>
+            </div>
         </div>
     );
 };
