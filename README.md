@@ -158,6 +158,8 @@ npm install
 
 ## Backend
 
+- Install PHP From `https://www.php.net`
+
 - Install dependence
     - Navigate to `/DECO3801/backend/`
     - Unzip the `Vendor.zip`
