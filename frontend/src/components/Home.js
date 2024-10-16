@@ -237,12 +237,19 @@ const Home = () => {
         <div className="home-container">
 
             <div className="header-row">
-                <div className='h3_3'> Welcome {username}!</div>
-                <p className="emergency-call">
-                    <a href="tel:1800250015">
-                        <span>📞</span> <span>Alcohol Hotline</span>
-                    </a>
-                </p>
+                <div className='flex-container-column'>
+                    <div className='flex-container-row-pure' style={{justifyContent:"space-between", marginBottom:'0'}}>
+                        <div className='h4_4'> Welcome </div>
+                        <p className="emergency-call">
+                            <a href="tel:1800250015">
+                                <span>📞</span> <span>Alcohol Hotline</span>
+                            </a>
+                        </p>
+                    </div>
+                    <div className='h3_3'> {username}!</div>
+                </div>
+                
+                
             </div>
             <p5>Remember to reduce your alcohol intake today !</p5>
             <section className="record-section">

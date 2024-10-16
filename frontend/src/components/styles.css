@@ -805,6 +805,27 @@ h2 {
     text-decoration: underline;
 }
 
+/* For screens smaller than 768px (typical tablet size) */
+@media screen and (max-width: 768px) {
+    .emergency-call a {
+        font-size: 18px;
+    }
+}
+
+/* For screens smaller than 480px (typical mobile size) */
+@media screen and (max-width: 480px) {
+    .emergency-call a {
+        font-size: 18px;
+    }
+}
+
+/* For very small screens */
+@media screen and (max-width: 320px) {
+    .emergency-call a {
+        font-size: 16px;
+    }
+}
+
 /* Header Row for Home Page */
 
 
@@ -829,6 +850,18 @@ h2 {
     width: 100%;
 }
 
+.flex-container-row-pure {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.h4_4 {
+    font-family: "DynaPuff";
+    font-size: 36px;
+    margin: 0;
+    color: #419779;
+}
 /* 水平排列子元素的容器 */
 .flex-container-row {
     display: flex;

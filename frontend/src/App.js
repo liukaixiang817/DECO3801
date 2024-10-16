@@ -61,7 +61,7 @@ const AppContent = ({ isLoggedIn, setIsLoggedIn }) => {
             <Route path="/oobe" element={<OOBE />} />
             <Route path="/rewards" element={<RewardPage />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile" element={<Profile setIsLoggedIn={setIsLoggedIn}/>} />
             <Route path="/events" element={<EventComponent />} />
             <Route path="/events/:subject" element={<EventDetails />} />
             <Route path="/record-drinks" element={<RecordDrinks />} />

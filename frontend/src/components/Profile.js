@@ -29,7 +29,7 @@ const convertBeerToStandardDrinks = (beerMl) => {
 
 
 
-const Profile = () => {
+const Profile = ({ setIsLoggedIn }) => {
     const [profile, setProfile] = useState({
         username: '',
         email: '',
@@ -225,6 +225,7 @@ const Profile = () => {
             <div className="logout-button-container">
                 <div className='logout-button' onClick={() => {
                     localStorage.clear();
+                    setIsLoggedIn(false);
                     navigate('/login');
                 }}>
                     Log Out
