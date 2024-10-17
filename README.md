@@ -23,7 +23,7 @@
   </a>
 </p>
 
-# File structure
+# Base file structure
 This project include both frontend and backend.
 <pre>
 📂 DECO3801
@@ -136,8 +136,11 @@ This project include both frontend and backend.
 > It is recommended to deploy it on the same machine.
 
 > [!IMPORTANT]
-> A .env profile is needed in the backend folder, and it is not provided on GitHub.
+> A .env profile is needed in the backend folder, and it is not provided on GitHub for other project's security reason.
+> 
 > When deploying locally, Sign in with apple and cloudflare captcha will not work because of the domain.
+> 
+> Cloudflare Captcha will also not work in the local deploy. If you want to enable it, you should generate your own API and keys from Cloudflare.
 
 # Installation
 Frontend and backend are installed independently of each other. Before installation, please make sure you have navigated to the `DECO3801` folder.
@@ -149,9 +152,9 @@ cd frontend
 npm install
 ```
 - Adjust settings (If you want to test the backend and run the project locally)
-    - Navigate to `/DECO3801/frontend/src/api/`
-    - Open `apiClient.js`. Comment out the fourth line and uncomment the fifth line.
-    - Make sure you uncomment line :`baseURL: 'http://localhost:8000/',`.
+  - Navigate to `/DECO3801/frontend/src/api/`
+  - Open `apiClient.js`. Comment out the fourth line and uncomment the fifth line.
+  - Make sure you uncomment line :`baseURL: 'http://localhost:8000/',`.
 
 - Run `npm run dev`
 
@@ -162,8 +165,8 @@ npm install
 - Install PHP From `https://www.php.net`
 
 - Install dependence
-    - Navigate to `/DECO3801/backend/`
-    - Unzip the `Vendor.zip`
+  - Navigate to `/DECO3801/backend/`
+  - Unzip the `Vendor.zip`
 
 - Set the `.env` file
   - Example:
@@ -171,4 +174,15 @@ npm install
     - `MONGO_DB=EXAMPLENAME`
 
 - Run `php -S 0.0.0.0:8000 -t public`
+
+## iOS version (optional)
+
+- Install Xcode From App Store
+
+- Open project
+  - Open `S2.xcodeproj` form `/Xcode/S2/`
+
+- Set the domain and swap the `https://deco.lkx666.cn`
+> [!TIP]
+> Please remember that WebKit will not support HTTP and changes need to be made in Xcode if you are deploying it locally.
   
