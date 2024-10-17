@@ -4,17 +4,17 @@ class User {
     private $collection;
 
     public function __construct($db) {
-        // 初始化 users 集合
+        // Initialize users collection
         $this->collection = $db->users;
     }
 
-    // 注册用户
+    // Register user
     public function registerUser($data) {
-        // 初始化 lastReset 为当前时间
+        // Initialize lastReset to current time
         $data['lastReset'] = new MongoDB\BSON\UTCDateTime(time() * 1000);
         $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
-        // 如果 hobbies 不存在，初始化为空数组
+        // If hobbies doesn't exist, initialize as an empty array
         if (!isset($data['hobbies'])) {
             $data['hobbies'] = [];
         }
@@ -38,7 +38,7 @@ class User {
         return $result->getModifiedCount() > 0;
     }
 
-    // 提交 OOBE 数据
+    // Submit OOBE data
     public function submitOOBEData($data) {
         $updateResult = $this->collection->updateOne(
             ['username' => $data['username']],
@@ -48,11 +48,11 @@ class User {
                 'weeklyLimit' => $data['weeklyLimit'],
                 'daysUnderControl' => 0,
                 'weeklyLimitUsed' => 0,
-                'lastReset' => new MongoDB\BSON\UTCDateTime(time() * 1000), // 初始化 lastReset
-                'hobbies' => $data['hobbies'], // 新增的爱好字段
-                'height' => $data['height'], // 新增 height 字段
-                'weight' => $data['weight'], // 新增 weight 字段
-                'drinkingPreference' => $data['drinkingPreference'] // 新增 drinkingPreference 字段
+                'lastReset' => new MongoDB\BSON\UTCDateTime(time() * 1000), // Initialize lastReset
+                'hobbies' => $data['hobbies'], // New hobbies field
+                'height' => $data['height'], // New height field
+                'weight' => $data['weight'], // New weight field
+                'drinkingPreference' => $data['drinkingPreference'] // New drinkingPreference field
             ]]
         );
 
@@ -63,12 +63,12 @@ class User {
         }
     }
 
-
-    // 通过用户名查找用户
+    // Find user by username
     public function findUserByUsername($username) {
         return $this->collection->findOne(['username' => $username]);
     }
-// 根据 email 查找用户
+
+    // Find user by email
     public function findUserByEmail($email) {
         $user = $this->collection->findOne(['email' => $email]);
 
@@ -79,7 +79,7 @@ class User {
         }
     }
 
-    // 获取用户信息
+    // Get user information
     public function getUserInfo($username) {
         $user = $this->findUserByUsername($username);
 
@@ -87,7 +87,7 @@ class User {
             return json_encode([
                 'username' => $user['username'],
                 'email' => $user['email'],
-                'hobbies' => $user['hobbies'] ?? [] // 返回用户的爱好
+                'hobbies' => $user['hobbies'] ?? [] // Return user's hobbies
             ]);
         } else {
             http_response_code(404);
@@ -95,7 +95,7 @@ class User {
         }
     }
 
-    // 更新用户信息
+    // Update user information
     public function updateUserInfo($username, $data) {
         error_log("Updating user info in database for username: " . $username);
         error_log("Data being updated: " . json_encode($data));
@@ -103,7 +103,7 @@ class User {
         $query = ['username' => $username];
         $update = ['$set' => $data];
 
-        if (isset($data['hobbies'])) { // 新增爱好更新
+        if (isset($data['hobbies'])) { // New hobby update
             $update['$set']['hobbies'] = $data['hobbies'];
         }
 
@@ -117,14 +117,14 @@ class User {
         }
     }
 
-    // 删除用户
+    // Delete user
     public function deleteUser($username) {
         $deleteResult = $this->collection->deleteOne(['username' => $username]);
 
         return $deleteResult->getDeletedCount() > 0;
     }
 
-    // 获取或初始化 weeklyLimitUsed
+    // Get or initialize weeklyLimitUsed
     public function getOrInitializeWeeklyLimitUsed($username) {
         $user = $this->findUserByUsername($username);
 
@@ -143,7 +143,7 @@ class User {
         }
     }
 
-    // 更新 weeklyLimitUsed
+    // Update weeklyLimitUsed
     public function updateWeeklyLimitUsed($username, $newWeeklyLimitUsed) {
         $this->collection->updateOne(
             ['username' => $username],
@@ -151,7 +151,7 @@ class User {
         );
     }
 
-    // 更新用户历史记录
+    // Update user history
     public function updateUserHistory($username, $recordTime, $recordValue, $recordType) {
         $this->collection->updateOne(
             ['username' => $username],
@@ -163,7 +163,7 @@ class User {
         );
     }
 
-    // 获取用户历史记录
+    // Get user history
     public function getUserHistory($username) {
         $user = $this->findUserByUsername($username);
 

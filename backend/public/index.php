@@ -24,10 +24,10 @@ $requestMethod = $_SERVER["REQUEST_METHOD"];
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $pathFragments = explode('/', trim($path, '/'));
 
-// 默认情况下使用 UserController
+// use UserController as the default controller
 $controller = new UserController($db);
 
-// 添加新的 /checkin 路由处理签到请求
+// add new /checkin router to handle checkin requests
 if ($pathFragments[0] == 'checkin') {
     $controller = new ProfileController($db);
     if ($requestMethod == 'POST') {
@@ -47,11 +47,11 @@ elseif ($pathFragments[0] == 'callback') {
     if ($requestMethod == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
 
-        // 添加对 $data 的处理逻辑，这可能涉及验证苹果登录回调的参数
-        // 这里可以添加日志记录以确认请求到达后端
+        // Add logic to process $data, which may involve validating Apple login callback parameters
+        // Add logging here to confirm the request has reached the backend
         error_log('Received callback request with data: ' . print_r($data, true));
 
-        // 返回示例响应
+        // Return example response
         echo json_encode(['message' => 'Callback received', 'data' => $data]);
     } else {
         http_response_code(405); // Method not allowed
@@ -59,12 +59,12 @@ elseif ($pathFragments[0] == 'callback') {
     }
 }
 
-// 新增 /apple-login 路由处理苹果登录请求
+// New /apple-login route to handle Apple login requests
 elseif ($pathFragments[0] == 'apple-login') {
     if ($requestMethod == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
 
-        // 检查请求中是否存在 username 和 email
+        // Check if username and email exist in the request
         if (isset($data['username']) && isset($data['email'])) {
             echo $controller->appleLogin($data);
         } else {
@@ -76,21 +76,20 @@ elseif ($pathFragments[0] == 'apple-login') {
         echo json_encode(['error' => 'Method not allowed']);
     }
 }
-// 新增 /apple-callback 路由处理苹果登录回调
-// 新增 /apple-callback 路由处理苹果登录回调
+// New /apple-callback route to handle Apple login callback
 elseif ($pathFragments[0] == 'apple-callback') {
     if ($requestMethod == 'POST') {
-        // 读取并打印原始请求体
+        // Read and print the raw request body
         $rawBody = file_get_contents('php://input');
         error_log('Received raw body: ' . $rawBody);
 
-        // 解析 `application/x-www-form-urlencoded` 格式的请求体
+        // Parse the `application/x-www-form-urlencoded` format request body
         parse_str($rawBody, $post_vars);
 
-        // 打印解析后的请求体内容
+        // Print the parsed request body content
         error_log('Parsed post_vars: ' . print_r($post_vars, true));
 
-        // 获取 code、state 和 id_token
+        // Get code, state and id_token
         $code = $post_vars['code'] ?? null;
         $state = $post_vars['state'] ?? null;
         $id_token = $post_vars['id_token'] ?? null;
@@ -101,49 +100,49 @@ elseif ($pathFragments[0] == 'apple-callback') {
 
         if ($code && $state && $id_token) {
             try {
-                // 分解 `id_token` (格式：header.payload.signature)
+                // Decompose `id_token` (format: header.payload.signature)
                 $id_token_parts = explode('.', $id_token);
                 $payload = json_decode(base64_decode(str_replace(['-', '_'], ['+', '/'], $id_token_parts[1])), true);
 
-                // 打印解码后的 payload
+                // Print the decoded payload
                 error_log('Decoded payload: ' . print_r($payload, true));
 
-                // 提取 email
+                // Extract email
                 $email = $payload['email'] ?? null;
 
                 if ($email) {
-                    // 使用 User.php 中的 findUserByEmail 方法查找用户
-                    $userModel = new User($db); // 创建 User 模型实例
+                    // Use the findUserByEmail method in User.php to find the user
+                    $userModel = new User($db); // Create User model instance
                     $user = $userModel->findUserByEmail($email);
 
                     if ($user) {
-                        // 用户已存在，构造跳转到 Home 页面
+                        // User exists, construct redirect to Home page
                         $username = $user['username'];
                         $redirectURL = "https://deco.lkx666.cn/home?username=" . urlencode($username) . "&email=" . urlencode($email);
 
-                        // 执行跳转到 Home
+                        // Perform redirect to Home
                         header("Location: $redirectURL");
                         exit;
                     } else {
-                        // 用户不存在，生成用户名和密码后注册
-                        $username = explode('@', $email)[0]; // 使用邮箱的前部分作为用户名
-                        $password = $email . '2024'; // 以邮箱+2024作为密码
+                        // User does not exist, generate username and password then register
+                        $username = explode('@', $email)[0]; // Use the first part of the email as username
+                        $password = $email . '2024'; // Use email+2024 as password
 
-                        // 注册新用户
+                        // Register new user
                         $newUser = [
                             'username' => $username,
                             'email' => $email,
                             'password' => password_hash($password, PASSWORD_DEFAULT),
-                            'lastReset' => new MongoDB\BSON\UTCDateTime(time() * 1000) // 初始化 lastReset
+                            'lastReset' => new MongoDB\BSON\UTCDateTime(time() * 1000) // Initialize lastReset
                         ];
 
                         $result = $userModel->registerUser($newUser);
 
                         if ($result['success']) {
-                            // 注册成功，构造跳转到 OOBE 页面
+                            // Registration successful, construct redirect to OOBE page
                             $redirectURL = "https://deco.lkx666.cn/oobe?username=" . urlencode($username) . "&email=" . urlencode($email);
 
-                            // 执行跳转到 OOBE
+                            // Perform redirect to OOBE
                             header("Location: $redirectURL");
                             exit;
                         } else {
@@ -194,7 +193,7 @@ elseif ($pathFragments[0] == 'profiles') {
     if ($requestMethod == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
 
-        // 检查并确保 hobbies 字段包含在数据中
+        // Check and ensure the hobbies field is included in the data
         if (isset($data['hobbies'])) {
             echo $controller->submitOOBE($data);
         } else {
@@ -211,7 +210,7 @@ elseif ($pathFragments[0] == 'profiles') {
     echo $controller->getHomeData($pathFragments[1]);
 }
 
-// 新添加的 recordDrink 路由处理逻辑
+// Newly added recordDrink route handling logic
 elseif ($pathFragments[0] == 'recordDrink') {
     if ($requestMethod == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
@@ -219,14 +218,14 @@ elseif ($pathFragments[0] == 'recordDrink') {
     }
 }
 
-// 新添加的 getDrinkHistory 路由处理逻辑
+// Newly added getDrinkHistory route handling logic
 elseif ($pathFragments[0] == 'getDrinkHistory' && isset($pathFragments[1])) {
     if ($requestMethod == 'GET') {
         echo $controller->getDrinkHistory($pathFragments[1]);
     }
 }
 
-// 添加新的 /profileWithEmail 路由来获取包含 email 的用户数据
+// Add new /profileWithEmail route to get user data including email
 elseif ($pathFragments[0] == 'profileWithEmail') {
     $controller = new ProfileController($db);
     if ($requestMethod == 'GET' && isset($_GET['username'])) {
@@ -237,7 +236,7 @@ elseif ($pathFragments[0] == 'profileWithEmail') {
     }
 }
 
-// 新增的 /update-username 路由，用于更新用户名
+// New /update-username route for updating username
 elseif ($pathFragments[0] == 'update-username') {
     if ($requestMethod == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
@@ -268,7 +267,7 @@ elseif ($pathFragments[0] == 'delete-user') {
     }
 }
 
-// 新添加的 update-limit 路由处理逻辑
+// Newly added update-limit route handling logic
 elseif ($pathFragments[0] == 'update-limit') {
     $controller = new ProfileController($db);
     if ($requestMethod == 'POST') {
@@ -277,10 +276,10 @@ elseif ($pathFragments[0] == 'update-limit') {
     }
 }
 
-// 添加新的 /body-info 路由来获取或创建身体信息
+// Add new /body-info route to get or create body information
 elseif ($pathFragments[0] == 'body-info') {
     $controller = new ProfileController($db);
-    if ($requestMethod == 'POST') {  // 使用 POST 请求传递 username
+    if ($requestMethod == 'POST') {  // Use POST request to pass username
         $data = json_decode(file_get_contents('php://input'), true);
         if (isset($data['username'])) {
             error_log("Fetching body info for username: " . $data['username']);
@@ -291,13 +290,13 @@ elseif ($pathFragments[0] == 'body-info') {
             echo json_encode(['error' => 'Username is required']);
         }
     } else {
-        http_response_code(405);  // 只允许 POST 请求
+        http_response_code(405);  // Only allow POST requests
         error_log("Error: Method not allowed in body-info request.");
         echo json_encode(['error' => 'Method not allowed']);
     }
 }
 
-// 新增的 /clone-user 路由，用于克隆用户
+// New /clone-user route for cloning users
 elseif ($pathFragments[0] == 'clone-user') {
     if ($requestMethod == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
@@ -313,7 +312,7 @@ elseif ($pathFragments[0] == 'clone-user') {
     }
 }
 
-// 添加新的 /update-body-info 路由来更新身体信息
+// Add new /update-body-info route to update body information
 elseif ($pathFragments[0] == 'update-body-info') {
     $controller = new ProfileController($db);
     if ($requestMethod == 'POST') {
@@ -325,12 +324,12 @@ elseif ($pathFragments[0] == 'update-body-info') {
             echo json_encode(['error' => 'Username is required']);
         }
     } else {
-        http_response_code(405);  // 只允许 POST 请求
+        http_response_code(405);  // Only allow POST requests
         echo json_encode(['error' => 'Method not allowed']);
     }
 }
 
-// 新增的 /user-info 路由，用于获取用户信息
+// New /user-info route for getting user information
 elseif ($pathFragments[0] == 'user-info') {
     if ($requestMethod == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
@@ -346,12 +345,12 @@ elseif ($pathFragments[0] == 'user-info') {
     }
 }
 
-// 新增的 /update-user-info 路由，用于更新用户信息
+// New /update-user-info route for updating user information
 elseif ($pathFragments[0] == 'update-user-info') {
     if ($requestMethod == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
 
-        // 确保 hobbies 字段可以被传递
+        // Ensure that the hobbies field can be passed
         if (isset($data['username'])) {
             echo $controller->updateUserInfo($data['username'], $data);
         } else {
@@ -364,7 +363,7 @@ elseif ($pathFragments[0] == 'update-user-info') {
     }
 }
 
-// 新增的 /duplicate-user 路由，用于复制用户并创建新用户
+// New /duplicate-user route for copying users and create a new user
 elseif ($pathFragments[0] == 'duplicate-user') {
     if ($requestMethod == 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);

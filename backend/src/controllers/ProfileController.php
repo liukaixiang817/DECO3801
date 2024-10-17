@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../models/Profile.php';  // 加载 Profile 模型
+require_once __DIR__ . '/../models/Profile.php';  // load Profile model
 
 class ProfileController {
     private $profileModel;
@@ -8,10 +8,10 @@ class ProfileController {
 
     public function __construct($db) {
         $this->profileModel = new Profile($db);
-        $this->db = $db;  // 初始化数据库连接
+        $this->db = $db;  // Initialize database connection
     }
 
-    // 返回带有 email 的用户信息
+    // Return user information with email
     public function getProfileWithEmail($username) {
         $profile = $this->profileModel->getProfileByUsername($username);
 
@@ -22,7 +22,7 @@ class ProfileController {
         }
     }
 
-    // 更新用户每周限制
+    // Update user's weekly limit
     public function updateWeeklyLimit($username, $newLimit) {
         $result = $this->profileModel->updateWeeklyLimit($username, $newLimit);
 
@@ -33,7 +33,7 @@ class ProfileController {
         }
     }
 
-    // 获取用户的身体信息
+    // Get user's body information
     public function getBodyInfo($username) {
         if (!$username) {
             http_response_code(400);
@@ -41,24 +41,24 @@ class ProfileController {
             return json_encode(['error' => 'Username is required']);
         }
 
-        // 打印调试信息，确认 username 是否正确传递
+        // Print debug information to confirm username is correctly passed
         error_log("Initiating query for body info with username: " . $username);
 
-        // 调用 Profile 模型中的方法来获取 bodyInfo
+        // Call the method in Profile model to get bodyInfo
         $bodyInfo = $this->profileModel->getBodyInfoByUsername($username);
 
-        // 检查查询结果
+        // Check query result
         if ($bodyInfo) {
             error_log("Body info found for username: " . $username . " - " . json_encode($bodyInfo));
 
-            // 返回实际的用户身体信息，包括爱好信息
+            // Return actual user body information, including hobby information
             return json_encode([
                 'gender' => $bodyInfo['gender'] ?? 'Male',
                 'age' => $bodyInfo['age'] ?? 18,
                 'height' => $bodyInfo['height'] ?? '',
                 'weight' => $bodyInfo['weight'] ?? '',
-                'drinkingPreference' => $bodyInfo['drinkingPreference'] ?? 'beer', // 使用正确的字段名
-                'hobbies' => $bodyInfo['hobbies'] ?? [] // 添加爱好字段
+                'drinkingPreference' => $bodyInfo['drinkingPreference'] ?? 'beer', // Use the correct field name
+                'hobbies' => $bodyInfo['hobbies'] ?? [] // Add hobbies field
             ]);
         } else {
             error_log("No body info found for username: " . $username);
@@ -68,12 +68,12 @@ class ProfileController {
                 'height' => '',
                 'weight' => '',
                 'drinkingPreference' => 'beer',
-                'hobbies' => [] // 默认返回空爱好列表
+                'hobbies' => [] // Return empty hobby list by default
             ]);
         }
     }
 
-    // 更新用户的身体信息
+    // Update user's body information
     public function updateBodyInfo($username, $data) {
         if (!$username) {
             http_response_code(400);
@@ -81,23 +81,23 @@ class ProfileController {
             return json_encode(['error' => 'Username is required']);
         }
 
-        // 打印更新数据的调试信息
+        // Print debug information for update data
         error_log("Updating body info for username: " . $username . " with data: " . json_encode($data));
 
-        // 构建更新查询
+        // Construct update query
         $update = ['$set' => [
             'gender' => $data['gender'] ?? 'Male',
             'age' => $data['age'] ?? 18,
             'height' => $data['height'] ?? '',
             'weight' => $data['weight'] ?? '',
-            'drinkingPreference' => $data['drinkingPreference'] ?? 'beer', // 这里将 drinkPreference 替换为 drinkingPreference
-            'hobbies' => $data['hobbies'] ?? [] // 添加爱好字段
+            'drinkingPreference' => $data['drinkingPreference'] ?? 'beer', // Here, replace drinkPreference with drinkingPreference
+            'hobbies' => $data['hobbies'] ?? [] // Add hobbies field
         ]];
 
-        // 执行更新操作
+        // Execute update operation
         $result = $this->db->users->updateOne(['username' => $username], $update, ['upsert' => true]);
 
-        // 检查是否成功更新
+        // Check if update was successful
         if ($result->getModifiedCount() > 0 || $result->getUpsertedCount() > 0) {
             error_log("Successfully updated body info for username: " . $username);
             return json_encode(['success' => true]);
@@ -107,7 +107,7 @@ class ProfileController {
         }
     }
 
-    // 新增：处理签到请求
+    // New: Handle check-in request
     public function checkin($username) {
         if (!$username) {
             http_response_code(400);
@@ -115,10 +115,10 @@ class ProfileController {
             return json_encode(['error' => 'Username is required']);
         }
 
-        // 调用 Profile 模型中的签到逻辑
+        // Call check-in logic in Profile model
         $result = $this->profileModel->updateCheckin($username);
 
-        // 返回签到结果
+        // Return check-in result
         if (isset($result['message'])) {
             return json_encode($result);
         } else {

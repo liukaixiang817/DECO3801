@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/../../vendor/autoload.php';  // 使用绝对路径加载 autoload.php
+require __DIR__ . '/../../vendor/autoload.php';  // use absolute path to load autoload.php
 
 use MongoDB\Client;
 

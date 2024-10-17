@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../models/Event.php';  // 使用绝对路径加载 Event.php 模型
+require_once __DIR__ . '/../models/Event.php';  // use absolute path to load Event.php model
 
 class EventController {
     private $eventModel;

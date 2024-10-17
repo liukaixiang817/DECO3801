@@ -7,13 +7,13 @@ class Profile {
         $this->db = $db;
     }
 
-    // 根据用户名获取用户信息
+    // Get user information by username
     public function getProfileByUsername($username) {
-        // 使用 MongoDB 进行查询
-        $query = ['username' => $username];  // 确保查询条件和 home.js 的查询逻辑相同
-        $profile = $this->db->users->findOne($query);  // 假设集合名为 users
+        // Use MongoDB for querying
+        $query = ['username' => $username];  // Ensure query conditions are the same as in home.js
+        $profile = $this->db->users->findOne($query);  // Assume the collection name is 'users'
 
-        // 如果找到了 profile 数据，返回相关信息
+        // If profile data is found, return relevant information
         if ($profile) {
             return [
                 'id' => $profile['_id'],
@@ -23,17 +23,17 @@ class Profile {
                 'weeklyLimitUsed' => $profile['weeklyLimitUsed']
             ];
         } else {
-            return null;  // 如果没有找到用户，返回 null
+            return null;  // If user is not found, return null
         }
     }
 
     public function getBodyInfoByUsername($username) {
-        // 打印调试信息，确认查询参数
+        // Print debug information to confirm query parameters
         error_log("Querying body info in MongoDB for username: " . $username);
 
         $query = ['username' => $username];
 
-        // 使用 MongoDB 查询
+        // Use MongoDB query
         $bodyInfo = $this->db->users->findOne($query);
 
         if ($bodyInfo) {
@@ -45,41 +45,41 @@ class Profile {
         }
     }
 
-    // 新增：更新用户的每周限制
+    // New: Update user's weekly limit
     public function updateWeeklyLimit($username, $newLimit) {
-        // 使用 MongoDB 更新用户的每周限制
+        // Use MongoDB to update user's weekly limit
         $query = ['username' => $username];
         $update = ['$set' => ['weeklyLimit' => $newLimit]];
 
-        $result = $this->db->users->updateOne($query, $update);  // 假设集合名为 users
+        $result = $this->db->users->updateOne($query, $update);  // Assume the collection name is 'users'
 
-        // 检查是否更新成功
+        // Check if the update was successful
         return $result->getModifiedCount() > 0;
     }
 
-    // 新增：签到逻辑
+    // New: Check-in logic
     public function updateCheckin($username) {
         $query = ['username' => $username];
         $profile = $this->db->users->findOne($query);
 
         if ($profile) {
-            // 当前时间
+            // Current time
             $currentTime = new \DateTime();
-            // 上一次签到时间
+            // Last check-in time
             $lastCheckinTime = isset($profile['lastCheckin']) ? new \DateTime($profile['lastCheckin']) : null;
 
-            // 判断 lastCheckinTime 是否存在
+            // Check if lastCheckinTime exists
             if ($lastCheckinTime) {
                 $today14 = clone $lastCheckinTime;
                 $today14->setTime(14, 0, 0);
 
-                // 根据签到时间逻辑进行判断
+                // Make judgments based on check-in time logic
                 if ($lastCheckinTime < $today14) {
                     if ($currentTime < $today14) {
-                        // 今日已更新过
+                        // Already updated today
                         return ['message' => 'You have already check in today.'];
                     } elseif ($currentTime < $today14->modify('+1 day')) {
-                        // 更新 daysUnderControl 并刷新 lastCheckin
+                        // Update daysUnderControl and refresh lastCheckin
                         $newDaysUnderControl = $profile['daysUnderControl'] + 1;
                         $this->db->users->updateOne($query, ['$set' => [
                             'daysUnderControl' => $newDaysUnderControl,
@@ -87,7 +87,7 @@ class Profile {
                         ]]);
                         return ['message' => 'Successful update', 'daysUnderControl' => $newDaysUnderControl];
                     } else {
-                        // 超过一天，重置 daysUnderControl
+                        // More than one day, reset daysUnderControl
                         $this->db->users->updateOne($query, ['$set' => [
                             'daysUnderControl' => 1,
                             'lastCheckin' => $currentTime->format(\DateTime::ISO8601)
@@ -96,10 +96,10 @@ class Profile {
                     }
                 } else {
                     if ($currentTime < $today14->modify('+1 day')) {
-                        // 今日已更新过
+                        // Already updated today
                         return ['message' => 'You have already check in today.'];
                     } elseif ($currentTime < $today14->modify('+2 day')) {
-                        // 更新 daysUnderControl 并刷新 lastCheckin
+                        // Update daysUnderControl and refresh lastCheckin
                         $newDaysUnderControl = $profile['daysUnderControl'] + 1;
                         $this->db->users->updateOne($query, ['$set' => [
                             'daysUnderControl' => $newDaysUnderControl,
@@ -107,7 +107,7 @@ class Profile {
                         ]]);
                         return ['message' => 'Successful update', 'daysUnderControl' => $newDaysUnderControl];
                     } else {
-                        // 超过两天，重置 daysUnderControl
+                        // More than two days, reset daysUnderControl
                         $this->db->users->updateOne($query, ['$set' => [
                             'daysUnderControl' => 1,
                             'lastCheckin' => $currentTime->format(\DateTime::ISO8601)
@@ -116,7 +116,7 @@ class Profile {
                     }
                 }
             } else {
-                // 如果没有 lastCheckinTime，初始化为当前时间并设置 daysUnderControl 为 1
+                // If there's no lastCheckinTime, initialize it to current time and set daysUnderControl to 1
                 $this->db->users->updateOne($query, ['$set' => [
                     'daysUnderControl' => 1,
                     'lastCheckin' => $currentTime->format(\DateTime::ISO8601)
