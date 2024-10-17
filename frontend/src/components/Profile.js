@@ -7,22 +7,22 @@ import './styles.css'
 
 const convertToBeerEquivalent = (drinkType, volume) => {
     const multipliers = {
-        beer: 1,         // 啤酒不需要转换
-        wine: 2.86,      // 葡萄酒相当于 2.86 倍的啤酒
-        spirits: 2.5,    // 烈酒相当于 2.5 倍的啤酒
-        cocktail: 2.54,  // 鸡尾酒相当于 2.54 倍的啤酒
-        sake: 0.97       // 清酒相当于 0.97 倍的啤酒
+        beer: 1,         // Beer doesn't need conversion
+        wine: 2.86,      // Wine is equivalent to 2.86 times beer
+        spirits: 2.5,    // Spirits are equivalent to 2.5 times beer
+        cocktail: 2.54,  // Cocktails are equivalent to 2.54 times beer
+        sake: 0.97       // Sake is equivalent to 0.97 times beer
     };
 
     const multiplier = multipliers[drinkType.toLowerCase()] || 1;
-    const beerEquivalentVolume = (volume / multiplier).toFixed(2); // 将输入体积转换为等效的啤酒体积
+    const beerEquivalentVolume = (volume / multiplier).toFixed(2); // Convert input volume to equivalent beer volume
     return parseFloat(beerEquivalentVolume);
 };
 
 const convertBeerToStandardDrinks = (beerMl) => {
-    const BEER_STANDARD_DRINK = 1.4;  // 375ml 啤酒 = 1.4 标准饮品单位
-    const BEER_VOLUME = 375;          // 每份啤酒的标准体积
-    return ((beerMl / BEER_VOLUME) * BEER_STANDARD_DRINK).toFixed(2); // 返回标准饮品单位
+    const BEER_STANDARD_DRINK = 1.4;  // 375ml beer = 1.4 standard drink units
+    const BEER_VOLUME = 375;          // Standard volume per serving of beer
+    return ((beerMl / BEER_VOLUME) * BEER_STANDARD_DRINK).toFixed(2); // Return standard drink units
 };
 
 
@@ -33,8 +33,8 @@ const Profile = ({ setIsLoggedIn }) => {
     const [profile, setProfile] = useState({
         username: '',
         email: '',
-        weekly_limit: '750',  // get rid of  "ml"，as we wll add it on the frontend
-        drinkType: 'beer',  // set the default drink type to beer，decapitalize to match the multipliers key
+        weekly_limit: '750',  // get rid of  "ml", as we will add it on the frontend
+        drinkType: 'beer',  // set the default drink type to beer, decapitalize to match the multipliers key
     });
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
@@ -52,26 +52,26 @@ const Profile = ({ setIsLoggedIn }) => {
 
     useEffect(() => {
         const storedUsername = localStorage.getItem('username');
-        const storedDrinkType = localStorage.getItem('drinkType');  // 从 localStorage 获取 drinkType
+        const storedDrinkType = localStorage.getItem('drinkType');  // Get drinkType from localStorage
         console.log("Stored username and drink type from localStorage:", storedUsername, storedDrinkType);
 
         if (storedUsername) {
-            fetchProfileWithEmail(storedUsername)  // 调用 API 获取用户信息
+            fetchProfileWithEmail(storedUsername)  // Call API to get user information
                 .then(data => {
                     console.log("Fetched profile with email from backend:", data);
 
                     if (data && !data.error) {
                         const retrievedDrinkType = storedDrinkType || data.drinkType || profile.drinkType;
-                        const multiplier = multipliers[retrievedDrinkType.toLowerCase()] || 1; // 获取饮料类型的系数
-                        const adjustedLimit = (data.weeklyLimit * multiplier).toFixed(2); // 使用系数调整后的限额值
+                        const multiplier = multipliers[retrievedDrinkType.toLowerCase()] || 1; // Get coefficient for drink type
+                        const adjustedLimit = (data.weeklyLimit * multiplier).toFixed(2); // Adjusted limit value using coefficient
 
                         setProfile({
                             username: data.username || 'Unknown',
                             email: data.email || '',
-                            weekly_limit: adjustedLimit,  // 使用调整后的限制值
+                            weekly_limit: adjustedLimit,  // Use adjusted limit value
                             drinkType: retrievedDrinkType,
                         });
-                        setNewWeeklyLimit(adjustedLimit);  // 初始化调整后的 weekly_limit
+                        setNewWeeklyLimit(adjustedLimit);  // Initialize adjusted weekly_limit
 
                         console.log("Updated profile state:", {
                             username: data.username || 'Unknown',
@@ -99,7 +99,7 @@ const Profile = ({ setIsLoggedIn }) => {
     // the function to close the modal
     const handleClose = () => setIsOpen(false);
 
-    // 保存新的每周限制
+    // Save new weekly limit
     const handleUpdateLimit = () => {
         updateWeeklyLimit(profile.username, newWeeklyLimit)
             .then(response => {
@@ -115,28 +115,28 @@ const Profile = ({ setIsLoggedIn }) => {
             });
     };
 
-    // 当选择饮料类型时更新 weekly_limit 显示（除以倍率并保留两位小数）
+    // Update weekly_limit display when selecting drink type (divide by multiplier and keep two decimal places)
     const handleDrinkTypeChange = (e) => {
-        const selectedDrink = e.target.value.toLowerCase();  // 将选中的饮料类型转换为小写以匹配 multipliers 的 key
-        const multiplier = multipliers[selectedDrink] || 1;  // 如果找不到匹配的倍率，使用默认的 1
-        const adjustedLimit = (profile.weekly_limit / multiplier).toFixed(2);  // 计算新的限制并保留两位小数
+        const selectedDrink = e.target.value.toLowerCase();  // Convert selected drink type to lowercase to match multipliers key
+        const multiplier = multipliers[selectedDrink] || 1;  // If no matching multiplier is found, use default of 1
+        const adjustedLimit = (profile.weekly_limit / multiplier).toFixed(2);  // Calculate new limit and keep two decimal places
         setProfile({ ...profile, drinkType: selectedDrink });
-        setNewWeeklyLimit(adjustedLimit);  // 更新显示的限制
+        setNewWeeklyLimit(adjustedLimit);  // Update displayed limit
     };
 
-    // 点击 "My Body Information" 的跳转逻辑
+    // Navigation logic when clicking "My Body Information"
     const handleBodyInfoClick = () => {
-        navigate('/body-info');  // 跳转到 /body-info 页面
+        navigate('/body-info');  // Navigate to /body-info page
     };
 
-    // 点击 "My Information" 的跳转逻辑
+    // Navigation logic when clicking "My Information"
     const handleMyInfoClick = () => {
-        navigate('/my-info');  // 跳转到 /my-info 页面
+        navigate('/my-info');  // Navigate to /my-info page
     };
 
     // the logic when click privacy statement
     const handlePrivacyStatementClick = () => {
-        navigate('/privacy-statement');  // 跳转到 /privacy-statement 页面
+        navigate('/privacy-statement');  // Navigate to /privacy-statement page
     };
 
 

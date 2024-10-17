@@ -12,24 +12,24 @@ const MyInfo = () => {
     const [userInfo, setUserInfo] = useState({
         username: '',
         email: '',
-        hobbies: ['', '', ''], // 初始化用户的爱好
+        hobbies: ['', '', ''], // Initialize user's hobbies
         drinkingPreference: 'Beer',
     });
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentField, setCurrentField] = useState(null);
     const [newValue, setNewValue] = useState('');
     const [isUsernameChange, setIsUsernameChange] = useState(false);  // mark if the username is changed
-    const [newHobbies, setNewHobbies] = useState(['', '', '']); // 用于保存新的爱好
+    const [newHobbies, setNewHobbies] = useState(['', '', '']); // For saving new hobbies
     const navigate = useNavigate();
 
-    // 可供选择的爱好分类
+    // Available hobby categories
     const hobbyOptions = [
         'Art', 'Creative', 'Culture', 'Exhibitions', 'Free', 'Performing arts',
         'Workshops', 'Fitness & well-being', 'Family events', 'Green', 'Tours',
         'Music', 'Featured', 'Festivals', 'Food', 'Films', 'Markets'
     ];
 
-    const drinkPreferenceOptions = ['Beer', 'Wine', 'Spirits', 'Cocktail', 'Sake']; // 确保选项首字母大写
+    const drinkPreferenceOptions = ['Beer', 'Wine', 'Spirits', 'Cocktail', 'Sake']; // Ensure options start with capital letters
 
     useEffect(() => {
         const username = localStorage.getItem('username');  // fetch user name from localStorage
@@ -40,7 +40,7 @@ const MyInfo = () => {
                     console.log("User info fetched:", data);  // print out user info from backend
                     if (data && !data.error) {
                         setUserInfo(data);  // if in the database update state
-                        setNewHobbies(data.hobbies || ['', '', '']); // 设置用户的爱好
+                        setNewHobbies(data.hobbies || ['', '', '']); // Set user's hobbies
                     } else {
                         console.error("Error in user info response:", data.error);  // print out the error message
                     }
@@ -125,7 +125,7 @@ const MyInfo = () => {
                         alert('An error occurred while updating username.');
                     });
             } else if (currentField === 'hobbies') {
-                // 如果修改的是爱好
+                // If modifying hobbies
                 const updatedData = { hobbies: newHobbies };
                 console.log("Updating hobbies for username:", originalUsername, "with data:", updatedData);  // Navigation information
 
@@ -150,15 +150,15 @@ const MyInfo = () => {
                 const updatedData = { drinkingPreference: newValue };
                 console.log("Updating drink preference for username:", originalUsername, "with data:", updatedData);
 
-                updateUserInfo(originalUsername, updatedData)  // 发送更新请求
+                updateUserInfo(originalUsername, updatedData)  // Send update request
                     .then(response => {
                         if (response.success) {
                             console.log("Drink preference updated successfully");
-                            setUserInfo(prev => ({ ...prev, drinkingPreference: newValue }));  // 更新前端的饮品偏好
-                            localStorage.setItem('drinkType', newValue);  // 将饮品偏好存储到 localStorage
-                            setIsModalOpen(false);  // 关闭弹窗
+                            setUserInfo(prev => ({ ...prev, drinkingPreference: newValue }));  // Update drink preference in frontend
+                            localStorage.setItem('drinkType', newValue);  // Store drink preference in localStorage
+                            setIsModalOpen(false);  // Close popup
                         } else {
-                            console.error("Error updating drink preference:", response.error);  // 输出错误信息
+                            console.error("Error updating drink preference:", response.error);  // Output error message
                             alert(`Error updating drink preference: ${response.error}`);
                         }
                     })

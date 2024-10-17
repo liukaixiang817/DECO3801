@@ -6,33 +6,33 @@ const Login = ({ setIsLoggedIn }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [turnstileToken, setTurnstileToken] = useState(null);
-    const [isTurnstileLoaded, setIsTurnstileLoaded] = useState(false); // 检查 Turnstile 是否加载完成
+    const [isTurnstileLoaded, setIsTurnstileLoaded] = useState(false); // Check if Turnstile has finished loading
     const navigate = useNavigate();
 
     useEffect(() => {
         console.log('Initializing Turnstile and AppleID...');
 
-        // 加载 Turnstile 验证
+        // Load Turnstile verification
         //loadTurnstile();
         setTurnstileToken('bypass-token');
-        // 初始化 Sign in with Apple
+        // Initialize Sign in with Apple
         const initializeAppleSignIn = () => {
             if (window.AppleID) {
                 console.log('AppleID SDK Loaded');
                 window.AppleID.auth.init({
-                    clientId: 'soberup.uq', // 替换为 Apple Client ID
+                    clientId: 'soberup.uq', // Replace with Apple Client ID
                     scope: 'name email',
                     redirectURI: 'https://login.lkx666.cn/apple-callback',
                     state: 'STATE',
-                    responseMode: 'form_post', // 改为 "query"
-                    responseType: 'code code id_token' // 仅请求 code
+                    responseMode: 'form_post', // Changed to "query"
+                    responseType: 'code code id_token' // Only request code
                 });
             } else {
                 console.warn('AppleID not loaded yet');
             }
         };
 
-        // 检查并加载 AppleID SDK
+        // Check and load AppleID SDK
         if (!window.AppleID) {
             console.log('Loading AppleID SDK...');
             const script = document.createElement('script');
@@ -45,9 +45,9 @@ const Login = ({ setIsLoggedIn }) => {
         } else {
             initializeAppleSignIn();
         }
-    }, []); // 将依赖数组设为空
+    }, []); // Set dependency array to empty
 
-    // 加载 Turnstile 验证脚本
+    // Load Turnstile verification script
     const loadTurnstile = () => {
         if (!document.getElementById('turnstile-script')) {
             console.log('Loading Turnstile script...');
@@ -63,7 +63,7 @@ const Login = ({ setIsLoggedIn }) => {
                     callback: (token) => {
                         console.log('Turnstile token received:', token);
                         setTurnstileToken(token);
-                        setIsTurnstileLoaded(true); // 标记为已加载
+                        setIsTurnstileLoaded(true); // Mark as loaded
                     }
                 });
             };
@@ -75,25 +75,25 @@ const Login = ({ setIsLoggedIn }) => {
                 callback: (token) => {
                     console.log('Turnstile token received:', token);
                     setTurnstileToken(token);
-                    setIsTurnstileLoaded(true); // 标记为已加载
+                    setIsTurnstileLoaded(true); // Mark as loaded
                 }
             });
         }
     };
 
-    // Apple 登录处理
+    // Apple login handling
     const handleAppleLogin = async () => {
         try {
             console.log('Attempting Apple sign-in...');
-            const response = await window.AppleID.auth.signIn(); // 捕获苹果登录的返回结果
+            const response = await window.AppleID.auth.signIn(); // Capture the return result of Apple login
             console.log('Apple sign-in response:', response);
             const { authorization } = response;
             const { code, state } = authorization;
 
-            // 检查是否获得了授权码
+            // Check if authorization code was obtained
             if (code) {
                 console.log('Apple authorization code:', code);
-                // 将授权码和其他数据发送到后端进行处理
+                // Send authorization code and other data to backend for processing
                 const res = await fetch('https://login.lkx666.cn/apple-login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -103,7 +103,7 @@ const Login = ({ setIsLoggedIn }) => {
                 const data = await res.json();
                 console.log('Response from server:', data);
 
-                // 根据服务器返回的结果处理
+                // Handle based on server response
                 if (data.needsOOBE) {
                     console.log('Redirecting to OOBE...');
                     navigate('/oobe');
@@ -123,7 +123,7 @@ const Login = ({ setIsLoggedIn }) => {
         }
     };
 
-    // 普通登录处理
+    // Regular login handling
     const handleLogin = async (e) => {
         e.preventDefault();
         if (!turnstileToken) {

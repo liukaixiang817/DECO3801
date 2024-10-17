@@ -6,14 +6,14 @@ import DrinkHistory from './HIstory/DrinkHIstory';
 
 const RewardPage = () => {
     const navigate = useNavigate();
-    const [daysUnderControl, setDaysUnderControl] = useState(0); // 新增状态用于存储 daysUnderControl
+    const [daysUnderControl, setDaysUnderControl] = useState(0); // New state to store daysUnderControl
 
     useEffect(() => {
         const storedUsername = localStorage.getItem('username');
         if (storedUsername) {
             fetchHomeData(storedUsername)
                 .then(data => {
-                    setDaysUnderControl(data.daysUnderControl); // 从后端获取 daysUnderControl
+                    setDaysUnderControl(data.daysUnderControl); // Get daysUnderControl from backend
                 })
                 .catch(error => {
                     console.error('Error fetching home data:', error);

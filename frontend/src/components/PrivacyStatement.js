@@ -13,7 +13,7 @@ const PrivacyStatement = () => {
     };
 
     useEffect(() => {
-        // 从公共文件夹加载 Markdown 文件
+        // loading Markdown file from public folder
         fetch('/assets/privacy_doc/privacy_statement.md')
             .then(response => {
                 if (!response.ok) {

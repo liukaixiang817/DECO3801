@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const convertBeerToStandardDrinks = (beerMl) => {
     const BEER_TO_STANDARD_DRINK = 1.4; // 375 ml of beer = 1.4 standard drinks
     const BEER_VOLUME = 375; // 375 ml per beer
-    return (beerMl / BEER_VOLUME * BEER_TO_STANDARD_DRINK).toFixed(2); // 转换为标准饮品单位
+    return (beerMl / BEER_VOLUME * BEER_TO_STANDARD_DRINK).toFixed(2); // Convert to standard drink units
 };
 
 
@@ -21,7 +21,7 @@ const RecordDrinks = () => {
     const [drinkType, setDrinkType] = useState('beer');
     const [amount, setAmount] = useState(0);
     const [submitSuccess, setSubmitSuccess] = useState(null);
-    const [history, setHistory] = useState([]); // 用于存储历史记录
+    const [history, setHistory] = useState([]); // For storing history records
     const navigate = useNavigate();
 
     const multipliers = {
@@ -45,9 +45,9 @@ const RecordDrinks = () => {
                 .then(historyData => {
                     const combinedHistory = historyData.recordTime.map((time, index) => {
                         let localTime = new Date(time);
-                        localTime.setHours(localTime.getHours() + 10); // 手动增加 10 小时
+                        localTime.setHours(localTime.getHours() + 10); // Manually add 10 hours
                         localTime = localTime.toLocaleString('en-AU', {
-                            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // 使用本地时区
+                            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // Use local timezone
                             year: 'numeric',
                             month: 'numeric',
                             day: 'numeric',
@@ -85,9 +85,9 @@ const RecordDrinks = () => {
             .then(updatedHistory => {
                 const combinedHistory = updatedHistory.recordTime.map((time, index) => {
                     let localTime = new Date(time);
-                    localTime.setHours(localTime.getHours() + 10); // 手动增加 10 小时
+                    localTime.setHours(localTime.getHours() + 10); // Manually add 10 hours
                     localTime = localTime.toLocaleString('en-AU', {
-                        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // 使用本地时区
+                        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // Use local timezone
                         year: 'numeric',
                         month: 'numeric',
                         day: 'numeric',
@@ -105,8 +105,8 @@ const RecordDrinks = () => {
                 });
                 combinedHistory.sort((a, b) => new Date(b.time) - new Date(a.time));
                 setHistory(combinedHistory);
-                setAmount(0); // 重置 amount
-                setSubmitSuccess(true); // 成功后设置状态
+                setAmount(0); // Reset amount
+                setSubmitSuccess(true); // Set status after success
             })
             .catch(error => {
                 console.error('Error recording drink:', error);
@@ -191,7 +191,7 @@ const RecordDrinks = () => {
                             </div>
                         ))
                     ) : (
-                        <p>No history available.</p> // 当没有历史记录时显示提示
+                        <p>No history available.</p> // display hint if no history available
                     )}
                 </div>
             </div>

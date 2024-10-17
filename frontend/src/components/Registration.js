@@ -10,7 +10,7 @@ const Registration = () => {
     const [turnstileToken, setTurnstileToken] = useState(null);
     const navigate = useNavigate();
 
-    // useEffect 用于自动加载 CAPTCHA
+    // useEffect for automatically loading CAPTCHA
     useEffect(() => {
         //loadTurnstile();
         setTurnstileToken('bypass-token');
@@ -54,7 +54,7 @@ const Registration = () => {
                 localStorage.setItem('username', username);
                 localStorage.setItem('email', email);
                 alert('Registration successful!');
-                navigate('/oobe'); // 注册成功后跳转到OOBE页面
+                navigate('/oobe'); // Redirect to OOBE page after successful registration
             } else {
                 alert('Registration failed: ' + response.message);
             }
@@ -102,7 +102,7 @@ const Registration = () => {
 
                     <button type="submit">Register</button>
                 </form>
-                {/* 添加 "Already have an account?" 按钮 */}
+                {/* Add "Already have an account?" button */}
                 <button
                     type="button"
                     onClick={() => navigate('/login')}

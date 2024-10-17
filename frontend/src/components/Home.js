@@ -16,7 +16,7 @@ const Home = () => {
     const [daysUnderControl, setDaysUnderControl] = useState(0);
     const [weeklyLimitUsed, setWeeklyLimitUsed] = useState(0);
     const [weeklyLimit, setWeeklyLimit] = useState(0);
-    const [currentIndex, setCurrentIndex] = useState(750); // 管理当前轮播的索引
+    const [currentIndex, setCurrentIndex] = useState(750); // Manage the current carousel index
     const [currentQuote, setCurrentQuote] = useState('');
     //const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [RecommendWeeklyLimit, setRecommendWeeklyLimit] = useState(0);
@@ -26,12 +26,12 @@ const Home = () => {
     const navigate = useNavigate();
 
     const events = [
-        { title: '老师给学生跳舞', imageUrl: 'path/to/image1.jpg' },
-        { title: '学校运动会', imageUrl: 'path/to/image2.jpg' },
-        { title: '艺术节活动', imageUrl: 'path/to/image3.jpg' },
+        { title: 'Teacher dancing for students', imageUrl: 'path/to/image1.jpg' },
+        { title: 'School sports day', imageUrl: 'path/to/image2.jpg' },
+        { title: 'Art festival activities', imageUrl: 'path/to/image3.jpg' },
     ];
 
-    // 添加要显示的语句数组
+    // Array of statements to display
     const personalizedSuggestions = [
         "Drinking Tips: Alcohol can affect the absorption of B vitamins.",
         "Drinking Tips: Set a drinking limit before you start.",
@@ -60,8 +60,7 @@ const Home = () => {
 
 
     useEffect(() => {
-        // 转换函数，将啤酒毫升数转换为标准饮品单位
-
+        // Conversion function to convert beer milliliters to standard drink units
 
         const storedUsername = localStorage.getItem('username');
         if (!storedUsername) {
@@ -70,16 +69,16 @@ const Home = () => {
 
             if (urlUsername) {
                 setUsername(urlUsername);
-                localStorage.setItem('username', urlUsername); // 存储到本地
-                localStorage.setItem('isLoggedIn', 'true'); // 存储登录状态
-                //setIsLoggedIn(true); // 设置为已登录状态
+                localStorage.setItem('username', urlUsername); // Store locally
+                localStorage.setItem('isLoggedIn', 'true'); // Store login status
+                //setIsLoggedIn(true); // Set to logged in status
                 setUsername(storedUsername);
                 fetchHomeData(storedUsername)
                     .then(data => {
                         setUsername(data.username);
                         setDaysUnderControl(data.daysUnderControl);
-                        setWeeklyLimitUsed(convertBeerToStandardDrinks(data.weeklyLimitUsed)); // 转换为标准饮品单位
-                        setWeeklyLimit(convertBeerToStandardDrinks(data.weeklyLimit)); // 转换为标准饮品单位
+                        setWeeklyLimitUsed(convertBeerToStandardDrinks(data.weeklyLimitUsed)); // Convert to standard drink units
+                        setWeeklyLimit(convertBeerToStandardDrinks(data.weeklyLimit)); // Convert to standard drink units
                     })
                     .catch(error => {
                         console.error('Error fetching home data:', error);
@@ -114,7 +113,7 @@ const Home = () => {
                     });
             } else {
                 console.error('No username found in localStorage or URL.');
-                return; // 如果 URL 中也没有，退出
+                return; // Exit if not in URL either
             }
         } else {
             setUsername(storedUsername);
@@ -164,15 +163,12 @@ const Home = () => {
             console.error('No username found in localStorage.');
         }
 
-        // 在进入Home页面时，随机选择一句作为初始语句
+        // Randomly select an initial statement when entering the Home page
         setCurrentQuote(personalizedSuggestions[Math.floor(Math.random() * personalizedSuggestions.length)]);
 
         const interval = setInterval(() => {
             setCurrentIndex((prevIndex) => (prevIndex === events.length - 1 ? 0 : prevIndex + 1));
-        }, 3000); // 每3秒自动切换一次图片
-
-
-
+        }, 3000); // Automatically switch images every 3 seconds
 
         return () => {
             clearInterval(interval);
@@ -186,12 +182,12 @@ const Home = () => {
     const handleCheckInClick = () => {
         checkin(username)
             .then(data => {
-                // 更新 daysUnderControl
+                // Update daysUnderControl
                 if (data.message) {
-                    alert(data.message);  // 提示签到结果
+                    alert(data.message);  // Alert check-in result
                 }
                 if (data.daysUnderControl !== undefined) {
-                    setDaysUnderControl(data.daysUnderControl);  // 更新天数
+                    setDaysUnderControl(data.daysUnderControl);  // Update days
                 }
             })
             .catch(error => {

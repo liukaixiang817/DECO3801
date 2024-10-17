@@ -19,7 +19,7 @@ export const fetchProfileWithEmail = async (username) => {
     }
 };
 
-// 更新每周限制的 API
+// API to update weekly limit
 export const updateWeeklyLimit = async (username, newLimit) => {
     try {
         const response = await apiClient.post('/update-limit', { username, weekly_limit: newLimit });
@@ -30,7 +30,7 @@ export const updateWeeklyLimit = async (username, newLimit) => {
     }
 };
 
-// Home.js 使用的 fetchHomeData
+// fetchHomeData used by Home.js
 export const fetchHomeData = async (username) => {
     try {
         const response = await apiClient.get(`/home/${username}`);
@@ -40,7 +40,8 @@ export const fetchHomeData = async (username) => {
         throw error;
     }
 };
-// Apple 登录 API
+
+// Apple login API
 export const appleLogin = async (appleData) => {
     try {
         const response = await apiClient.post('/apple-login', appleData);
@@ -51,7 +52,7 @@ export const appleLogin = async (appleData) => {
     }
 };
 
-// 登录用户的 API
+// API for user login
 export const loginUser = async (loginData) => {
     try {
         const response = await apiClient.post('/login', loginData);
@@ -62,7 +63,7 @@ export const loginUser = async (loginData) => {
     }
 };
 
-// 注册用户的 API
+// API for user registration
 export const registerUser = async (registrationData) => {
     try {
         const response = await apiClient.post('/register', registrationData);
@@ -73,7 +74,7 @@ export const registerUser = async (registrationData) => {
     }
 };
 
-// 提交 OOBE 数据的 API
+// API to submit OOBE data
 export const submitOOBEData = async (oobeData) => {
     try {
         const response = await apiClient.post('/oobe', oobeData);
@@ -84,18 +85,18 @@ export const submitOOBEData = async (oobeData) => {
     }
 };
 
-// 修改后的 getProfiles，传递用户名参数以获取特定用户的 Profile 数据
+// Modified getProfiles to pass username parameter for fetching specific user's Profile data
 export const getProfiles = async (username) => {
     try {
-        const response = await apiClient.get(`/profiles?username=${username}`); // 根据用户名动态获取
-        return response.data;  // 假设返回的结构为 Profile 的数组
+        const response = await apiClient.get(`/profiles?username=${username}`); // Dynamically fetch based on username
+        return response.data;  // Assuming the returned structure is an array of Profiles
     } catch (error) {
         console.error('Error fetching profiles:', error);
         throw error;
     }
 };
 
-// 创建 Profile 的 API
+// API to create Profile
 export const createProfile = async (profileData) => {
     try {
         const response = await apiClient.post('/profiles', profileData);
@@ -106,7 +107,7 @@ export const createProfile = async (profileData) => {
     }
 };
 
-// 获取事件的 API
+// API to get events
 export const getEvents = async () => {
     try {
         const response = await apiClient.get('/events');
@@ -117,7 +118,7 @@ export const getEvents = async () => {
     }
 };
 
-// 获取事件详情的 API
+// API to get event details
 export const getEventDetails = async (eventId) => {
     try {
         const response = await apiClient.get(`/events/${eventId}`);
@@ -128,7 +129,7 @@ export const getEventDetails = async (eventId) => {
     }
 };
 
-// 记录饮酒量的 API
+// API to record drink
 export const recordDrink = async (username, amount, type) => {
     try {
         const response = await apiClient.post('/recordDrink', { username, amount, type });
@@ -139,7 +140,7 @@ export const recordDrink = async (username, amount, type) => {
     }
 };
 
-// 新增：获取饮酒历史记录的 API
+// New: API to get drink history
 export const getDrinkHistory = async (username) => {
     try {
         const response = await apiClient.get(`/getDrinkHistory/${username}`);
@@ -150,10 +151,10 @@ export const getDrinkHistory = async (username) => {
     }
 };
 
-// 获取身体信息的 API
+// API to fetch body information
 export const fetchBodyInfo = async (username) => {
     try {
-        const response = await apiClient.post('/body-info', { username });  // 使用 POST 请求传递 username
+        const response = await apiClient.post('/body-info', { username });  // Use POST request to pass username
         return response.data;
     } catch (error) {
         console.error('Error fetching body information:', error);
@@ -161,7 +162,7 @@ export const fetchBodyInfo = async (username) => {
     }
 };
 
-// 更新身体信息的 API
+// API to update body information
 export const updateBodyInfo = async (username, data) => {
     try {
         const response = await apiClient.post('/update-body-info', { username, ...data });
@@ -172,7 +173,7 @@ export const updateBodyInfo = async (username, data) => {
     }
 };
 
-// 删除用户的 API
+// API to delete user
 export const deleteUser = async (username) => {
     try {
         const response = await apiClient.post('/delete-user', { username });
@@ -183,7 +184,7 @@ export const deleteUser = async (username) => {
     }
 };
 
-// 克隆用户的 API
+// API to clone user
 export const cloneUser = async (username, newUsername) => {
     try {
         const response = await apiClient.post('/clone-user', { username, newUsername });
@@ -194,7 +195,7 @@ export const cloneUser = async (username, newUsername) => {
     }
 };
 
-// 更新用户名的 API
+// API to update username
 export const updateUsername = async (oldUsername, newUsername) => {
     try {
         const response = await apiClient.post('/update-username', { oldUsername, newUsername });
@@ -205,7 +206,7 @@ export const updateUsername = async (oldUsername, newUsername) => {
     }
 };
 
-// 新增：获取用户信息的 API
+// New: API to fetch user information
 export const fetchUserInfo = async (username) => {
     try {
         const response = await apiClient.post('/user-info', { username });
@@ -216,7 +217,7 @@ export const fetchUserInfo = async (username) => {
     }
 };
 
-// 新增：更新用户信息的 API
+// New: API to update user information
 export const updateUserInfo = async (username, data) => {
     try {
         const response = await apiClient.post('/update-user-info', { username, ...data });
@@ -227,7 +228,7 @@ export const updateUserInfo = async (username, data) => {
     }
 };
 
-// 新增：复制用户并创建新用户的 API
+// New: API to duplicate user and create new user
 export const duplicateUser = async (oldUsername, newUsername) => {
     try {
         const response = await apiClient.post('/duplicate-user', { oldUsername, newUsername });
@@ -238,7 +239,7 @@ export const duplicateUser = async (oldUsername, newUsername) => {
     }
 };
 
-// 新增：签到的 API
+// New: API for check-in
 export const checkin = async (username) => {
     try {
         const response = await apiClient.post('/checkin', { username });

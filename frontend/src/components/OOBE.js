@@ -3,18 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import { submitOOBEData } from '../api/apiClient';
 
 const OOBE = () => {
-    const [age, setAge] = useState(''); // 保持字符串类型
-    const [height, setHeight] = useState(''); // 保持字符串类型
-    const [weight, setWeight] = useState(''); // 保持字符串类型
-    const [drinkingPreference, setDrinkingPreference] = useState('Beer'); // 默认值为 'Beer'
-    const [gender, setGender] = useState('male'); // 默认值为 'male'
-    const [beerVolume, setBeerVolume] = useState(''); // 保持字符串类型，啤酒体积
-    const [hobbies, setHobbies] = useState(['', '', '']); // 用于保存用户选择的爱好
+    const [age, setAge] = useState(''); // Keep as string type
+    const [height, setHeight] = useState(''); // Keep as string type
+    const [weight, setWeight] = useState(''); // Keep as string type
+    const [drinkingPreference, setDrinkingPreference] = useState('Beer'); // Default value is 'Beer'
+    const [gender, setGender] = useState('male'); // Default value is 'male'
+    const [beerVolume, setBeerVolume] = useState(''); // Keep as string type, beer volume
+    const [hobbies, setHobbies] = useState(['', '', '']); // To store user's selected hobbies
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
 
-    // 可供选择的爱好分类
+    // Available hobby categories
     const hobbyOptions = [
         'Art', 'Creative', 'Culture', 'Exhibitions', 'Free', 'Performing arts',
         'Workshops', 'Fitness & well-being', 'Family events', 'Green', 'Tours',
@@ -22,20 +22,20 @@ const OOBE = () => {
     ];
 
     useEffect(() => {
-        // 优先从 URL 中提取参数
+        // First, extract parameters from URL
         const queryParams = new URLSearchParams(window.location.search);
         const urlUsername = queryParams.get('username');
         const urlEmail = queryParams.get('email');
 
-        // 从 localStorage 获取数据
+        // Get data from localStorage
         const storedUsername = localStorage.getItem('username');
         const storedEmail = localStorage.getItem('email');
 
-        // 设置优先级：URL 中的参数优先级高于 localStorage
+        // Set priority: URL parameters have higher priority than localStorage
         const finalUsername = urlUsername || storedUsername;
         const finalEmail = urlEmail || storedEmail;
 
-        // 如果从 URL 中提取到数据，则将其存储到 localStorage
+        // If data is extracted from URL, store it in localStorage
         if (urlUsername && urlEmail) {
             localStorage.setItem('username', urlUsername);
             localStorage.setItem('email', urlEmail);
@@ -45,16 +45,16 @@ const OOBE = () => {
             setUsername(finalUsername);
             setEmail(finalEmail);
         } else {
-            // 如果没有找到 username 或 email，则重定向到注册页面
+            // If username or email is not found, redirect to registration page
             alert('Username or Email not found. Please login or register.');
             navigate('/register');
         }
     }, [navigate]);
 
-    // 根据体重和性别计算推荐饮酒限量，并转换为啤酒体积
+    // Calculate recommended drinking limit based on weight and gender, and convert to beer volume
     useEffect(() => {
         if (weight && gender) {
-            const weightInGrams = parseFloat(weight) * 1000; // 确保 weight 转换为数值
+            const weightInGrams = parseFloat(weight) * 1000; // Ensure weight is converted to number
             let limitInGrams = 0;
             if (gender === 'male') {
                 limitInGrams = (0.08 * weightInGrams * 0.68) / 100;
@@ -62,12 +62,12 @@ const OOBE = () => {
                 limitInGrams = (0.08 * weightInGrams * 0.55) / 100;
             }
 
-            // 转换为啤酒体积 (ml)
+            // Convert to beer volume (ml)
             const beerVolumeInMl = (limitInGrams / (0.05 * 0.789)).toFixed(2);
-            setBeerVolume(String(beerVolumeInMl)); // 确保 beerVolume 为字符串类型
+            setBeerVolume(String(beerVolumeInMl)); // Ensure beerVolume is string type
 
             const standardDrinks = (beerVolumeInMl / 375 * 1.4).toFixed(2);
-            setBeerVolume(String(standardDrinks)); // 确保标准饮品单位为字符串类型
+            setBeerVolume(String(standardDrinks)); // Ensure standard drink units are string type
         }
     }, [weight, gender]);
 
@@ -80,15 +80,15 @@ const OOBE = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // 构建提交的数据，将 weeklyLimit 设置为 beerVolume
+        // Build submission data, set weeklyLimit to beerVolume
         const oobeData = {
             age: age.trim(),
             height: height.trim(),
             weight: weight.trim(),
             drinkingPreference,
             gender,
-            weeklyLimit: beerVolume, // 上传的是啤酒体积量
-            hobbies: hobbies.filter(hobby => hobby), // 只提交非空的爱好
+            weeklyLimit: beerVolume, // Upload beer volume amount
+            hobbies: hobbies.filter(hobby => hobby), // Only submit non-empty hobbies
             username,
             email
         };
@@ -105,7 +105,7 @@ const OOBE = () => {
                 const email = localStorage.getItem('email');
                 if (username && email) {
                     const redirectURL = `https://deco.lkx666.cn/home?username=${encodeURIComponent(username)}&email=${encodeURIComponent(email)}`;
-                    window.location.href = redirectURL; // 使用 window.location.href 进行 URL 跳转
+                    window.location.href = redirectURL; // Use window.location.href for URL redirection
                 } else {
                     console.error('Username or email not found in localStorage.');
                     alert('Unable to proceed: Missing username or email.');

@@ -11,7 +11,7 @@ const BodyInfo = () => {
         age: 18,
         height: '',
         weight: '',
-        drinkingPreference: 'Beer', // 改为首字母大写，并确保使用 'drinkingPreference'
+        drinkingPreference: 'Beer', // Changed to capitalize first letter, and ensure use of 'drinkingPreference'
     });
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentField, setCurrentField] = useState(null);
@@ -19,7 +19,7 @@ const BodyInfo = () => {
     const navigate = useNavigate();
 
     const genderOptions = ['male', 'female', 'other'];
-    const drinkPreferenceOptions = ['Beer', 'Wine', 'Spirits', 'Cocktail', 'Sake']; // 确保选项首字母大写
+    const drinkPreferenceOptions = ['Beer', 'Wine', 'Spirits', 'Cocktail', 'Sake']; // Ensure options are capitalized
     
     const fetchBodyInfoFromAPI = (username) => {
         fetchBodyInfo(username)
@@ -77,7 +77,7 @@ const BodyInfo = () => {
     const handleSave = () => {
         if (currentField === 'age' && parseInt(newValue, 10) < 18) {
             alert('Age must be 18 or older.');
-            return; // 如果验证失败，中止保存
+            return; // Abort saving if validation fails
         }
 
         const username = localStorage.getItem('username');
