@@ -174,51 +174,51 @@ h2 {
     
 }
 
-/* 按钮容器，确保按钮水平排列 */
+/* Button container, ensuring buttons are horizontally aligned */
 .button-container {
     display: flex;
-    justify-content: center; /* 居中对齐按钮 */
-    gap: 15px; /* 按钮之间的间距 */
+    justify-content: center; /* Center-align buttons */
+    gap: 15px; /* Spacing between buttons */
     margin-top: 8px;
 }
 
 .record-control button {
-    padding: 10px 25px; /* 调整按钮填充使其更大 */
-    font-size: 18px; /* 增大按钮文字 */
-    color: #4a7c66; /* 按钮文字颜色改为绿色 */
-    background-color: #ffffff; /* 白色背景 */
-    border: 2px solid #4a7c66; /* 添加与背景色一致的边框 */
-    border-radius: 20px; /* 圆角使按钮外观更加柔和 */
+    padding: 10px 25px; /* Adjust button padding to make them larger */
+    font-size: 18px; /* Increase button text size */
+    color: #4a7c66; /* Change button text color to green */
+    background-color: #ffffff; /* White background */
+    border: 2px solid #4a7c66; /* Add border matching the background color */
+    border-radius: 20px; /* Rounded corners for a softer button appearance */
     cursor: pointer;
-    flex: 1; /* 使按钮均匀分布 */
+    flex: 1; /* Make buttons evenly distributed */
 }
 
 .record-control button:hover {
-    background-color: #387a58; /* 悬停时按钮背景变为深绿色 */
+    background-color: #387a58; /* Button background changes to dark green on hover */
     color: #ffffff;
 }
 
 /* Goal Section */
 .goal-section {
     padding: 20px;
-    background-color: #ffffff; /* 白色背景 */
-    border-radius: 10px; /* 圆角 */
-    border: 1px solid #b8c2b2; /* 轻微的绿色边框 */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 轻微的阴影 */
-    text-align: center; /* 居中对齐 */
+    background-color: #ffffff; /* White background */
+    border-radius: 10px; /* Rounded corners */
+    border: 1px solid #b8c2b2; /* Slight green border */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Slight shadow */
+    text-align: center; /* Center alignment */
     margin-bottom: 20px;
     margin-top: 10px;
 }
 
 .goal-section p {
     font-size: 18px;
-    color: #333; /* 黑色文字 */
+    color: #333; /* Black text */
 }
 
 .gold-text {
-    font-size: 22px; /* 调整数字字体大小 */
+    font-size: 22px; /* Adjust number font size */
     font-weight: bold;
-    color: #e8b44b; /* 金黄色数字 */
+    color: #e8b44b; /* Golden yellow numbers */
 }
 
 
@@ -232,7 +232,7 @@ h2 {
 .progress-bar {
     width: 100%;
     background-color: #ddd;
-    border-radius: 20px; /* 圆角进度条 */
+    border-radius: 20px; /* Rounded progress bar */
     margin: 15px 0;
     height: 25px;
     overflow: hidden;
@@ -240,39 +240,39 @@ h2 {
 
 .progress {
     height: 100%;
-    background-color: orange; /* 默认橙色 */
-    border-radius: 20px 0 0 20px; /* 左边圆角，右边直角 */
+    background-color: orange; /* Default orange */
+    border-radius: 20px 0 0 20px; /* Rounded left, square right */
     text-align: right;
-    line-height: 25px; /* 让进度条内的文字垂直居中 */
+    line-height: 25px; /* Center text vertically in the progress bar */
     padding-right: 10px;
-    color: white; /* 进度条文字颜色 */
+    color: white; /* Progress bar text color */
     font-weight: bold;
 }
 
 /* Alternative Section */
 .alternative-section {
     margin-top: 20px;
-    padding: 10px 20px; /* 增加左右填充 */
-    background-color: #419779; /* 绿色背景 */
-    border-radius: 25px; /* 圆角 */
-    display: flex; /* 使用flexbox排列图标和文本 */
-    align-items: center; /* 垂直居中 */
+    padding: 10px 20px; /* Increase left and right padding */
+    background-color: #419779; /* Green background */
+    border-radius: 25px; /* Rounded corners */
+    display: flex; /* Use flexbox to arrange icon and text */
+    align-items: center; /* Vertically center */
     margin-bottom: 20px;
 }
 
 .alternative-section p {
     margin: 0;
-    color: #ffffff; /* 白色文字 */
+    color: #ffffff; /* White text */
     font-size: 20px;
-    flex-grow: 1; /* 让文本占据剩余空间 */
-    text-align: left; /* 让文字靠左对齐 */
+    flex-grow: 1; /* make the text take up rest space*/
+    text-align: left; /* align text to left */
     
 }
 
 .icon {
-    color: #ffffff; /* 白色图标 */
-    font-size: 24px; /* 调整图标大小 */
-    margin-right: 10px; /* 图标和文本的间距 */
+    color: #ffffff; /* White icon */
+    font-size: 24px; /* Adjust icon size */
+    margin-right: 10px; /* Spacing between icon and text */
 }
 
 /* Events Section*/
@@ -564,8 +564,8 @@ h2 {
 
 /* RecordDrinks.css */
 
-/* 外部容器 */
-/* 顶部返回按钮和标题的样式 */
+/* outer-container */
+/* on the top return the style of button and header */
 .header {
     display: flex;
     align-items: center;
@@ -591,7 +591,7 @@ h2 {
     max-width: 400px;
     margin: 20px auto;
     padding: 15px;
-    background-color: #f0f0f0; /* 灰色背景 */
+    background-color: #f0f0f0; /* grey background*/
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -599,7 +599,7 @@ h2 {
 
 .record-drinks-box {
     padding: 20px;
-    background-color: transparent; /* 透明背景 */
+    background-color: transparent; /* transparent background */
     border-radius: 10px;
 }
 
@@ -608,14 +608,14 @@ h2 {
     color: #333;
 }
 
-/* 使进度条区域有一个圆角的白色容器 */
+/* for the progress container in home page */
 .progress-container {
-    background-color: #fff; /* 白色背景 */
-    border-radius: 15px; /* 圆角 */
+    background-color: #fff;
+    border-radius: 15px;
     padding: 15px;
     margin: 0 auto 15px;
     width: 90%;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* 添加轻微阴影 */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .progress-container p {
@@ -624,12 +624,12 @@ h2 {
 }
 
 .progress-bar {
-    width: 100%; /* 使进度条与容器等宽 */
+    width: 100%;
     height: 15px;
     background-color: #e0e0e0;
     border-radius: 7.5px;
     overflow: hidden;
-    margin: 10px auto; /* 居中 */
+    margin: 10px auto;
     position: relative;
 }
 
@@ -676,7 +676,7 @@ h2 {
     height: 20px;
 }
 
-/* 将名称移动到按钮下方 */
+
 .drink-type-label {
     display: block;
     margin-top: 5px;
@@ -843,7 +843,6 @@ h2 {
 
 
 /* container for display children vertically */
-/* 垂直排列子元素的容器 */
 .flex-container-column {
     display: flex;
     flex-direction: column;
@@ -862,7 +861,7 @@ h2 {
     margin: 0;
     color: #419779;
 }
-/* 水平排列子元素的容器 */
+
 .flex-container-row {
     display: flex;
     flex-direction: row;
@@ -909,7 +908,6 @@ h2 {
     font-size: 1.2em;
 }
 
-/* 输入框和下拉菜单的样式 */
 .flex-container-column select,
 .flex-container-column input {
     margin-top: 10px;

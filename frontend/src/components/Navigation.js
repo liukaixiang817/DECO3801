@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import './styles.css';  // 确保导入了正确的 CSS 文件
+import './styles.css';  // make sure to import the css file
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Navigation = () => {

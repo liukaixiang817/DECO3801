@@ -1,8 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';  // 从 'react-dom/client' 导入 createRoot
+import ReactDOM from 'react-dom/client';  // from 'react-dom/client' import createRoot
 import App from './App';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));  // 创建 root
+const root = ReactDOM.createRoot(document.getElementById('root'));  // create root
 root.render(
     <React.StrictMode>
         <App />
