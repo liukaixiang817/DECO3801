@@ -157,6 +157,7 @@ npm install
   - Make sure you uncomment line :`baseURL: 'http://localhost:8000/',`.
 
 - Run `npm run dev`
+- **if encountered error try Run** `npm start`
 
 - Visit `http://localhost:3000`
 
